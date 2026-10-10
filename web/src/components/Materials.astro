@@ -57,7 +57,7 @@ const tabs = [
               <summary>
                 <span class="num">P.{pad(i + 1)}</span><h3>{m.name}</h3><span class="tag">{m.tag}</span>
                 <Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[160, 320]} sizes="(max-width: 700px) 75px, 140px" alt="" loading="lazy" decoding="async" />
-                <span class="plus" aria-hidden="true">+</span>
+                <span class="plus" aria-hidden="true"></span>
               </summary>
               <div class="cat-exp">
                 <div class="cat-gal"><Picture class="main" src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={widths} sizes="(max-width: 760px) 92vw, 46vw" alt={`${m.name} – ukázka materiálu`} loading="lazy" decoding="async" /></div>
