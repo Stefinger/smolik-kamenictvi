@@ -80,7 +80,7 @@ export function initNav() {
       menu.classList.remove('is-open');
       body.classList.remove('menu-open');
       top.classList.remove('menu-open');
-      setTimeout(() => { menu.hidden = true; onScroll(); }, 480); // = délka zavření v header.css
+      setTimeout(() => { menu.hidden = true; onScroll(); }, 560); // = nejdelší zavření (header.css / variants.css)
     }
   }
   burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
