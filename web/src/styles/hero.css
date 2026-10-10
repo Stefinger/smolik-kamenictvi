@@ -55,3 +55,29 @@
 @media(prefers-reduced-motion:reduce){
   .js .hero-kb img,.js .hero h1 .w>span,.js .hero-foot{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
 }
+
+/* ==========================================================================
+   Tmavá varianta (/black): břidlicová stěna, paprsek světla. Vychází z .hero--dark v prototypu.
+   ========================================================================== */
+.hero--dark{background:#0d0c0a}
+.hero--dark::before{background:linear-gradient(180deg,rgba(13,12,10,.5),rgba(13,12,10,0))}
+.hero--dark .hero-kb{transform-origin:62% 55%}
+.hero--dark .hero-kb img{object-position:60% 50%}
+.hero--dark .hero-shade{background:linear-gradient(90deg,rgba(13,12,10,.55) 0%,rgba(13,12,10,.25) 34%,rgba(13,12,10,0) 56%),linear-gradient(0deg,rgba(13,12,10,.6) 0%,rgba(13,12,10,0) 36%),linear-gradient(180deg,rgba(13,12,10,.35) 0%,rgba(13,12,10,0) 22%)}
+.hero--dark :focus-visible{outline-color:var(--pisek)}
+.hero--dark h1{color:var(--bone)}
+.hero--dark .hero-foot p{color:rgba(236,233,225,.78)}
+.hero--dark .btn{background:var(--bone);color:var(--ink)}
+.hero--dark .btn:hover{background:#fff}
+.hero--dark .btn.ghost{background:transparent;color:var(--bone);border-color:rgba(236,233,225,.6)}
+.hero--dark .btn.ghost:hover{background:rgba(236,233,225,.12)}
+/* svisle na střed; `translate` se skládá s paralaxou, kterou hero.ts nastavuje přes `transform` */
+.hero--dark .hero-in{top:50%;translate:0 -50%}
+@media(max-width:900px){
+  .hero--dark .hero-kb img{object-position:64% 50%}
+  .hero--dark .hero-in{top:calc(var(--safe-top) + 92px);translate:none}
+  .hero--dark .hero-shade{background:linear-gradient(0deg,rgba(13,12,10,.9) 0%,rgba(13,12,10,.5) 36%,rgba(13,12,10,0) 58%),linear-gradient(180deg,rgba(13,12,10,.45) 0%,rgba(13,12,10,0) 26%)}
+}
+@media(max-width:760px){
+  .hero--dark .hero-foot p{color:rgba(236,233,225,.86)}
+}

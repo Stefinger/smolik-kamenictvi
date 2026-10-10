@@ -9,7 +9,7 @@ export function initNav() {
   const hero = document.getElementById('hero');
   const story = document.getElementById('pribeh');
   const kontakt = document.getElementById('kontakt');
-  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b')];
+  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark')];
   const body = document.body;
   let last = 0;
 

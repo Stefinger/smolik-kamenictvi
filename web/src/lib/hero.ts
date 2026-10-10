@@ -1,25 +1,56 @@
 import { getImage } from 'astro:assets';
 import { img } from './images';
 
-/** Na výšku (telefon/tablet) se místo širokého snímku použije portrét 1080×1920. */
+/** Na výšku (telefon/tablet) se místo širokého snímku použije portrét (má-li ho varianta). */
 export const PORTRAIT_MEDIA = '(max-width: 1100px) and (orientation: portrait)';
 export const LANDSCAPE_MEDIA = `not all and ${PORTRAIT_MEDIA}`;
+
+export type HeroVariant = 'light' | 'dark';
+
+/**
+ * Hero fotky. `table` = obdélník stolu ve fotce [x0, y0, x1, y1] v pixelech originálu – podle něj
+ * se na konci Příběhu stůl z ateliéru „usadí“ přesně na stůl ve fotce (match cut, story.ts).
+ */
+const VARIANTS = {
+  light: {
+    wide: 'hero7-d.webp', wideTable: [1140, 580, 2260, 1260],
+    tall: 'hero7-p.webp', tallTable: [-139, 773, 1355, 1680],
+    alt: 'Jídelní stůl z pískovce se štípanou hranou a dubovými židlemi ve světle pod stromy',
+  },
+  dark: {
+    wide: 'hero-black.webp', wideTable: [765, 525, 1785, 975],
+    tall: null, tallTable: null,
+    alt: 'Jídelní stůl z pískovce u stěny z lámané břidlice, do tmavého interiéru dopadá paprsek světla',
+  },
+} as const;
+
+const WIDE_WIDTHS = [640, 960, 1280, 1920, 2560];
+const TALL_WIDTHS = [540, 720, 1080];
 
 /**
  * Zdroje hero fotky (AVIF + WebP, srcset). Používá je hero i finále příběhu,
  * URL jsou deterministické, takže se snímek stahuje jen jednou.
  */
-export async function heroSources() {
-  const wide = img('hero7-d.webp');
-  const tall = img('hero7-p.webp');
-  const [wideAvif, wideWebp, tallAvif, tallWebp] = await Promise.all([
-    getImage({ src: wide, widths: [640, 960, 1280, 1920, 2560], format: 'avif' }),
-    getImage({ src: wide, widths: [640, 960, 1280, 1920, 2560], format: 'webp' }),
-    getImage({ src: tall, widths: [540, 720, 1080], format: 'avif' }),
-    getImage({ src: tall, widths: [540, 720, 1080], format: 'webp' }),
+export async function heroSources(variant: HeroVariant = 'light') {
+  const v = VARIANTS[variant];
+  const wide = img(v.wide);
+  const ww = WIDE_WIDTHS.filter((w) => w < wide.width).concat(wide.width);
+  const [wideAvif, wideWebp] = await Promise.all([
+    getImage({ src: wide, widths: ww, format: 'avif' }),
+    getImage({ src: wide, widths: ww, format: 'webp' }),
   ]);
+  let tall: { avif: string; webp: string; table: readonly number[]; width: number; height: number } | null = null;
+  if (v.tall) {
+    const t = img(v.tall);
+    const [tallAvif, tallWebp] = await Promise.all([
+      getImage({ src: t, widths: TALL_WIDTHS, format: 'avif' }),
+      getImage({ src: t, widths: TALL_WIDTHS, format: 'webp' }),
+    ]);
+    tall = { avif: tallAvif.srcSet.attribute, webp: tallWebp.srcSet.attribute, table: v.tallTable!, width: t.width, height: t.height };
+  }
   return {
-    wide: { avif: wideAvif.srcSet.attribute, webp: wideWebp.srcSet.attribute, src: wideWebp.src, width: wide.width, height: wide.height },
-    tall: { avif: tallAvif.srcSet.attribute, webp: tallWebp.srcSet.attribute },
+    alt: v.alt,
+    wide: { avif: wideAvif.srcSet.attribute, webp: wideWebp.srcSet.attribute, src: wideWebp.src, width: wide.width, height: wide.height, table: v.wideTable },
+    tall,
   };
 }

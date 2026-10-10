@@ -83,13 +83,16 @@ export function initStory() {
   const LM = document.getElementById('lmove')!;
   const MC = { s: 1, tx: 0, ty: 0, hx: 0, hy: 0 };
   const ZF = 1.08;
-  const HTD = [1140, 580, 2260, 1260], HTP = [-139, 773, 1355, 1680];
+  /* rozměry fotky a poloha stolu v ní: data-table-wide / data-table-tall = "šířka,výška,x0,y0,x1,y1" (HeroPicture) */
+  const geoAttr = (name: string) => (FIN.dataset[name] || '').split(',').map(Number);
+  const WIDE = geoAttr('tableWide'), TALL = FIN.dataset.tableTall ? geoAttr('tableTall') : null;
   const ST = [1 - 2899 / 3840, 695 / 2160, 1 - 947 / 3840, 1836 / 2160];
   function mcalc() {
     const sr = STAGE.getBoundingClientRect(), lr = LS.getBoundingClientRect();
     if (!sr.width) return;
-    const P = FIN.naturalWidth && FIN.naturalWidth < FIN.naturalHeight;
-    const IW = P ? 1080 : 2560, IH = P ? 1920 : 1440, HT = P ? HTP : HTD;
+    const P = TALL && FIN.naturalWidth && FIN.naturalWidth < FIN.naturalHeight;
+    const G = P ? TALL! : WIDE;
+    const IW = G[0], IH = G[1], HT = G.slice(2);
     const c = Math.max(sr.width / IW, sr.height / IH);
     const px = parseFloat(getComputedStyle(FIN).objectPosition) || 50;
     const ox = (sr.width - IW * c) * px / 100, oy = (sr.height - IH * c) / 2;

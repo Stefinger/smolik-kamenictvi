@@ -1,0 +1,37 @@
+---
+/**
+ * Tmavá varianta webu pro porovnání: hero s břidlicovou stěnou a Příběh v původním tmavém ateliéru.
+ * Ostatní sekce jsou stejné jako na hlavní stránce. Neindexuje se, kanonická adresa je „/“.
+ */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Menu from '../components/Menu.astro';
+import CallBar from '../components/CallBar.astro';
+import Hero from '../components/Hero.astro';
+import Process from '../components/Process.astro';
+import Story from '../components/Story.astro';
+import Works from '../components/Works.astro';
+import Materials from '../components/Materials.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base variant="dark" alternate>
+  <Header />
+  <Menu />
+  <CallBar />
+  <main id="top">
+    <Hero variant="dark" />
+    <Process />
+    <Story variant="dark" />
+    <Works />
+    <Materials />
+    <Footer />
+  </main>
+  <script>
+    import { initNav } from '../scripts/nav';
+    import { initReveal } from '../scripts/reveal';
+    import { initPreload } from '../scripts/preload';
+    initNav();
+    initReveal();
+    initPreload();
+  </script>
+</Base>

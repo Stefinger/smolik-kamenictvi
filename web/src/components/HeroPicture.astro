@@ -1,13 +1,18 @@
 ---
-import { heroSources, PORTRAIT_MEDIA } from '../lib/hero';
+import { heroSources, PORTRAIT_MEDIA, type HeroVariant } from '../lib/hero';
 
-interface Props { id?: string; class?: string; alt: string; priority?: boolean; hidden?: boolean }
-const { id, class: cls, alt, priority = false, hidden = false } = Astro.props;
-const s = await heroSources();
+interface Props { id?: string; class?: string; alt?: string; priority?: boolean; hidden?: boolean; variant?: HeroVariant }
+const { id, class: cls, alt, priority = false, hidden = false, variant = 'light' } = Astro.props;
+const s = await heroSources(variant);
+// rozměry a poloha stolu pro match cut v Příběhu (story.ts)
+const geo = {
+  wide: [s.wide.width, s.wide.height, ...s.wide.table].join(','),
+  tall: s.tall ? [s.tall.width, s.tall.height, ...s.tall.table].join(',') : undefined,
+};
 ---
 <picture>
-  <source media={PORTRAIT_MEDIA} type="image/avif" srcset={s.tall.avif} sizes="100vw" />
-  <source media={PORTRAIT_MEDIA} type="image/webp" srcset={s.tall.webp} sizes="100vw" />
+  {s.tall && <source media={PORTRAIT_MEDIA} type="image/avif" srcset={s.tall.avif} sizes="100vw" />}
+  {s.tall && <source media={PORTRAIT_MEDIA} type="image/webp" srcset={s.tall.webp} sizes="100vw" />}
   <source type="image/avif" srcset={s.wide.avif} sizes="100vw" />
   <img
     id={id}
@@ -17,10 +22,12 @@ const s = await heroSources();
     sizes="100vw"
     width={s.wide.width}
     height={s.wide.height}
-    alt={alt}
+    alt={hidden ? '' : (alt ?? s.alt)}
     aria-hidden={hidden ? 'true' : undefined}
     fetchpriority={priority ? 'high' : undefined}
     loading={priority ? 'eager' : 'lazy'}
     decoding={priority ? undefined : 'async'}
+    data-table-wide={geo.wide}
+    data-table-tall={geo.tall}
   />
 </picture>

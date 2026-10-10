@@ -1,6 +1,11 @@
 ---
 import StoryLayer from './StoryLayer.astro';
 import HeroPicture from './HeroPicture.astro';
+import type { HeroVariant } from '../lib/hero';
+
+/** dark = původní tmavý ateliér + match cut do tmavé hero fotky */
+interface Props { variant?: HeroVariant }
+const { variant = 'light' } = Astro.props;
 
 // pořadí = pořadí vykreslení (spodní vrstva první)
 const layers = [
@@ -28,13 +33,13 @@ const steps = [
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<section class="story" id="pribeh" aria-label="Od kvádru ke stolu">
+<section class:list={['story', { 'story--dark': variant === 'dark' }]} id="pribeh" aria-label="Od kvádru ke stolu">
   <div class="stage">
     <div class="studio" aria-hidden="true"></div>
     <div class="lmove" id="lmove"><div class="lstage" id="lstage" aria-hidden="true">
       {layers.map((l) => <StoryLayer {...l} />)}
     </div></div>
-    <HeroPicture id="Lfin" class="finale" alt="" hidden />
+    <HeroPicture id="Lfin" class="finale" hidden variant={variant} />
     <div class="film-shade" aria-hidden="true"></div>
     <div class="s-ui">
       <span class="kicker">02 — Od kvádru ke stolu</span>

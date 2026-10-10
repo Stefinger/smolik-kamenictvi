@@ -8,7 +8,8 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://www.prirodni-kameny.eu',
   base: process.env.BASE_PATH || '/',
   output: 'static',
-  integrations: [sitemap()],
+  // /black je varianta pro porovnání (noindex) – do sitemapy nepatří
+  integrations: [sitemap({ filter: (page) => !/\/black\/?$/.test(page) })],
   build: { inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
 });

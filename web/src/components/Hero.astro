@@ -1,13 +1,17 @@
 ---
 import HeroPicture from './HeroPicture.astro';
 import { PHONE, TEL } from '../lib/site';
+import type { HeroVariant } from '../lib/hero';
+
+interface Props { variant?: HeroVariant }
+const { variant = 'light' } = Astro.props;
 
 const line1 = [['Z', '.75s'], ['přírody.', '.85s']];
 const line2 = [['Do', '1.0s'], ['vašeho', '1.1s'], ['prostoru.', '1.2s']];
 ---
-<section class="hero" id="hero" aria-label="Úvod">
+<section class:list={['hero', { 'hero--dark': variant === 'dark' }]} id="hero" aria-label="Úvod">
   <div class="hero-media"><div class="hero-kb">
-    <HeroPicture id="heroImg" priority alt="Jídelní stůl z pískovce se štípanou hranou a dubovými židlemi ve světle pod stromy" />
+    <HeroPicture id="heroImg" priority variant={variant} />
   </div></div>
   <div class="hero-shade" aria-hidden="true"></div>
   <div class="hero-in" id="heroIn">

@@ -83,3 +83,34 @@
   .story .s-item p{max-width:34vw}
   .story .s-copy{min-height:0}
 }
+
+/* ==========================================================================
+   Tmavá varianta (/black): původní tmavý ateliér (v prototypu „Pozadí: Původní“).
+   ========================================================================== */
+.story--dark{background:#1b1815;color:var(--bone)}
+.story--dark .stage{background:#1b1815}
+.story--dark .studio{background-image:url(../assets/img/pozadi-atelier.jpg)}
+.story--dark .kicker,.story--dark .s-num .of,.story--dark .s-item p{color:var(--muted-d)}
+.story--dark .s-item .kicker{color:var(--pisek)}
+.story--dark .s-num .n,.story--dark .s-item h3{color:var(--bone)}
+.story--dark .s-item .line-link{color:var(--bone);border-color:currentColor}
+.story--dark .ticks i{background:var(--line-d)}
+.story--dark .ticks b{background:var(--pisek)}
+.story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.72) 0%,rgba(27,25,22,.22) 34%,rgba(27,25,22,0) 52%),linear-gradient(0deg,rgba(27,25,22,.55),rgba(27,25,22,0) 36%)}
+.story--dark :focus-visible{outline-color:var(--bone)}
+@media(max-width:760px){
+  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.5) 0%,rgba(27,25,22,0) 15%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
+}
+@media (orientation:landscape) and (max-height:520px){
+  .story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.86) 0%,rgba(27,25,22,.55) 34%,rgba(27,25,22,0) 48%)}
+}
+@media (orientation:portrait) and (max-width:1100px){
+  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.5) 0%,rgba(27,25,22,0) 15%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
+}
+@media (orientation:landscape) and (max-aspect-ratio:3/2) and (max-width:1400px){
+  .story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.86) 0%,rgba(27,25,22,.55) 32%,rgba(27,25,22,0) 46%)}
+}
+/* tmavá fotka je jen na šířku: na telefonu ji vycentrovat na stůl (stejně jako hero) */
+@media(max-width:760px),(orientation:portrait) and (max-width:1100px){
+  .story--dark .finale{object-position:64% 50%}
+}

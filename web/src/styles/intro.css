@@ -32,3 +32,8 @@ html.intro-on .intro-screen{position:fixed;inset:0;z-index:80;display:grid;place
 @keyframes introFade{to{opacity:.35}}
 @keyframes introCut{to{transform:none}}
 @keyframes introLine{to{transform:none}}
+
+/* tmavá varianta stránky: tmavá opona, světlá značka */
+html.page-dark .intro-screen{background:var(--ink);color:var(--bone)}
+html.page-dark .intro-screen .mark .sand,html.page-dark .intro-line i{fill:var(--pisek);background:var(--pisek)}
+html.page-dark .intro-line{background:var(--line-d)}
