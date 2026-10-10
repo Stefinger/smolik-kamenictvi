@@ -97,6 +97,7 @@ export function initMaterials() {
     document.getElementById('md-desc')!.textContent = m.desc;
     withTimeout(imgReady(dImg), 400).then(() => {
       dlg.showModal();
+      dlg.focus(); // fokus na dialog, ne na „Zavřít“ (jinak kolem něj iOS kreslí rámeček); Tab vede dál na tlačítka
       document.body.style.overflow = 'hidden';
     });
   });

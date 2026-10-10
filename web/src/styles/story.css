@@ -6,7 +6,7 @@
    ========================================================================== */
 /* pozadí sekce = barva studia: když se na iPhonu schová lišta prohlížeče, pod scénou (100svh) nevznikne tmavý pruh */
 .story{position:relative;height:400vh;background:#e9e5dc;color:var(--ink)}
-.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#e9e5dc}
+.stage{position:sticky;top:0;height:100lvh;overflow:hidden;background:#e9e5dc}
 .studio{position:absolute;inset:0;background:#1b1815 url(../assets/img/studio-light.webp) 50% 50%/cover no-repeat;transform:scaleX(-1)}
 
 .lmove{position:absolute;inset:0;transform-origin:0 0;will-change:transform;transition:opacity .8s var(--ease-out)}
@@ -21,7 +21,7 @@
   background:linear-gradient(90deg,rgba(236,233,225,.55) 0%,rgba(236,233,225,0) 42%),linear-gradient(0deg,rgba(236,233,225,.65) 0%,rgba(236,233,225,0) 34%)}
 
 /* texty a ukazatele */
-.s-ui{position:absolute;inset:0;z-index:3;padding:110px var(--gut) clamp(32px,6vh,56px);display:grid;grid-template-columns:minmax(0,27rem) 1fr;grid-template-rows:auto 1fr auto;pointer-events:none}
+.s-ui{position:absolute;inset:0;z-index:3;padding:110px var(--gut) calc(clamp(32px,6vh,56px) + var(--bars));display:grid;grid-template-columns:minmax(0,27rem) 1fr;grid-template-rows:auto 1fr auto;pointer-events:none}
 .story .kicker{color:var(--muted-l)}
 .s-ui>.kicker{grid-column:1}
 .s-num{grid-column:1;align-self:start;display:flex;align-items:baseline;gap:.6rem;margin-top:1.4rem;font-family:var(--serif)}
@@ -56,7 +56,7 @@
 }
 /* telefon na šířku (nízká obrazovka): text vlevo, kámen vpravo */
 @media (orientation:landscape) and (max-height:520px){
-  .story .s-ui{grid-template-columns:minmax(0,40vw) 1fr;padding-top:66px;padding-bottom:16px}
+  .story .s-ui{grid-template-columns:minmax(0,40vw) 1fr;padding-top:66px;padding-bottom:calc(16px + var(--bars))}
   .story .s-num{position:absolute;top:64px;right:var(--gut);margin:0;gap:.35rem}
   .story .s-num .n{font-size:1.8rem}
   .story .s-item{bottom:1.4rem}
@@ -76,7 +76,7 @@
 }
 /* tablety na šířku (4:3, 3:2): text vlevo, kámen vpravo */
 @media (orientation:landscape) and (max-aspect-ratio:3/2) and (max-width:1400px){
-  .story .s-ui{grid-template-columns:minmax(0,38vw) 1fr;padding-top:clamp(70px,11vh,110px);padding-bottom:clamp(18px,4vh,40px)}
+  .story .s-ui{grid-template-columns:minmax(0,38vw) 1fr;padding-top:clamp(70px,11vh,110px);padding-bottom:calc(clamp(18px,4vh,40px) + var(--bars))}
   .story .s-num{position:absolute;top:clamp(68px,10.5vh,108px);right:var(--gut);margin:0;gap:.35rem}
   .story .s-num .n{font-size:clamp(1.9rem,3.2vw,2.6rem)}
   .story .s-item h3{font-size:clamp(1.8rem,3.4vw,2.8rem)}

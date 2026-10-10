@@ -1,7 +1,7 @@
 /* ==========================================================================
    Hero (#hero) – světlá fotka stolu z pískovce
    ========================================================================== */
-.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#d9d4cb}
+.hero{position:relative;height:100lvh;min-height:600px;overflow:hidden;background:#d9d4cb}
 .hero::before{content:"";position:absolute;inset:0 0 auto 0;height:22vh;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(236,233,225,.5),rgba(236,233,225,0))}
 .hero :focus-visible{outline-color:var(--rez)}
 
@@ -16,6 +16,7 @@
   background:linear-gradient(90deg,rgba(236,233,225,.62) 0%,rgba(236,233,225,.22) 36%,rgba(236,233,225,0) 56%),
              linear-gradient(0deg,rgba(236,233,225,.5) 0%,rgba(236,233,225,0) 30%)}
 
+/* hero sahá i pod spodní lištu prohlížeče (100lvh); text a tlačítka zůstávají nad ní (--bars) */
 /* blok textu vlevo, začíná na hraně stěna/podlaha */
 .hero .hero-in{position:absolute;left:var(--gut);top:54%;width:min(46vw,660px);display:flex;flex-direction:column;will-change:transform,opacity}
 .hero h1{align-self:start;font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,3.7vw,4.9rem);line-height:.96;letter-spacing:-.02em;color:#282823}
@@ -39,7 +40,7 @@
 @media(max-width:900px){
   .hero-kb img{object-position:66% 50%}
   .hero-shade{background:linear-gradient(0deg,rgba(13,12,10,.92) 0%,rgba(13,12,10,.55) 38%,rgba(13,12,10,0) 62%),linear-gradient(180deg,rgba(13,12,10,.5) 0%,rgba(13,12,10,0) 18%)}
-  .hero .hero-in{right:var(--gut);top:calc(var(--safe-top) + 92px);bottom:34px;width:auto;justify-content:space-between}
+  .hero .hero-in{right:var(--gut);top:calc(var(--safe-top) + 92px);bottom:calc(34px + var(--bars));width:auto;justify-content:space-between}
   .hero h1{font-size:clamp(1.9rem,8.4vw,2.9rem)}
   .hero-foot{gap:1rem}
   .hero-foot .ctas{flex-direction:column;align-items:flex-start;gap:.7rem}

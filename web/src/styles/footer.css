@@ -1,7 +1,7 @@
 /* ==========================================================================
    Kontakt / patička (#kontakt) – tmavá, obří nápis SMOLÍK utíkající ze spodního okraje
    ========================================================================== */
-.foot-b{background:var(--ink);color:var(--bone);padding:clamp(80px,12vh,140px) var(--gut) 24px;overflow:hidden;
+.foot-b{background:var(--ink);color:var(--bone);padding:clamp(80px,12vh,140px) var(--gut) calc(24px + var(--bars));overflow:hidden;
   /* tmavá plocha i pod koncem stránky (pružení na iPhonu, průhledná lišta Safari) */
   box-shadow:0 50vh 0 50vh var(--ink)}
 .foot-b .sec-meta{border-color:var(--line-d);margin-bottom:clamp(36px,6vh,60px)}

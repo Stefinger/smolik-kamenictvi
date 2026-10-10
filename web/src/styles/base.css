@@ -38,17 +38,20 @@
 
   /* výška horního výřezu iPhonu (stavový řádek); na desktopu 0 */
   --safe-top:env(safe-area-inset-top,0px);
+  /* výška lišt prohlížeče, pod kterými stránka pokračuje (Safari iOS 26); na desktopu 0 */
+  --bars:calc(100lvh - 100svh);
 
   color-scheme:light;
   box-sizing:border-box;
 }
 
 *,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
-/* světlé pozadí stránky: Safari na iOS 26 z něj barví oblast pod hodinami (tmavé dělalo nahoře černý pruh) */
+/* světlé pozadí: Safari na iOS 26 jím barví oblast pod hodinami i pod spodní lištou.
+   U patičky se přepne na tmavé (html.at-foot, nav.ts), aby tmavá pokračovala až pod lištu. */
 html{background:var(--bone);scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 body{background:var(--bone);color:var(--bone);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video,canvas{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
+a{color:inherit;text-decoration:none;touch-action:manipulation}
 h1,h2,h3{text-wrap:balance}
 p{text-wrap:pretty}
 ::selection{background:var(--pisek);color:var(--ink)}
@@ -59,7 +62,7 @@ p{text-wrap:pretty}
 
 /* zrno přes celou stránku */
 /* tmavá varianta stránky (/black): tmavé pozadí i pro oblast pod hodinami na iPhonu */
-html.page-dark,html.page-dark body{background:var(--ink)}
+html.page-dark,html.page-dark body,html.at-foot,html.at-foot body{background:var(--ink)}
 
 body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:60;opacity:.055;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -75,23 +78,24 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:60;
 /* ---------- odkazy a tlačítka ---------- */
 .line-link{display:inline-flex;align-items:center;gap:1.6rem;border-bottom:1px solid;padding:10px 0;font-size:15px}
 .line-link span{transition:transform .3s}
-.line-link:hover span{transform:translate(3px,-3px)}
+@media(hover:hover){.line-link:hover span{transform:translate(3px,-3px)}}
 
 .arrow-link{display:inline-flex;align-items:center;gap:.6rem;position:relative;font-size:15px;font-weight:500;padding-bottom:3px}
 .arrow-link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(.35);transform-origin:left;transition:transform .5s var(--ease-q)}
-.arrow-link:hover::after{transform:scaleX(1)}
+@media(hover:hover){.arrow-link:hover::after{transform:scaleX(1)}}
 .arrow-link span{transition:transform .4s var(--ease-q)}
-.arrow-link:hover span{transform:translateX(4px)}
+@media(hover:hover){.arrow-link:hover span{transform:translateX(4px)}}
 
 .pill{display:inline-flex;align-items:center;gap:10px;height:42px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--bone);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.01em;transition:background .3s,color .3s,transform .4s var(--ease-q)}
-.pill:hover{background:var(--rez);color:var(--bone);transform:translateY(-1px)}
+/* hover jen pro myš: na iPhonu hover posun způsoboval, že Safari bral klepnutí na tel: jako automatický hovor */
+@media(hover:hover){.pill:hover{background:var(--rez);color:var(--bone);transform:translateY(-1px)}}
 
 .btn{display:inline-flex;align-items:center;gap:1.4rem;background:var(--bone);color:var(--ink);padding:14px 22px;border-radius:999px;font-size:15px;transition:background .3s}
 .btn:hover{background:#fff}
 .btn em{font-style:normal;font-family:var(--serif);font-size:19px;letter-spacing:-.01em}
 .btn.ghost{background:transparent;color:#282823;border:1px solid rgba(40,40,35,.55);gap:.7rem}
 .btn.ghost span{transition:transform .4s var(--ease-q)}
-.btn.ghost:hover span{transform:translateX(4px)}
+@media(hover:hover){.btn.ghost:hover span{transform:translateX(4px)}}
 
 /* ---------- odhalení při scrollu (reveal.ts přidá .in) ---------- */
 .line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}

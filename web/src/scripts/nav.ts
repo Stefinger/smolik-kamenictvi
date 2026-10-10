@@ -30,6 +30,10 @@ export function initNav() {
     darkSecs.forEach((s) => { const r = s.getBoundingClientRect(); if (r.top <= hb && r.bottom > hb) dark = true; });
     top.classList.toggle('is-dark', dark);
 
+    // u patičky tmavé pozadí stránky – Safari na iOS 26 jím vyplní i místo pod spodní lištou
+    const foot = darkSecs.find((el) => el.classList.contains('foot-b'));
+    if (foot) document.documentElement.classList.toggle('at-foot', foot.getBoundingClientRect().top < innerHeight * 0.5);
+
     if (callbar && hero) {
       let hide = false;
       [story, kontakt].forEach((s) => { if (!s) return; const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) hide = true; });
