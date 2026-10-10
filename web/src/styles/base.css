@@ -36,15 +36,17 @@
 
   --gut:4vw;
 
-  color-scheme:dark;
+  /* výška horního výřezu iPhonu (stavový řádek); na desktopu 0 */
+  --safe-top:env(safe-area-inset-top,0px);
+
+  color-scheme:light;
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 
 *,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-body{background:var(--ink);color:var(--bone);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* světlé pozadí stránky: Safari na iOS 26 z něj barví oblast pod hodinami (tmavé dělalo nahoře černý pruh) */
+html{background:var(--bone);scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{background:var(--bone);color:var(--bone);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video,canvas{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 h1,h2,h3{text-wrap:balance}

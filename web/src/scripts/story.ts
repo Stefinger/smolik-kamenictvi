@@ -117,7 +117,8 @@ export function initStory() {
   function storyRender(p: number) {
     const x = clamp(p, 0, 1) * 5;
     let i = Math.min(4, Math.floor(x));
-    let u = clamp((x - i - 0.15) / 0.7, 0, 1);
+    // u = postup uvnitř kroku; na okrajích krátká klidová místa (8 %), kde scéna chvíli stojí
+    let u = clamp((x - i - 0.08) / 0.84, 0, 1);
     if (x >= 5) { i = 4; u = 1; }
     let dyS = 0, dyB = 0, dyL = LEGIN, oL = 0, oLs = 0, oSh = 0, oB = 1, bB = 1, bL = 1, oF = 0, oSt = 1, oRaw = 1, oFin = 0, w = 0, zoom = 0, mv = 0;
     if (i === 0) { dyS = -LIFT * eio(u); oSh = sm(0.2, 0.9, u); }
@@ -181,16 +182,36 @@ export function initStory() {
     mcalc();
   }
 
+  /*
+   * Scroll určuje cílový postup; scéna k němu plynule dojíždí (časová konstanta TAU),
+   * takže pohyb nepůsobí mechanicky ani při trhaném kolečku myši.
+   * Omezený pohyb: bez dojezdu, jen klidové stavy jednotlivých kroků (SPEC § 5).
+   */
+  const TAU = 0.12;
+  let target = 0, shown = -1, before = true, raf = 0, lastT = 0;
+
+  function paint(p: number) {
+    if (before && p < 0.0005) { activate(-1); storyRender(0); return; }
+    const k = clamp(Math.round(p * (N - 1)), 0, N - 1);
+    activate(k);
+    storyRender(RM ? k / (N - 1) : p);
+  }
+  function tick(now: number) {
+    const dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 1 / 60;
+    lastT = now;
+    shown += (target - shown) * (1 - Math.exp(-dt / TAU));
+    if (Math.abs(target - shown) < 0.0004) shown = target;
+    paint(shown);
+    raf = shown === target ? 0 : requestAnimationFrame(tick);
+  }
   function update() {
     const vh = innerHeight;
-    const r = story!.getBoundingClientRect(), tot = story!.offsetHeight - vh, p = -r.top / tot;
-    if (r.top > 2) { activate(-1); storyRender(0); }
-    else {
-      const pp = clamp(p, 0, 1), k = clamp(Math.round(pp * (N - 1)), 0, N - 1);
-      activate(k);
-      // omezený pohyb: místo plynulé sekvence jen klidové stavy jednotlivých kroků (SPEC § 5)
-      storyRender(RM ? (k === 0 ? 0 : k === N - 1 ? 1 : (k - 1 + 0.85) / 5) : pp);
-    }
+    const r = story!.getBoundingClientRect(), tot = story!.offsetHeight - vh;
+    before = r.top > 2;
+    target = before ? 0 : clamp(-r.top / tot, 0, 1);
+    // první vykreslení, omezený pohyb nebo skok z dálky (odkaz v menu): bez dojezdu
+    if (RM || shown < 0 || Math.abs(target - shown) > 0.35) { shown = target; paint(shown); return; }
+    if (!raf) { lastT = 0; raf = requestAnimationFrame(tick); }
   }
 
   /* resize: na mobilu ignorovat změny výšky (lišta prohlížeče), jen šířku / orientaci */

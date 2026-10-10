@@ -38,7 +38,7 @@ for (const [dev, vp] of Object.entries(DEVICES)) {
     await page.setViewport(vp);
     await page.goto(url, { waitUntil: 'networkidle0' });
     await page.evaluate(() => document.fonts.ready);
-    await wait(4000); // nástup hero
+    await wait(5000); // úvod + nástup hero
     for (const [name, sel, prog, action] of SHOTS) {
       if (action === 'menu' && !vp.isMobile) continue; // overlay menu je jen na mobilu
       await page.evaluate(async (sel, prog, action) => {

@@ -16,7 +16,9 @@ export function initNav() {
   function onScroll() {
     const y = Math.max(0, scrollY);
     top.classList.toggle('is-solid', y > 80);
-    if (Math.abs(y - last) > 8) {
+    // práh 16 px: drobné cuknutí prstu nebo dojezd setrvačného scrollu na iPhonu hlavičku nerozhýbe
+    if (y < 80) { top.classList.remove('is-hidden'); last = y; }
+    else if (Math.abs(y - last) > 16) {
       top.classList.toggle('is-hidden', y > last && y > 400 && !body.classList.contains('menu-open'));
       last = y;
     }
@@ -24,7 +26,8 @@ export function initNav() {
     if (prog) prog.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
 
     let dark = false;
-    darkSecs.forEach((s) => { const r = s.getBoundingClientRect(); if (r.top <= 72 && r.bottom > 72) dark = true; });
+    const hb = top.offsetHeight; // včetně výřezu iPhonu
+    darkSecs.forEach((s) => { const r = s.getBoundingClientRect(); if (r.top <= hb && r.bottom > hb) dark = true; });
     top.classList.toggle('is-dark', dark);
 
     if (callbar && hero) {

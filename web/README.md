@@ -52,6 +52,10 @@ node tools/screenshots.mjs   # → screenshots/index.html (prototyp × nová ver
 ## Poznámky
 
 - Přepínač pozadí v Příběhu je odstraněn, v produkci je jen světlé studio.
+- Záměrné odchylky od prototypu (po testu na iPhonu): Příběh 400vh místo 600vh + jemný dojezd pohybu; hlavička se schovává
+  animovaně; `color-scheme: light` a světlé pozadí stránky (Safari na iOS 26 z nich barví oblast pod hodinami);
+  bez `padding` na `html` podle safe-area; mobilní „Zavolat“ jako plovoucí tlačítko; neprůhledná hlavička po odscrollování.
+- Náhled pro sdílení odkazu: `src/assets/og.jpg`, generuje `node tools/og.mjs`.
 - `prefers-reduced-motion`: vypnuté přechody, paralaxa i ticker; Příběh ukazuje jen klidové stavy kroků.
 - Pozor na `overflow: hidden` u předků Příběhu – rozbije `position: sticky` (použít `overflow: clip`, nikdy na `html`).
 - `site` v `astro.config.mjs` je zatím odhad (`https://www.prirodni-kameny.eu`) – doplnit finální doménu.

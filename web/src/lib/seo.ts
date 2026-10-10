@@ -2,7 +2,10 @@ import { EMAIL, MAPS, PHONE } from './site';
 import { asset } from './paths';
 
 export const SITE_NAME = 'Kamenictví Smolík';
-export const TITLE = 'Kamenictví Smolík – přírodní kámen na míru | Dub nad Moravou';
+/** Titulek v záložce prohlížeče (a ve výsledcích hledání). */
+export const TITLE = 'Kamenictví Smolík';
+/** Titulek v náhledu sdíleného odkazu (iMessage, WhatsApp, Facebook…). */
+export const SHARE_TITLE = 'Kamenictví Smolík – přírodní kámen na míru';
 export const DESCRIPTION =
   'Stoly, kuchyňské desky, obklady, fasády a dlažby z přírodního kamene na míru. Pískovec, žula, mramor i břidlice. Kamenictví Smolík, Dub nad Moravou.';
 
@@ -62,7 +65,7 @@ export function structuredData(site: URL, ogImage: string) {
         '@type': 'WebPage',
         '@id': id('uvod'),
         url,
-        name: TITLE,
+        name: SHARE_TITLE,
         description: DESCRIPTION,
         inLanguage: 'cs-CZ',
         isPartOf: { '@id': id('web') },

@@ -11,8 +11,8 @@ import '../styles/materials.css';
 import '../styles/footer.css';
 import Intro from '../components/Intro.astro';
 import { heroSources, PORTRAIT_MEDIA, LANDSCAPE_MEDIA } from '../lib/hero';
-import { img } from '../lib/images';
-import { DESCRIPTION, SITE_NAME, TITLE, structuredData } from '../lib/seo';
+import { DESCRIPTION, SHARE_TITLE, SITE_NAME, TITLE, structuredData } from '../lib/seo';
+import ogSource from '../assets/og.jpg';
 import { NOINDEX, asset } from '../lib/paths';
 import fontDisplayLatin from '../assets/fonts/smolik-display-latin.woff2?url';
 import fontDisplayExt from '../assets/fonts/smolik-display-ext.woff2?url';
@@ -22,7 +22,8 @@ const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;
 const hero = await heroSources();
 // náhled pro sdílení (Facebook, WhatsApp, LinkedIn…) a obrázek firmy pro vyhledávače
-const og = await getImage({ src: img('hero7-d.webp'), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 82 });
+// (generuje tools/og.mjs: fotka stolu + logo + nadpis + telefon)
+const og = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg', quality: 86 });
 const ogUrl = new URL(og.src, site).href;
 const jsonLd = JSON.stringify(structuredData(site, ogUrl));
 ---
@@ -38,6 +39,8 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <meta name="theme-color" content="#ece9e1" />
 
   <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  <link rel="icon" href={asset('favicon-32.png')} type="image/png" sizes="32x32" />
+  <link rel="icon" href={asset('favicon-96.png')} type="image/png" sizes="96x96" />
   <link rel="apple-touch-icon" href={asset('apple-touch-icon.png')} />
   <link rel="manifest" href={asset('site.webmanifest')} />
   <link rel="sitemap" href={asset('sitemap-index.xml')} />
@@ -46,13 +49,15 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:locale" content="cs_CZ" />
   <meta property="og:url" content={canonical} />
-  <meta property="og:title" content={TITLE} />
+  <meta property="og:title" content={SHARE_TITLE} />
   <meta property="og:description" content={DESCRIPTION} />
   <meta property="og:image" content={ogUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Jídelní stůl z pískovce se štípanou hranou – Kamenictví Smolík" />
+  <meta property="og:image:alt" content="Kamenictví Smolík – jídelní stůl z pískovce. Z přírody. Do vašeho prostoru." />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
 
   <link rel="preload" href={fontDisplayLatin} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontDisplayExt} as="font" type="font/woff2" crossorigin />

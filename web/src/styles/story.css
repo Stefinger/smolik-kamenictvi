@@ -1,9 +1,11 @@
 /* ==========================================================================
    Příběh (#pribeh) – od kvádru ke stolu, scroll-driven sekvence průhledných vrstev
    Produkční varianta = světlé studio (v prototypu .bg-light.lt), přepínač pozadí odstraněn.
+   Výška 400vh = asi půl obrazovky scrollu na krok (prototyp 600vh působil těžkopádně).
    Pozn.: žádný předek nesmí dostat overflow:hidden (rozbije sticky) – případně overflow:clip.
    ========================================================================== */
-.story{position:relative;height:600vh;background:var(--ink);color:var(--ink)}
+/* pozadí sekce = barva studia: když se na iPhonu schová lišta prohlížeče, pod scénou (100svh) nevznikne tmavý pruh */
+.story{position:relative;height:400vh;background:#e9e5dc;color:var(--ink)}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#e9e5dc}
 .studio{position:absolute;inset:0;background:#1b1815 url(../assets/img/studio-light.webp) 50% 50%/cover no-repeat;transform:scaleX(-1)}
 
@@ -38,7 +40,7 @@
 .ticks b{position:absolute;inset:0;background:var(--rez);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
 
 @media(max-width:900px){
-  .s-ui{grid-template-columns:1fr;padding-top:86px}
+  .s-ui{grid-template-columns:1fr;padding-top:calc(var(--safe-top) + 86px)}
   .s-num .n{font-size:4.2rem}
   .s-copy{min-height:12.5rem}
   .film-shade{background:linear-gradient(180deg,rgba(236,233,225,.5) 0%,rgba(236,233,225,0) 15%),linear-gradient(0deg,rgba(236,233,225,.92) 0%,rgba(236,233,225,.75) 24%,rgba(236,233,225,0) 42%)}
@@ -46,7 +48,7 @@
 @media(max-width:760px){
   .lstage{width:158vw;height:88.875vw;top:37%;transform:translate(-50%,-50%) scaleX(-1)}
   .finale{object-position:50% 50%}
-  .story .s-num{position:absolute;top:84px;right:var(--gut);margin:0;gap:.35rem}
+  .story .s-num{position:absolute;top:calc(var(--safe-top) + 84px);right:var(--gut);margin:0;gap:.35rem}
   .story .s-num .n{font-size:1.9rem}
   .story .s-item h3{font-size:clamp(1.7rem,7.2vw,2.3rem);margin:.55rem 0 .7rem}
   .story .s-item p{font-size:15px;line-height:1.5}
@@ -64,8 +66,8 @@
 }
 /* telefony i tablety na výšku: číslo vpravo nahoře, kámen mezi horním řádkem a textem */
 @media (orientation:portrait) and (max-width:1100px){
-  .story .s-ui{grid-template-columns:1fr;padding-top:clamp(86px,10vh,118px)}
-  .story .s-num{position:absolute;top:clamp(84px,9.8vh,116px);right:var(--gut);margin:0;gap:.35rem}
+  .story .s-ui{grid-template-columns:1fr;padding-top:calc(var(--safe-top) + clamp(86px,10vh,118px))}
+  .story .s-num{position:absolute;top:calc(var(--safe-top) + clamp(84px,9.8vh,116px));right:var(--gut);margin:0;gap:.35rem}
   .story .s-num .n{font-size:clamp(1.9rem,4.2vw,2.6rem)}
   .story .s-item h3{font-size:clamp(1.7rem,6vw,3rem);margin:.55rem 0 .7rem}
   .story .s-item p{font-size:clamp(15px,2.1vw,18px);line-height:1.5;max-width:34rem}
