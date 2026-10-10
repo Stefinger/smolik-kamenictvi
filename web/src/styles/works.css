@@ -10,7 +10,16 @@
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:2vw;row-gap:clamp(60px,10vh,110px);align-items:start}
 .work{margin:0}
 .work .ph{position:relative;overflow:hidden;background:#d9d4c8}
-.work .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.7,.1,1)}
+.work .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.7,.1,1),scale 1.8s var(--ease-out),opacity .7s ease}
+
+/* nástup (Framer styl): fotka vyjede zespodu a v rámečku se usadí z mírného zvětšení, popisek naskočí po ní */
+.work[data-reveal]{opacity:0;transform:translateY(48px);transition:opacity .9s var(--ease-out),transform 1.2s var(--ease-out)}
+.work[data-reveal] .ph img{scale:1.1}
+.work[data-reveal] figcaption{opacity:0;transform:translateY(10px);transition:opacity .8s var(--ease-out) .25s,transform .9s var(--ease-out) .25s}
+.work[data-reveal].in,.work[data-reveal].in figcaption{opacity:1;transform:none}
+.work[data-reveal].in .ph img{scale:1}
+/* fotka se ukáže až načtená (reveal.ts → .img-wait), jemným prolnutím místo „probliknutí“ */
+.work .ph img.img-wait,.rail-item img.img-wait{opacity:0}
 .work:hover .ph img{transform:scale(1.04)}
 .work figcaption{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;padding-top:14px;border-top:1px solid var(--line-l);margin-top:14px}
 .work .num{font-size:11px;letter-spacing:.12em;color:var(--muted-l)}
@@ -38,7 +47,13 @@
 .rail:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
 .rail-item{flex:0 0 min(56vw,860px);aspect-ratio:1.6;scroll-snap-align:start;overflow:hidden;background:var(--alt)}
 .rail-item.tall{flex-basis:calc(min(56vw,860px)/1.6*2/3);aspect-ratio:2/3}
-.rail-item img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out)}
+.rail-item img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out),opacity .7s ease}
+/* pás: fotky přijedou zprava postupně */
+.rail-sec[data-reveal] .rail-item{opacity:0;transform:translateX(56px);transition:opacity .9s var(--ease-out),transform 1.2s var(--ease-out)}
+.rail-sec.in .rail-item{opacity:1;transform:none}
+.rail-sec.in .rail-item:nth-child(2){transition-delay:.08s}
+.rail-sec.in .rail-item:nth-child(3){transition-delay:.16s}
+.rail-sec.in .rail-item:nth-child(n+4){transition-delay:.24s}
 .rail-item:hover img{transform:scale(1.03)}
 
 /* ticker pod sekcí – jen CSS */
@@ -62,4 +77,6 @@
 }
 @media(prefers-reduced-motion:reduce){
   .ticker-track{animation:none}
+  .work[data-reveal],.work[data-reveal] figcaption,.rail-sec[data-reveal] .rail-item{opacity:1!important;transform:none!important}
+  .work[data-reveal] .ph img{scale:1!important}
 }

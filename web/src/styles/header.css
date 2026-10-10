@@ -54,22 +54,31 @@
 
 /* ---------- overlay menu (mobil) ---------- */
 .menu{position:fixed;inset:0;z-index:45;background:var(--bone);color:var(--ink);display:grid;grid-template-rows:auto 1fr;
-  padding:calc(var(--safe-top) + 92px) var(--gut) calc(env(safe-area-inset-bottom,0px) + 28px);
-  clip-path:inset(0 0 100% 0);transition:clip-path .9s var(--ease-io);overflow:auto}
+  padding:calc(var(--safe-top) + 92px) var(--gut) calc(env(safe-area-inset-bottom,0px) + 28px);overflow:auto;
+  /* zavření: celé menu se plynule prolne pryč; ořez se vrátí až potom (připraví další otevření) */
+  opacity:0;clip-path:inset(0 0 100% 0);transition:opacity .3s ease .12s,clip-path 0s linear .45s}
 .menu[hidden]{display:grid;pointer-events:none}
-.menu.is-open{clip-path:inset(0 0 0 0)}
+/* otevření: panel rychle sjede shora a měkce dobrzdí */
+.menu.is-open{opacity:1;clip-path:inset(0 0 0 0);transition:clip-path .7s var(--ease-out),opacity 0s}
 .menu-links{display:flex;flex-direction:column;border-top:1px solid var(--line-l)}
 .menu-links a{font-family:var(--sans);font-size:clamp(1.9rem,6.4vw,2.6rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;border-bottom:1px solid var(--line-l)}
 .menu-links a i{font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.1em;vertical-align:top;color:var(--muted-l)}
 .menu-links a b{font-weight:400}
 .menu-links a em{font-style:normal;font-size:1.2rem;transition:transform .4s var(--ease-q)}
 .menu-links a:hover em{transform:translate(3px,-3px)}
-.menu-links .line>span{transform:translateY(105%);transition:transform .9s var(--ease-out)}
 .menu-links a .line>span{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:12px;padding:22px 0}
-.menu.is-open .menu-links .line>span{transform:none}
-.menu-links a:nth-child(2) .line>span{transition-delay:.06s}
-.menu-links a:nth-child(3) .line>span{transition-delay:.12s}
-.menu-links a:nth-child(4) .line>span{transition-delay:.18s}
+/* odkazy a kontakt: při otevření postupně vyplují (průhlednost + malý posun), při zavření zmizí najednou a rychle */
+.menu-links a,.menu-contact>*{opacity:0;transform:translateY(14px);transition:opacity .15s ease,transform .15s ease}
+.menu.is-open .menu-links a,.menu.is-open .menu-contact>*{opacity:1;transform:none;transition:opacity .6s var(--ease-out),transform .8s var(--ease-out)}
+.menu.is-open .menu-links a:nth-child(1){transition-delay:.14s}
+.menu.is-open .menu-links a:nth-child(2){transition-delay:.19s}
+.menu.is-open .menu-links a:nth-child(3){transition-delay:.24s}
+.menu.is-open .menu-links a:nth-child(4){transition-delay:.29s}
+.menu.is-open .menu-contact>*{transition-delay:.36s}
+/* řádky odkazů se v menu neodkrývají maskou (.line z reveal), animuje se celý odkaz */
+.menu-links .line>span{transform:none;transition:none}
+.menu-links{transition:border-color .3s}
+.menu:not(.is-open) .menu-links{border-top-color:transparent}
 .menu-contact{padding-top:40px;font-size:15px}
 .menu-contact a{overflow-wrap:anywhere}
 .mc-tel{display:inline-flex;gap:10px;align-items:center;font-size:1.5rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
@@ -97,6 +106,7 @@ body.menu-open{overflow:hidden}
   .callbar b{font-family:var(--serif);font-weight:600;letter-spacing:.02em;font-variant-numeric:tabular-nums}
   .callbar.show{transform:none;opacity:1;visibility:visible;transition:transform .5s var(--ease-out),opacity .2s}
   /* při otevřené klávesnici (hledání dekoru) tlačítko nepřekáží */
+  body.menu-open .callbar,
   html.kb-open .callbar{transform:translateY(calc(100% + 60px));opacity:0;visibility:hidden}
 }
 

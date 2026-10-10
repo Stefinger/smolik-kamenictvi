@@ -21,7 +21,7 @@ const works = [
       const src = img(w.file);
       return (
         <figure class={`work ${w.cls}`} data-reveal>
-          <div class="ph wipe"><Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 800, 1280, src.width]} sizes={w.sizes} alt={w.alt} loading="lazy" decoding="async" /></div>
+          <div class="ph"><Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 800, 1280, src.width]} sizes={w.sizes} alt={w.alt} loading="lazy" decoding="async" /></div>
           <figcaption><span class="num">R.{String(i + 1).padStart(2, '0')}</span><h3>{w.title}</h3><span class="mat">{w.mat}</span></figcaption>
         </figure>
       );
