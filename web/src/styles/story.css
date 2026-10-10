@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Příběh (#pribeh) – od kvádru ke stolu, scroll-driven sekvence průhledných vrstev
+   Produkční varianta = světlé studio (v prototypu .bg-light.lt), přepínač pozadí odstraněn.
+   Pozn.: žádný předek nesmí dostat overflow:hidden (rozbije sticky) – případně overflow:clip.
+   ========================================================================== */
+.story{position:relative;height:600vh;background:var(--ink);color:var(--ink)}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#e9e5dc}
+.studio{position:absolute;inset:0;background:#1b1815 url(../assets/img/studio-light.webp) 50% 50%/cover no-repeat;transform:scaleX(-1)}
+
+.lmove{position:absolute;inset:0;transform-origin:0 0;will-change:transform;transition:opacity .8s var(--ease-out)}
+/* vrstvy ještě nejsou připravené (story.ts) – scéna počká a prolne se */
+.story.is-waiting .lmove{opacity:0}
+/* plátno 16:9 zrcadlené; výšku a na mobilu i polohu dopočítá story.ts */
+.lstage{position:absolute;left:50%;top:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-42%,-50%) scaleX(-1)}
+.ly{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:contain;opacity:0;pointer-events:none;user-select:none;-webkit-user-drag:none;will-change:opacity,transform}
+#L3s,#L4s,#L3,#L4{opacity:0}
+.finale{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform}
+.film-shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(236,233,225,.55) 0%,rgba(236,233,225,0) 42%),linear-gradient(0deg,rgba(236,233,225,.65) 0%,rgba(236,233,225,0) 34%)}
+
+/* texty a ukazatele */
+.s-ui{position:absolute;inset:0;z-index:3;padding:110px var(--gut) clamp(32px,6vh,56px);display:grid;grid-template-columns:minmax(0,27rem) 1fr;grid-template-rows:auto 1fr auto;pointer-events:none}
+.story .kicker{color:var(--muted-l)}
+.s-ui>.kicker{grid-column:1}
+.s-num{grid-column:1;align-self:start;display:flex;align-items:baseline;gap:.6rem;margin-top:1.4rem;font-family:var(--serif)}
+.s-num .n{font-size:clamp(4.5rem,9vw,9.5rem);font-weight:300;line-height:.82;height:.82em;overflow:hidden;letter-spacing:-.03em;color:var(--ink)}
+.s-num .n span{display:block;transition:transform .8s var(--ease)}
+.s-num .of{font-family:var(--sans);font-size:13px;color:var(--muted-l);letter-spacing:.08em}
+.s-copy{grid-column:1;grid-row:3;position:relative;min-height:14rem}
+.s-item{position:absolute;left:0;right:0;bottom:2.5rem;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s var(--ease)}
+.s-item.on{opacity:1;transform:none}
+.s-item.on a{pointer-events:auto}
+.s-item h3{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3.4vw,3.4rem);letter-spacing:-.02em;line-height:1;margin:.7rem 0 .9rem;color:var(--ink)}
+.s-item p{color:var(--muted-l);font-size:16px;max-width:23rem}
+.s-item .line-link{margin-top:1.2rem;color:var(--ink);border-color:rgba(27,25,22,.35)}
+.ticks{position:absolute;left:0;right:0;bottom:0;display:flex;gap:6px}
+.ticks i{flex:1;height:1px;background:rgba(27,25,22,.16);position:relative;overflow:hidden}
+.ticks b{position:absolute;inset:0;background:var(--rez);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+
+@media(max-width:900px){
+  .s-ui{grid-template-columns:1fr;padding-top:86px}
+  .s-num .n{font-size:4.2rem}
+  .s-copy{min-height:12.5rem}
+  .film-shade{background:linear-gradient(180deg,rgba(236,233,225,.5) 0%,rgba(236,233,225,0) 15%),linear-gradient(0deg,rgba(236,233,225,.92) 0%,rgba(236,233,225,.75) 24%,rgba(236,233,225,0) 42%)}
+}
+@media(max-width:760px){
+  .lstage{width:158vw;height:88.875vw;top:37%;transform:translate(-50%,-50%) scaleX(-1)}
+  .finale{object-position:50% 50%}
+  .story .s-num{position:absolute;top:84px;right:var(--gut);margin:0;gap:.35rem}
+  .story .s-num .n{font-size:1.9rem}
+  .story .s-item h3{font-size:clamp(1.7rem,7.2vw,2.3rem);margin:.55rem 0 .7rem}
+  .story .s-item p{font-size:15px;line-height:1.5}
+  .story .s-copy{min-height:0}
+}
+/* telefon na šířku (nízká obrazovka): text vlevo, kámen vpravo */
+@media (orientation:landscape) and (max-height:520px){
+  .story .s-ui{grid-template-columns:minmax(0,40vw) 1fr;padding-top:66px;padding-bottom:16px}
+  .story .s-num{position:absolute;top:64px;right:var(--gut);margin:0;gap:.35rem}
+  .story .s-num .n{font-size:1.8rem}
+  .story .s-item{bottom:1.4rem}
+  .story .s-item h3{font-size:clamp(1.45rem,3.3vw,2rem);margin:.4rem 0 .5rem}
+  .story .s-item p{font-size:14px;line-height:1.45;max-width:38vw}
+  .story .s-copy{min-height:0}
+}
+/* telefony i tablety na výšku: číslo vpravo nahoře, kámen mezi horním řádkem a textem */
+@media (orientation:portrait) and (max-width:1100px){
+  .story .s-ui{grid-template-columns:1fr;padding-top:clamp(86px,10vh,118px)}
+  .story .s-num{position:absolute;top:clamp(84px,9.8vh,116px);right:var(--gut);margin:0;gap:.35rem}
+  .story .s-num .n{font-size:clamp(1.9rem,4.2vw,2.6rem)}
+  .story .s-item h3{font-size:clamp(1.7rem,6vw,3rem);margin:.55rem 0 .7rem}
+  .story .s-item p{font-size:clamp(15px,2.1vw,18px);line-height:1.5;max-width:34rem}
+  .story .s-copy{min-height:0}
+  .finale{object-position:50% 50%}
+}
+/* tablety na šířku (4:3, 3:2): text vlevo, kámen vpravo */
+@media (orientation:landscape) and (max-aspect-ratio:3/2) and (max-width:1400px){
+  .story .s-ui{grid-template-columns:minmax(0,38vw) 1fr;padding-top:clamp(70px,11vh,110px);padding-bottom:clamp(18px,4vh,40px)}
+  .story .s-num{position:absolute;top:clamp(68px,10.5vh,108px);right:var(--gut);margin:0;gap:.35rem}
+  .story .s-num .n{font-size:clamp(1.9rem,3.2vw,2.6rem)}
+  .story .s-item h3{font-size:clamp(1.8rem,3.4vw,2.8rem)}
+  .story .s-item p{max-width:34vw}
+  .story .s-copy{min-height:0}
+}

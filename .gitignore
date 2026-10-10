@@ -1,0 +1,10 @@
+# závislosti a výstupy buildu
+node_modules/
+web/dist/
+web/.astro/
+web/screenshots/
+
+# systém a tajné údaje
+.DS_Store
+.env*
+!.env.example

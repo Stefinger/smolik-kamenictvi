@@ -1,0 +1,117 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import { img } from '../lib/images';
+import { TEL } from '../lib/site';
+import data from '../data/materialy.json';
+import MaterialDialog from './MaterialDialog.astro';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const decorTotal = data.artificial.reduce((a, c) => a + c.items.length, 0);
+
+/* dekory se vykreslují v JS (filtry, hledání) – optimalizované URL připravíme při buildu */
+const decors = await Promise.all(
+  data.artificial.map(async (c) => ({
+    name: c.name,
+    description: c.description,
+    items: await Promise.all(
+      c.items.map(async (m) => {
+        const src = img(m.img);
+        const [avif, webp] = await Promise.all([
+          getImage({ src, widths: [260, 520], format: 'avif' }),
+          getImage({ src, widths: [260, 520], format: 'webp' }),
+        ]);
+        return { name: m.name, tone: m.tone, alt: m.alt, src: webp.src, webp: webp.srcSet.attribute, avif: avif.srcSet.attribute };
+      }),
+    ),
+  })),
+);
+
+const tabs = [
+  { id: 'prirodni', title: 'Přírodní kámen', desc: `${data.natural.length} druhů` },
+  { id: 'umely', title: 'Umělý kámen', desc: `${decorTotal} dekorů` },
+  { id: 'formaty', title: 'Obklady a dlažby', desc: `${data.formats.length} formátů` },
+];
+---
+<section id="materialy" class="materials" aria-label="Materiály">
+  <div class="container">
+    <div class="section-heading">
+      <div><span class="kicker">04 — Materiály</span><h2 data-reveal><span class="line"><span>Materiály,</span></span><span class="line"><span>ze kterých vybíráte.</span></span></h2></div>
+      <p>Přírodní kámen z lomů celého světa, lehký umělý kámen pro obklady a hotové formáty obkladů a dlažeb. Vyberte materiál, opracování navrhneme společně.</p>
+    </div>
+
+    <div class="cat-switch" role="tablist" aria-label="Kolekce">
+      {tabs.map((t, i) => (
+        <button type="button" role="tab" id={`tab-${t.id}`} aria-controls={`col-${t.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? undefined : -1}>
+          <span class="cs-n">{pad(i + 1)}</span><span class="cs-t">{t.title}</span><span class="cs-d">{t.desc}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="cat-panel" id="col-prirodni" role="tabpanel" aria-labelledby="tab-prirodni">
+      <div class="material-list">
+        {data.natural.map((m, i) => {
+          const src = img(m.image);
+          const widths = [160, 320, 640, src.width].filter((w) => w <= src.width);
+          return (
+            <details class="material-row">
+              <summary>
+                <span class="num">P.{pad(i + 1)}</span><h3>{m.name}</h3><span class="tag">{m.tag}</span>
+                <Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[160, 320]} sizes="(max-width: 700px) 75px, 140px" alt="" loading="lazy" decoding="async" />
+                <span class="plus" aria-hidden="true">+</span>
+              </summary>
+              <div class="cat-exp">
+                <div class="cat-gal"><Picture class="main" src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={widths} sizes="(max-width: 760px) 92vw, 46vw" alt={`${m.name} – ukázka materiálu`} loading="lazy" decoding="async" /></div>
+                <div class="cat-info">
+                  <p class="lead">{m.description}</p>
+                  <dl class="cat-facts">{m.facts.map(([dt, dd]) => <div><dt>{dt}</dt><dd>{dd}</dd></div>)}</dl>
+                  <a class="line-link" href={TEL}>Zeptat se na {m.accusative}<span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            </details>
+          );
+        })}
+      </div>
+      <p class="note">Ilustrační ukázky materiálů. Skutečný odstín a kresbu ověříme při výběru, dostupné varianty domluvíme telefonicky.</p>
+    </div>
+
+    <div class="cat-panel" id="col-umely" role="tabpanel" aria-labelledby="tab-umely" hidden>
+      <p class="cat-lead">Lehký obkladový kámen VASPO. Pokládá se beze spár a díky krajovým dílům působí jako přírodní zdivo – na krbu, barovém pultu, terase i fasádě chaty. Prohlédněte si kolekce a jejich odstíny.</p>
+      <div class="filter-bar">
+        <div class="filters" role="group" aria-label="Kolekce umělého kamene">
+          <button type="button" data-group="-1" aria-pressed="true">Vše</button>
+          {data.artificial.map((c, i) => <button type="button" data-group={i} aria-pressed="false">{c.name}<sup>{c.items.length}</sup></button>)}
+        </div>
+        <label class="search"><span class="sr-only">Hledat dekor nebo odstín</span><input type="search" id="decor-search" placeholder="Hledat dekor nebo odstín" autocomplete="off" /><span aria-hidden="true">⌕</span></label>
+      </div>
+      <div class="result-line"><p id="group-description"></p><span id="result-count" role="status" aria-live="polite"></span></div>
+      <div class="decor-grid" id="decor-grid"></div>
+      <div class="empty" id="decor-empty" hidden><p class="lead">Takový dekor jsme nenašli.</p><button type="button" class="line-link" id="reset-search">Zobrazit všechny dekory<span aria-hidden="true">↗</span></button></div>
+      <p class="note">Odstíny na fotografiích jsou orientační. Aktuální provedení a dostupnost potvrdíme telefonicky.</p>
+    </div>
+
+    <div class="cat-panel" id="col-formaty" role="tabpanel" aria-labelledby="tab-formaty" hidden>
+      <p class="cat-lead">Kamenné obklady a dlažby z křemence, břidlice, vápence a žuly v hotových formátech. U vybraných řad dodáváme i rohové prvky pro čisté nároží.</p>
+      <div class="fmt-wrap">
+        <table class="fmt">
+          <thead><tr><th>Materiál</th><th>Formát (cm)</th><th>Tloušťka (cm)</th></tr></thead>
+          <tbody>
+            {data.formats.map((f) => <tr><td>{f.name}{f.code && <span class="code">{f.code}</span>}</td><td>{f.format}</td><td>{f.thickness}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Rozměry jsou v centimetrech. Dostupnost formátů a rohových prvků ověříme podle vybrané řady.</p>
+    </div>
+
+    <div class="make">
+      <h3>Z vybraného kamene vyrobíme desku, obklad, dlažbu i nábytek na míru.</h3>
+      <a class="line-link" href={TEL}>Probrat zakázku<span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <MaterialDialog />
+  <script type="application/json" id="decor-data" set:html={JSON.stringify(decors)} />
+</section>
+
+<script>
+  import { initMaterials } from '../scripts/materials';
+  initMaterials();
+</script>

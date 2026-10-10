@@ -1,0 +1,38 @@
+---
+import { Picture } from 'astro:assets';
+import { img } from '../lib/images';
+
+// skutečné realizace (2200 px; 4K originály má klient mimo repozitář)
+const photos = [
+  { file: 'real-01-fasada.webp', alt: 'Fasáda s obkladem z lámaného přírodního kamene a dřevěnými policemi' },
+  { file: 'real-02-umyvadlo.webp', alt: 'Kuchyňské umyvadlo z travertinu v dubové lince' },
+  { file: 'real-03-dum.webp', alt: 'Dům s fasádou z travertinových desek' },
+  { file: 'real-04-garaz.webp', alt: 'Garáž a kryté stání obložené travertinem' },
+  { file: 'real-05-roh.webp', alt: 'Nároží domu s travertinovou fasádou' },
+  { file: 'real-07-kavarna.webp', alt: 'Kavárenské stolky z lámaného křemence' },
+  { file: 'real-08-ostrov.webp', alt: 'Kuchyňský ostrov ze světlé žuly' },
+  { file: 'real-10-showroom.webp', alt: 'Kuchyňská linka s pracovní deskou a dřezem z křemence', tall: true },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<div class="rail-sec">
+  <div class="rail-head">
+    <div><span class="kicker">Další realizace</span><h3 class="rail-h">Jiný pohled.<br /><em>Stejný materiál.</em></h3></div>
+    <div class="rail-ctl"><span class="rail-count" aria-live="polite">01 / {pad(photos.length)}</span><button type="button" class="rail-prev" aria-label="Předchozí">←</button><button type="button" class="rail-next" aria-label="Další">→</button></div>
+  </div>
+  <div class="rail" tabindex="0" aria-label="Galerie realizací, posouvejte šipkami">
+    {photos.map((p) => {
+      const src = img(p.file);
+      return p.tall ? (
+        <div class="rail-item tall"><Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[360, src.width]} sizes="(max-width: 900px) 43vw, 360px" alt={p.alt} loading="lazy" decoding="async" /></div>
+      ) : (
+        <div class="rail-item"><Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[640, 1280, 1760, src.width]} sizes="(max-width: 900px) 84vw, min(56vw, 860px)" alt={p.alt} loading="lazy" decoding="async" /></div>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  import { initRail } from '../scripts/rail';
+  initRail();
+</script>

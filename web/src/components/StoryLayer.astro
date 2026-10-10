@@ -1,0 +1,21 @@
+---
+import { getImage } from 'astro:assets';
+import { img } from '../lib/images';
+
+/** Průhledná vrstva příběhu. Poloha je v procentech plátna 16:9 (čte ji i story.ts). */
+interface Props { id: string; file: string; left: number; top: number; width: number; height: number; hidden?: boolean }
+const { id, file, left, top, width, height, hidden = false } = Astro.props;
+const src = img(file);
+const widths = [480, 960, 1440, src.width].filter((w, i, a) => w <= src.width && a.indexOf(w) === i);
+const [avif, webp] = await Promise.all([
+  getImage({ src, widths, format: 'avif' }),
+  getImage({ src, widths, format: 'webp' }),
+]);
+// šířka vrstvy = width % plátna; plátno má šířku max(100vw, 177.78vh) – užší než 16:9 se plátno roztáhne
+const sizes = `(max-aspect-ratio: 16/9) ${Math.ceil(width * 1.78)}vw, ${Math.ceil(width)}vw`;
+const style = `left:${left.toFixed(4)}%;top:${top.toFixed(4)}%;width:${width.toFixed(4)}%;height:${height.toFixed(4)}%${hidden ? ';opacity:0' : ''}`;
+---
+<picture>
+  <source type="image/avif" srcset={avif.srcSet.attribute} sizes={sizes} />
+  <img class="ly" id={id} src={webp.src} srcset={webp.srcSet.attribute} sizes={sizes} alt="" style={style} decoding="async" loading="lazy" />
+</picture>

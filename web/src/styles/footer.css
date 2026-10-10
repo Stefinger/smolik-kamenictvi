@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Kontakt / patička (#kontakt) – tmavá, obří nápis SMOLÍK utíkající ze spodního okraje
+   ========================================================================== */
+.foot-b{background:var(--ink);color:var(--bone);padding:clamp(80px,12vh,140px) var(--gut) 24px;overflow:hidden}
+.foot-b .sec-meta{border-color:var(--line-d);margin-bottom:clamp(36px,6vh,60px)}
+.foot-b .sec-meta .kicker{color:var(--muted-d)}
+.fb-h{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,5vw,5.6rem);line-height:.94;letter-spacing:-.025em;margin:0 0 clamp(48px,8vh,90px)}
+.fb-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem;padding-bottom:48px;border-bottom:1px solid var(--line-d);font-size:15px;line-height:1.55}
+.fb-cols .kicker{color:var(--muted-d);margin-bottom:10px}
+.fb-cols p{margin:0 0 10px;color:rgba(236,233,225,.8)}
+.fb-cols a{overflow-wrap:anywhere}
+.fb-cols .big{font-family:var(--serif);font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.foot-b .arrow-link::after{transform:scaleX(1)}
+.fb-bottom{display:flex;justify-content:space-between;gap:2rem;padding-top:18px;border-top:1px solid var(--line-d);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-d)}
+.fb-mark{font-size:0;line-height:0;margin:34px 0 -1.2vw;opacity:.95;user-select:none}
+.fb-mark .fb-wmk{width:100%;height:auto;display:block;fill:var(--bone);opacity:.95}
+
+@media(max-width:900px){
+  .fb-cols{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .fb-bottom{flex-wrap:wrap;gap:.6rem 1.5rem}
+  .fb-mark{margin-bottom:-2vw}
+}

@@ -1,0 +1,31 @@
+---
+import HeroPicture from './HeroPicture.astro';
+import { PHONE, TEL } from '../lib/site';
+
+const line1 = [['Z', '.75s'], ['přírody.', '.85s']];
+const line2 = [['Do', '1.0s'], ['vašeho', '1.1s'], ['prostoru.', '1.2s']];
+---
+<section class="hero" id="hero" aria-label="Úvod">
+  <div class="hero-media"><div class="hero-kb">
+    <HeroPicture id="heroImg" priority alt="Jídelní stůl z pískovce se štípanou hranou a dubovými židlemi ve světle pod stromy" />
+  </div></div>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-in" id="heroIn">
+    <h1 aria-label="Z přírody. Do vašeho prostoru.">
+      <span class="l" aria-hidden="true">{line1.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
+      <span class="l l2" aria-hidden="true">{line2.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
+    </h1>
+    <div class="hero-foot">
+      <p>Stoly, kuchyňské desky, obklady i fasády. Každý kus z přírodního kamene, na míru místu, kde bude stát.</p>
+      <div class="ctas">
+        <a class="btn" href={TEL}>Zavolat <em>{PHONE}</em></a>
+        <a class="btn ghost" href="#materialy">Vybrat materiál<span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initHero } from '../scripts/hero';
+  initHero();
+</script>

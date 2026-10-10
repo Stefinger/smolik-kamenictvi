@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Úvodní animace se značkou – kámen se poskládá, pískovcová ploška „projede řezem“,
+   vyjede nápis, linka doběhne a opona se zvedne nahoru (stejný pohyb jako overlay menu).
+   Zobrazí se jen s html.intro-on (první návštěva v relaci, ne při omezeném pohybu).
+   ========================================================================== */
+.intro-screen{display:none}
+html.intro-on .intro-screen{position:fixed;inset:0;z-index:80;display:grid;place-items:center;background:var(--bone);color:var(--ink);
+  clip-path:inset(0 0 0 0);transition:clip-path 1.2s var(--ease-io) .1s}
+.intro-in{display:flex;flex-direction:column;align-items:center;gap:22px;transition:opacity .5s ease,transform .8s var(--ease-io)}
+
+.intro-screen .mark{height:clamp(48px,6vw,68px);width:auto;overflow:visible}
+.intro-screen .mark .ink,.intro-screen .mark .edge{fill:currentColor}
+.intro-screen .mark .edge{opacity:.35}
+.intro-screen .mark .sand{fill:var(--sand2)}
+.intro-screen .mark path{transform-box:fill-box}
+.intro-screen .mark .ink{opacity:0;transform:translateY(18%);animation:introRise 1.2s var(--ease-out) .15s forwards}
+.intro-screen .mark .ink:nth-of-type(2){animation-delay:.35s}
+.intro-screen .mark .edge{opacity:0;animation:introFade .8s ease .9s forwards}
+.intro-screen .mark .sand{transform:scaleX(0);transform-origin:left center;animation:introCut 1s var(--ease-io) .8s forwards}
+
+.intro-wm{display:block;overflow:hidden;padding:2px 0}
+.intro-wm .wmk{display:block;height:clamp(13px,1.5vw,17px);width:auto;fill:currentColor;transform:translateY(110%);animation:introRise2 1.1s var(--ease-out) 1s forwards}
+.intro-line{display:block;width:100%;height:1px;background:var(--line-l);overflow:hidden}
+.intro-line i{display:block;height:100%;background:var(--sand2);transform:scaleX(0);transform-origin:left;animation:introLine 1.8s var(--ease-io) .4s forwards}
+
+/* odchod: obsah se zvedne a zmizí, opona odjede nahoru */
+.intro-screen.is-out{clip-path:inset(0 0 100% 0)}
+.intro-screen.is-out .intro-in{opacity:0;transform:translateY(-24px)}
+
+@keyframes introRise{to{opacity:1;transform:none}}
+@keyframes introRise2{to{transform:none}}
+@keyframes introFade{to{opacity:.35}}
+@keyframes introCut{to{transform:none}}
+@keyframes introLine{to{transform:none}}

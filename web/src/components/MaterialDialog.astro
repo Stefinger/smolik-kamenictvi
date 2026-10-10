@@ -1,0 +1,14 @@
+---
+import { TEL } from '../lib/site';
+---
+<dialog class="mat-dialog" id="mat-dialog" aria-labelledby="md-title">
+  <button type="button" class="md-close" aria-label="Zavřít detail">Zavřít ×</button>
+  <div class="md-img"><img alt="" /></div>
+  <div class="md-copy">
+    <span class="kicker" id="md-cat"></span>
+    <h3 id="md-title"></h3>
+    <p id="md-desc"></p>
+    <a class="line-link" href={TEL}>Probrat tento dekor<span aria-hidden="true">↗</span></a>
+    <p class="note">Při telefonátu nám stačí říct název kolekce a odstín.</p>
+  </div>
+</dialog>

@@ -1,0 +1,26 @@
+---
+import { heroSources, PORTRAIT_MEDIA } from '../lib/hero';
+
+interface Props { id?: string; class?: string; alt: string; priority?: boolean; hidden?: boolean }
+const { id, class: cls, alt, priority = false, hidden = false } = Astro.props;
+const s = await heroSources();
+---
+<picture>
+  <source media={PORTRAIT_MEDIA} type="image/avif" srcset={s.tall.avif} sizes="100vw" />
+  <source media={PORTRAIT_MEDIA} type="image/webp" srcset={s.tall.webp} sizes="100vw" />
+  <source type="image/avif" srcset={s.wide.avif} sizes="100vw" />
+  <img
+    id={id}
+    class={cls}
+    src={s.wide.src}
+    srcset={s.wide.webp}
+    sizes="100vw"
+    width={s.wide.width}
+    height={s.wide.height}
+    alt={alt}
+    aria-hidden={hidden ? 'true' : undefined}
+    fetchpriority={priority ? 'high' : undefined}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding={priority ? undefined : 'async'}
+  />
+</picture>

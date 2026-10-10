@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Hero (#hero) – světlá fotka stolu z pískovce
+   ========================================================================== */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#d9d4cb}
+.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:22vh;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(236,233,225,.5),rgba(236,233,225,0))}
+.hero :focus-visible{outline-color:var(--rez)}
+
+.hero-media{position:absolute;inset:0;will-change:transform}
+.hero-kb{position:absolute;inset:0;transform-origin:66% 60%;will-change:transform}
+.hero-kb img{width:100%;height:100%;object-fit:cover;object-position:60% 50%;background:#0d0c0a}
+.js .hero-kb img{opacity:0;filter:blur(16px) brightness(.35);transform:scale(1.07)}
+.hero.is-in .hero-kb img{opacity:1;filter:blur(0) brightness(1);transform:none;
+  transition:opacity 1.4s ease,filter 2.6s var(--ease),transform 3.4s var(--ease)}
+
+.hero-shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(236,233,225,.62) 0%,rgba(236,233,225,.22) 36%,rgba(236,233,225,0) 56%),
+             linear-gradient(0deg,rgba(236,233,225,.5) 0%,rgba(236,233,225,0) 30%)}
+
+/* blok textu vlevo, začíná na hraně stěna/podlaha */
+.hero .hero-in{position:absolute;left:var(--gut);top:54%;width:min(46vw,660px);display:flex;flex-direction:column;will-change:transform,opacity}
+.hero h1{align-self:start;font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,3.7vw,4.9rem);line-height:.96;letter-spacing:-.02em;color:#282823}
+.hero h1 .l{display:block}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em 0 .1em;margin:-.14em 0 -.1em}
+.hero h1 .w>span{display:inline-block}
+.js .hero h1 .w>span{transform:translateY(112%);letter-spacing:.06em;opacity:0}
+.hero.is-in h1 .w>span{transform:none;letter-spacing:-.035em;opacity:1;
+  transition:transform 1.5s var(--ease),letter-spacing 2.2s var(--ease),opacity .6s ease;transition-delay:var(--d)}
+
+.hero-foot{display:grid;grid-template-columns:1fr;gap:1.4rem;align-items:end;padding:1.3rem 0 0}
+.js .hero-foot{opacity:0;transform:translateY(8px)}
+.hero.is-in .hero-foot{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease)}
+.hero-foot p{font-size:15px;max-width:26rem;color:rgba(40,40,35,.74)}
+.ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.hero .btn{background:#282823;color:#ece9e1}
+.hero .btn:hover{background:#111}
+.hero .btn.ghost{background:transparent;color:#282823}
+.hero .btn.ghost:hover{background:rgba(40,40,35,.08)}
+
+@media(max-width:900px){
+  .hero-kb img{object-position:66% 50%}
+  .hero-shade{background:linear-gradient(0deg,rgba(13,12,10,.92) 0%,rgba(13,12,10,.55) 38%,rgba(13,12,10,0) 62%),linear-gradient(180deg,rgba(13,12,10,.5) 0%,rgba(13,12,10,0) 18%)}
+  .hero .hero-in{right:var(--gut);top:calc(env(safe-area-inset-top,0px) + 92px);bottom:34px;width:auto;justify-content:space-between}
+  .hero h1{font-size:clamp(1.9rem,8.4vw,2.9rem)}
+  .hero-foot{gap:1rem}
+  .hero-foot .ctas{flex-direction:column;align-items:flex-start;gap:.7rem}
+  .hero .btn.ghost{color:var(--bone);border-color:rgba(236,233,225,.65)}
+  .hero .btn.ghost:hover{background:rgba(236,233,225,.12)}
+}
+@media(max-width:760px){
+  .hero-shade{background:linear-gradient(180deg,rgba(13,12,10,.18) 0%,rgba(13,12,10,0) 30%),linear-gradient(0deg,rgba(13,12,10,.86) 0%,rgba(13,12,10,.55) 26%,rgba(13,12,10,0) 48%)}
+  .hero h1{padding-top:96px}
+  .hero-foot p{color:rgba(236,233,225,.86)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .js .hero-kb img,.js .hero h1 .w>span,.js .hero-foot{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
+}

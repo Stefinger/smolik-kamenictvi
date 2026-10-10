@@ -1,0 +1,33 @@
+---
+import { Picture } from 'astro:assets';
+import { img } from '../lib/images';
+import WorksRail from './WorksRail.astro';
+
+const works = [
+  { cls: 'w1', file: 'r-kuchyn.webp', alt: 'Kuchyňský ostrov z pískovce v tmavém interiéru', title: 'Kuchyňský ostrov', mat: 'Pískovec', sizes: '(max-width: 900px) 92vw, 48vw' },
+  { cls: 'w2', file: 'r-koupelna.webp', alt: 'Koupelna s břidlicovým obkladem a kamenným umyvadlem', title: 'Koupelna', mat: 'Břidlice, vápenec', sizes: '(max-width: 900px) 92vw, 40vw' },
+  { cls: 'w3', file: 'r-terasa.webp', alt: 'Terasa dlážděná světlým vápencem', title: 'Terasa', mat: 'Vápenec', sizes: '(max-width: 900px) 92vw, 48vw' },
+  { cls: 'w4', file: 'r-schody.webp', alt: 'Konzolové schodiště z žuly', title: 'Schodiště', mat: 'Žula', sizes: '(max-width: 900px) 92vw, 32vw' },
+  { cls: 'w5', file: 'r-krb.webp', alt: 'Krbová stěna z mramoru', title: 'Krbová stěna', mat: 'Mramor', sizes: '(max-width: 900px) 92vw, 32vw' },
+];
+---
+<section class="works light" id="realizace" aria-labelledby="works-h">
+  <div class="sec-head">
+    <div><span class="kicker">03 — Realizace</span><h2 id="works-h" data-reveal><span class="line"><span>Materiál, který</span></span><span class="line"><span>utváří prostor.</span></span></h2></div>
+    <p>Kuchyně, koupelny, schodiště i terasy. Ukázky toho, co z přírodního kamene vzniká.</p>
+  </div>
+  <div class="grid">
+    {works.map((w, i) => {
+      const src = img(w.file);
+      return (
+        <figure class={`work ${w.cls}`} data-reveal>
+          <div class="ph wipe"><Picture src={src} formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 800, 1280, src.width]} sizes={w.sizes} alt={w.alt} loading="lazy" decoding="async" /></div>
+          <figcaption><span class="num">R.{String(i + 1).padStart(2, '0')}</span><h3>{w.title}</h3><span class="mat">{w.mat}</span></figcaption>
+        </figure>
+      );
+    })}
+  </div>
+  <WorksRail />
+  <p class="note">Ukázky nahoře jsou ilustrační vizualizace, fotografie v pásu jsou z našich realizací.</p>
+</section>
+<div class="ticker" aria-hidden="true"><div class="ticker-track">{[0, 1].map(() => <span>Pískovec · Vápenec · Břidlice · Žula · Mramor · Andezit · Opuka · Porfyr · Travertin · </span>)}</div></div>

@@ -1,0 +1,58 @@
+---
+import StoryLayer from './StoryLayer.astro';
+import HeroPicture from './HeroPicture.astro';
+
+// pořadí = pořadí vykreslení (spodní vrstva první)
+const layers = [
+  { id: 'SHB', file: 'sh-block.webp', left: 21.4583, top: 48.0556, width: 57.5, height: 36.3426, hidden: true },
+  { id: 'SHT', file: 'sh-table.webp', left: 25.5469, top: 54.2593, width: 50.4687, height: 44.7685, hidden: true },
+  { id: 'L1', file: 'ly2-L1.webp', left: 24.5833, top: 31.6204, width: 51.3021, height: 45.9259 },
+  { id: 'L1sh', file: 'ly2-L1sh.webp', left: 25.1823, top: 31.5741, width: 49.8958, height: 25.5093, hidden: true },
+  { id: 'L3', file: 'ly6-L3.webp', left: 32.8646, top: 47.5463, width: 12.526, height: 37.7778 },
+  { id: 'L4', file: 'ly6-L4.webp', left: 56.7448, top: 37.2685, width: 11.4062, height: 33.4259 },
+  { id: 'L3s', file: 'ly6-L3s.webp', left: 32.8646, top: 47.5463, width: 12.526, height: 37.7778 },
+  { id: 'L4s', file: 'ly6-L4s.webp', left: 56.7448, top: 37.2685, width: 11.4062, height: 33.4259 },
+  { id: 'L2x', file: 'ly11-L2x.webp', left: 24.5052, top: 36.2963, width: 51.0417, height: 21.2037 },
+  { id: 'L2r', file: 'ly11-L2r.webp', left: 24.375, top: 27.7778, width: 51.7969, height: 25.7407 },
+  { id: 'L2t', file: 'ly11-L2t.webp', left: 24.6875, top: 27.8704, width: 50.8333, height: 25.6019 },
+  { id: 'L2f', file: 'ly11-L2f.webp', left: 24.6875, top: 27.7778, width: 50.8333, height: 25.7407, hidden: true },
+];
+
+const steps = [
+  { kicker: 'Kvádr', title: 'Surový kvádr', text: 'Všechno začíná blokem pískovce tak, jak se vylomil v lomu. Tvar mu dala příroda.' },
+  { kicker: 'Řez', title: 'Odřezek', text: 'Z kvádru oddělíme horní vrstvu. Pod hrubým povrchem se poprvé ukáže čistá plocha kamene.' },
+  { kicker: 'Deska', title: 'Kamenná deska', text: 'Odřezek zbrousíme na tloušťku desky a vršek vybrousíme do hladka. Hranu necháváme štípanou.' },
+  { kicker: 'Podnože', title: 'Dvě masivní podnože', text: 'Ze stejného pískovce vzniknou podnože, které ponesou celou váhu desky.' },
+  { kicker: 'Sestavení', title: 'Stůl na míru', text: 'Deska dosedne na podnože. Každý kus má vlastní kresbu, dva stejné stoly neexistují.' },
+  { kicker: 'Na místě', title: 'Do vašeho prostoru.', text: 'Hotový stůl na místě, pro které vznikl.', link: true },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section class="story" id="pribeh" aria-label="Od kvádru ke stolu">
+  <div class="stage">
+    <div class="studio" aria-hidden="true"></div>
+    <div class="lmove" id="lmove"><div class="lstage" id="lstage" aria-hidden="true">
+      {layers.map((l) => <StoryLayer {...l} />)}
+    </div></div>
+    <HeroPicture id="Lfin" class="finale" alt="" hidden />
+    <div class="film-shade" aria-hidden="true"></div>
+    <div class="s-ui">
+      <span class="kicker">02 — Od kvádru ke stolu</span>
+      <div class="s-num" aria-hidden="true"><span class="n"><span id="num">{steps.map((_, i) => <Fragment>{i > 0 && <br />}{pad(i + 1)}</Fragment>)}</span></span><span class="of">/ {pad(steps.length)}</span></div>
+      <div class="s-copy" aria-live="polite">
+        {steps.map((s, i) => (
+          <div class:list={['s-item', { on: i === 0 }]}>
+            <span class="kicker">{s.kicker}</span><h3>{s.title}</h3><p>{s.text}</p>
+            {s.link && <a class="line-link" href="#realizace">Další realizace<span aria-hidden="true">↗</span></a>}
+          </div>
+        ))}
+        <div class="ticks" aria-hidden="true">{steps.map(() => <i><b></b></i>)}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initStory } from '../scripts/story';
+  initStory();
+</script>

@@ -1,0 +1,14 @@
+---
+import { NAV, PHONE, TEL } from '../lib/site';
+---
+<div class="menu" id="menu" hidden>
+  <nav class="menu-links" aria-label="Menu">
+    {NAV.map((l, i) => (
+      <a href={l.href}><span class="line"><span><i>{String(i + 1).padStart(2, '0')}</i><b>{l.label}</b><em aria-hidden="true">↗</em></span></span></a>
+    ))}
+  </nav>
+  <div class="menu-contact">
+    <a class="mc-tel" href={TEL}>{PHONE}<em aria-hidden="true">↗</em></a>
+    <p>Dub nad Moravou<br />Z přírody. Do vašeho prostoru.</p>
+  </div>
+</div>

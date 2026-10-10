@@ -1,0 +1,94 @@
+---
+import { getImage } from 'astro:assets';
+import '../styles/base.css';
+import '../styles/intro.css';
+import '../styles/header.css';
+import '../styles/hero.css';
+import '../styles/process.css';
+import '../styles/story.css';
+import '../styles/works.css';
+import '../styles/materials.css';
+import '../styles/footer.css';
+import Intro from '../components/Intro.astro';
+import { heroSources, PORTRAIT_MEDIA, LANDSCAPE_MEDIA } from '../lib/hero';
+import { img } from '../lib/images';
+import { DESCRIPTION, SITE_NAME, TITLE, structuredData } from '../lib/seo';
+import { NOINDEX, asset } from '../lib/paths';
+import fontDisplayLatin from '../assets/fonts/smolik-display-latin.woff2?url';
+import fontDisplayExt from '../assets/fonts/smolik-display-ext.woff2?url';
+import fontSansLatin from '../assets/fonts/instrument-sans-latin.woff2?url';
+
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+const hero = await heroSources();
+// náhled pro sdílení (Facebook, WhatsApp, LinkedIn…) a obrázek firmy pro vyhledávače
+const og = await getImage({ src: img('hero7-d.webp'), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 82 });
+const ogUrl = new URL(og.src, site).href;
+const jsonLd = JSON.stringify(structuredData(site, ogUrl));
+---
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{TITLE}</title>
+  <meta name="description" content={DESCRIPTION} />
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content={NOINDEX ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+  <meta name="theme-color" content="#ece9e1" />
+
+  <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  <link rel="apple-touch-icon" href={asset('apple-touch-icon.png')} />
+  <link rel="manifest" href={asset('site.webmanifest')} />
+  <link rel="sitemap" href={asset('sitemap-index.xml')} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={SITE_NAME} />
+  <meta property="og:locale" content="cs_CZ" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:title" content={TITLE} />
+  <meta property="og:description" content={DESCRIPTION} />
+  <meta property="og:image" content={ogUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jídelní stůl z pískovce se štípanou hranou – Kamenictví Smolík" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preload" href={fontDisplayLatin} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontDisplayExt} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontSansLatin} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" type="image/avif" imagesrcset={hero.wide.avif} imagesizes="100vw" media={LANDSCAPE_MEDIA} fetchpriority="high" />
+  <link rel="preload" as="image" type="image/avif" imagesrcset={hero.tall.avif} imagesizes="100vw" media={PORTRAIT_MEDIA} fetchpriority="high" />
+
+  <script type="application/ld+json" set:html={jsonLd} />
+  <!-- .js = běží JavaScript; .intro-on = úvodní animace (jen první návštěva v relaci a ne při omezeném pohybu).
+       Pojistka: kdyby skript úvodu selhal, opona zmizí nejpozději za 6 s. -->
+  <script is:inline>
+    (function () {
+      var h = document.documentElement;
+      h.className += ' js';
+      try {
+        if (!sessionStorage.getItem('intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          h.classList.add('intro-on');
+          // během úvodu nescrollovat – bez overflow:hidden, aby po zvednutí opony nic neposkočilo;
+          // posluchače se po úvodu odeberou, aby nebrzdily plynulý scroll
+          var keys = { ' ': 1, PageDown: 1, PageUp: 1, ArrowDown: 1, ArrowUp: 1, Home: 1, End: 1 };
+          var types = ['wheel', 'touchmove', 'keydown'];
+          var stop = function (e) { if (e.type !== 'keydown' || keys[e.key]) e.preventDefault(); };
+          var off = function () {
+            h.classList.remove('intro-on');
+            types.forEach(function (t) { removeEventListener(t, stop, { passive: false }); });
+          };
+          types.forEach(function (t) { addEventListener(t, stop, { passive: false }); });
+          addEventListener('intro:done', off);
+          setTimeout(off, 6000);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <Intro />
+  <slot />
+</body>
+</html>

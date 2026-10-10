@@ -1,0 +1,16 @@
+---
+const steps = [
+  { title: 'Výběr', sub: 'Materiál', text: 'Kámen vybíráme podle barvy, kresby a místa, kam půjde.' },
+  { title: 'Opracování', sub: 'Výroba v dílně', text: 'Řez, broušení a ruční opracování hran v naší dílně.' },
+  { title: 'Osazení', sub: 'Montáž na místě', text: 'Hotový kus dovezeme a usadíme na místo.' },
+];
+---
+<section class="intro light" id="postup" aria-label="Jak pracujeme">
+  <div class="intro-top"><span class="kicker">01 — Postup</span><span class="kicker">Od výběru po osazení</span></div>
+  <h2 class="intro-h" data-reveal><span class="line"><span>Od výběru</span></span><span class="line l2"><span>po osazení.</span></span></h2>
+  <ol class="steps" data-reveal>
+    {steps.map((s, i) => (
+      <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{s.title}</h3><span class="sub">{s.sub}</span><p>{s.text}</p></li>
+    ))}
+  </ol>
+</section>

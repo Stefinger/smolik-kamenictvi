@@ -1,0 +1,26 @@
+---
+import Wordmark from './Wordmark.astro';
+import { EMAIL, MAPS, PHONE, TEL } from '../lib/site';
+---
+<section class="foot-b" id="kontakt" aria-labelledby="call-h">
+  <div class="sec-meta"><span class="kicker">05 — Kontakt</span><span class="kicker">Nejrychleji po telefonu</span></div>
+  <h2 class="fb-h" id="call-h" data-reveal><span class="line"><span>Váš prostor.</span></span><span class="line"><span>Náš další příběh.</span></span></h2>
+  <div class="fb-cols">
+    <div><span class="kicker">Telefon</span><a class="big" href={TEL}>{PHONE}</a></div>
+    <div><span class="kicker">Dílna</span><p>Sokolská 317<br />783 75 Dub nad Moravou</p><a class="arrow-link" href={MAPS} target="_blank" rel="noopener">Navigovat<span>↗</span></a></div>
+    <div><span class="kicker">E-mail</span><a href={`mailto:${EMAIL}`}>{EMAIL}</a></div>
+    <div><span class="kicker">Materiál</span><p>Probereme kámen, povrch i formát. Vzorky si prohlédnete u nás.</p></div>
+  </div>
+  <div class="fb-bottom"><span>© 2026 Kamenictví Smolík</span><span id="live">Dub nad Moravou · <time></time></span><a href="#hero">Nahoru ↑</a></div>
+  <div class="fb-mark" aria-hidden="true"><Wordmark class="wmk fb-wmk" /></div>
+</section>
+
+<script>
+  /* místní čas dílny (Europe/Prague) */
+  const live = document.querySelector('#live time');
+  const tick = () => {
+    if (live) live.textContent = new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Prague' });
+  };
+  tick();
+  setInterval(tick, 30000);
+</script>
