@@ -44,6 +44,11 @@ export function initNav() {
   addEventListener('resize', onScroll);
   onScroll();
 
+  /* otevřená klávesnice (fokus v textovém poli) → schovat plovoucí „Zavolat“ */
+  const isField = (el: EventTarget | null) => el instanceof HTMLElement && el.matches('input, textarea, select, [contenteditable]');
+  addEventListener('focusin', (e) => { if (isField(e.target)) document.documentElement.classList.add('kb-open'); });
+  addEventListener('focusout', (e) => { if (isField(e.target)) document.documentElement.classList.remove('kb-open'); });
+
   /* aktivní odkaz v navigaci */
   const links = [...document.querySelectorAll<HTMLAnchorElement>('.top .nav a')];
   const secs = ['hero', 'postup', 'pribeh', 'realizace', 'materialy', 'kontakt']

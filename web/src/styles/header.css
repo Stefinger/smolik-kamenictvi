@@ -86,15 +86,18 @@ body.menu-open{overflow:hidden}
   .top .logo .mark{height:26px}
   .top .logo .desc{display:none}
   .top .pill{width:44px;height:44px;padding:0;justify-content:center}
-  .top .pill span{display:none}
+  /* číslo jen skrýt vizuálně, ne display:none – Safari na iOS jinak bere odkaz na hovor bez čísla jako „automatický hovor“ */
+  .top .pill span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .burger{display:block}
   .menu-links a .line>span{padding:18px 0}
   /* plovoucí tlačítko nad spodní lištou prohlížeče (k iOS 26 sedí lépe než pruh přes celou šířku) */
   .callbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:48;justify-content:center;align-items:center;gap:12px;height:52px;
-    border-radius:999px;background:var(--ink);color:var(--bone);font-size:15px;box-shadow:0 10px 30px -10px rgba(27,25,22,.55),0 0 0 1px rgba(236,233,225,.08);
+    border-radius:999px;background:var(--ink);color:var(--bone);font-size:15px;
     transform:translateY(calc(100% + 60px));opacity:0;visibility:hidden;transition:transform .5s var(--ease-out),opacity .3s,visibility 0s .5s}
   .callbar b{font-family:var(--serif);font-weight:600;letter-spacing:.02em;font-variant-numeric:tabular-nums}
   .callbar.show{transform:none;opacity:1;visibility:visible;transition:transform .5s var(--ease-out),opacity .2s}
+  /* při otevřené klávesnici (hledání dekoru) tlačítko nepřekáží */
+  html.kb-open .callbar{transform:translateY(calc(100% + 60px));opacity:0;visibility:hidden}
 }
 
 @media(prefers-reduced-motion:reduce){

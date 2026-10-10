@@ -1,7 +1,7 @@
 ---
 import { Picture, getImage } from 'astro:assets';
 import { img } from '../lib/images';
-import { TEL } from '../lib/site';
+import { PHONE, TEL } from '../lib/site';
 import data from '../data/materialy.json';
 import MaterialDialog from './MaterialDialog.astro';
 
@@ -64,7 +64,7 @@ const tabs = [
                 <div class="cat-info">
                   <p class="lead">{m.description}</p>
                   <dl class="cat-facts">{m.facts.map(([dt, dd]) => <div><dt>{dt}</dt><dd>{dd}</dd></div>)}</dl>
-                  <a class="line-link" href={TEL}>Zeptat se na {m.accusative}<span aria-hidden="true">↗</span></a>
+                  <a class="line-link" href={TEL}>Zeptat se na {m.accusative}<span class="sr-only"> {PHONE}</span><span aria-hidden="true">↗</span></a>
                 </div>
               </div>
             </details>
@@ -78,8 +78,8 @@ const tabs = [
       <p class="cat-lead">Lehký obkladový kámen VASPO. Pokládá se beze spár a díky krajovým dílům působí jako přírodní zdivo – na krbu, barovém pultu, terase i fasádě chaty. Prohlédněte si kolekce a jejich odstíny.</p>
       <div class="filter-bar">
         <div class="filters" role="group" aria-label="Kolekce umělého kamene">
-          <button type="button" data-group="-1" aria-pressed="true">Vše</button>
-          {data.artificial.map((c, i) => <button type="button" data-group={i} aria-pressed="false">{c.name}<sup>{c.items.length}</sup></button>)}
+          <button type="button" data-group="-1" aria-pressed="true"><span class="f-t">Vše</span></button>
+          {data.artificial.map((c, i) => <button type="button" data-group={i} aria-pressed="false"><span class="f-t">{c.name}</span><sup>{c.items.length}</sup></button>)}
         </div>
         <label class="search"><span class="sr-only">Hledat dekor nebo odstín</span><input type="search" id="decor-search" placeholder="Hledat dekor nebo odstín" autocomplete="off" /><span aria-hidden="true">⌕</span></label>
       </div>
@@ -104,7 +104,7 @@ const tabs = [
 
     <div class="make">
       <h3>Z vybraného kamene vyrobíme desku, obklad, dlažbu i nábytek na míru.</h3>
-      <a class="line-link" href={TEL}>Probrat zakázku<span aria-hidden="true">↗</span></a>
+      <a class="line-link" href={TEL}>Probrat zakázku<span class="sr-only"> {PHONE}</span><span aria-hidden="true">↗</span></a>
     </div>
   </div>
   <MaterialDialog />
