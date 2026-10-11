@@ -20,11 +20,9 @@
 .lg3-mark{display:block;width:auto;height:34px;flex:none}
 .lg3-t,.lg4-t{display:flex;flex-direction:column;gap:7px}
 
-/* 4 Kamenická značka: rytý znak v kruhu */
-.lg4{gap:12px}
-.lg4-mark{width:32px;height:32px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter}
-.lg4-mark circle{stroke-width:1.1;opacity:.55}
-.lg4 .lg-w{letter-spacing:.14em}
+/* 4 Původní logo bez popisku: značka + nápis SMOLÍK svisle na střed značky (styly .mark/.wmk z header.css) */
+.top .lg4{gap:14px}
+.top .lg4-wmk{height:14px}
 
 @media(max-width:900px){
   .lg .lg-d,.lg2-rule{display:none}
@@ -32,5 +30,6 @@
   .lg-w{font-size:15px}
   .lg2 .lg-w{font-size:15px}
   .lg3-mark{height:30px}
-  .lg4-mark{width:28px;height:28px}
+  .top .lg4{gap:12px}
+  .top .lg4-wmk{height:13px}
 }
