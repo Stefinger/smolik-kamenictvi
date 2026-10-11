@@ -46,9 +46,8 @@
 .hm.is-in h1 .w>span{transform:none;letter-spacing:-.035em;opacity:1;
   transition:transform 1.5s var(--ease),letter-spacing 2.2s var(--ease),opacity .6s ease;transition-delay:var(--d)}
 .hm-p{margin-top:1.2rem;font-size:15px;line-height:1.55;max-width:26rem;color:rgba(40,40,35,.74)}
-.hm .hm-cta{flex:none;background:#282823;color:var(--bone);gap:.9rem}
-.hm .hm-cta span{transition:transform .4s var(--ease-q)}
-@media(hover:hover){.hm .hm-cta:hover{background:#111}.hm .hm-cta:hover span{transform:translateX(4px)}}
+.hm .hm-cta{flex:none;background:transparent;color:#282823}
+@media(hover:hover){.hm .hm-cta:hover{background:rgba(40,40,35,.08)}}
 .js .hm-p,.js .hm-cta{opacity:0;transform:translateY(8px)}
 .hm.is-in .hm-p,.hm.is-in .hm-cta{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease),background-color .3s}
 
@@ -68,7 +67,8 @@
 /* bez „přišpendlení“: sekce je vysoká jen na obrazovku, rozestoupení jména běží při odjíždění hero (monolit.ts) */
 @media(orientation:portrait){
   .hm{height:100lvh}
-  .hm-stage{display:flex;flex-direction:column;padding:calc(var(--safe-top) + 92px) 0 calc(var(--bars) + 30px)}
+  /* nahoře vzduch pod hlavičkou (~70 px), kompozice sedí dole u spodní lišty prohlížeče */
+  .hm-stage{display:flex;flex-direction:column;padding:calc(var(--safe-top) + 138px) 0 calc(var(--bars) + 22px)}
   /* plocha vyplní, co zbude mezi hlavičkou a textem; kámen max. 56 % šířky */
   .hm-area{position:relative;inset:auto;flex:1 1 auto;min-height:0;--sh:min(calc(100cqh - 6cqw),calc(56cqw / var(--ar)))}
   .hm-word{display:flex;justify-content:center;column-gap:0;top:auto;bottom:calc(var(--sh) - .42em);transform:none;font-size:17cqw}
@@ -78,9 +78,9 @@
   .hm-p{margin-top:1rem;max-width:34rem}
 }
 /* tablety na výšku: velké jméno potřebuje víc místa pod hlavičkou */
-@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 128px);padding-bottom:calc(var(--bars) + 5lvh)}}
+@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 170px);padding-bottom:calc(var(--bars) + 5lvh)}}
 /* nízké telefony (SE, mini): bez odstavce, ať zbude místo pro kámen */
-@media(orientation:portrait) and (max-height:700px){.hm-p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 80px)}}
+@media(orientation:portrait) and (max-height:700px){.hm-p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 116px)}}
 
 /* ---------- telefon na šířku: text a tlačítko vlevo, kámen se jménem vpravo ---------- */
 @media(orientation:landscape) and (max-height:520px){
