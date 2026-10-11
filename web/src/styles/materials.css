@@ -55,10 +55,17 @@
 .materials .cat-exp{display:grid;grid-template-columns:1.05fr 1fr;gap:6vw;padding:14px 85px 48px;align-items:start}
 .materials .cat-gal .main{aspect-ratio:1.6;width:100%;height:auto;object-fit:cover}
 .materials .lead{font-size:17px;margin-bottom:6px;max-width:34em}
-.materials .cat-facts{display:grid;grid-template-columns:auto 1fr;gap:12px 30px;margin:22px 0 10px;font-size:14.5px}
+/* detail přírodního kamene: jasná hierarchie – popis, přehledná tabulka faktů, výrazné tlačítko */
+.materials .cat-info{display:flex;flex-direction:column;font-family:var(--sans)}
+.materials .cat-info .lead{font-size:18px;line-height:1.55;color:var(--ink);max-width:32em;margin:0}
+.materials .cat-facts{display:grid;grid-template-columns:minmax(104px,max-content) 1fr;margin:28px 0 0;border-top:1px solid var(--line-l)}
 .materials .cat-facts div{display:contents}
-.materials .cat-facts dt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.5;padding-top:3px}
-.materials .cat-facts dd{margin:0}
+.materials .cat-facts dt,.materials .cat-facts dd{padding:14px 0 13px;border-bottom:1px solid var(--line-l)}
+.materials .cat-facts dt{font-size:10.5px;line-height:1.9;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-l)}
+.materials .cat-facts dd{margin:0;padding-left:24px;font-size:15px;font-weight:500;line-height:1.45;color:var(--ink)}
+.materials .cat-info .line-link{align-self:flex-start;margin:28px 0 0;padding:0 22px;height:48px;gap:14px;border:0;border-radius:999px;
+  background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:15px;font-weight:500;transition:background .3s}
+@media(hover:hover){.materials .cat-info .line-link:hover{background:var(--rez)}}
 
 /* 02 umělý kámen: filtry, hledání, mřížka */
 .materials .filter-bar{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line-l)}
@@ -136,6 +143,10 @@
   .materials summary h3{font-size:clamp(21px,6.6vw,30px);letter-spacing:-.025em}
   .materials .cat-exp{grid-template-columns:1fr;gap:22px;padding:4px 0 36px}
   .materials .lead{font-size:16px}
+  .materials .cat-info .lead{font-size:16.5px}
+  .materials .cat-facts{grid-template-columns:92px 1fr;margin-top:22px}
+  .materials .cat-facts dd{padding-left:14px}
+  .materials .cat-info .line-link{margin-top:22px}
   .materials .filter-bar{gap:1rem}
   .materials .search{width:100%}
   .materials .decor-grid{grid-template-columns:repeat(2,1fr);gap:22px 14px}
