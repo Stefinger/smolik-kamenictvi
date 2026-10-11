@@ -1,0 +1,22 @@
+---
+/** Varianta 1 „Monolit“: osamělý kvádr travertinu jako socha v galerii, jméno SMOLÍK se rozestupuje kolem něj. */
+import HxPic from './HxPic.astro';
+import HxCtas from './HxCtas.astro';
+---
+<section class="hx hm" id="hero" aria-label="Úvod">
+  <div class="hx-stage">
+    <div class="hm-word" aria-hidden="true"><span class="hm-a"><i>SMO</i></span><span class="hm-b"><i>LÍK</i></span></div>
+    <div class="hm-stone">
+      <div class="hm-in">
+        <span class="hm-shadow" aria-hidden="true"></span>
+        <HxPic wide="monolit-m-kamen.webp" id="heroImg" priority class="hm-pic" sizes="(orientation: portrait) 40vw, 28vh"
+          widths={[240, 360, 549]} alt="Monolit z travertinu se štípanými hranami" />
+      </div>
+    </div>
+    <p class="hm-kick hx-fade">Kamenictví<span>·</span>Dub nad Moravou</p>
+    <div class="hm-foot hx-fade">
+      <h1 class="hm-h1">Přírodní kámen.<br />Ručně a přesně na míru.</h1>
+      <HxCtas />
+    </div>
+  </div>
+</section>

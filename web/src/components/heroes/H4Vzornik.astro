@@ -1,0 +1,32 @@
+---
+/** Varianta 4 „Vzorník“: pět desek kamene jako ve showroomu, najetím (na telefonu samy) se rozevírají. */
+import HxPic from './HxPic.astro';
+import HxCtas from './HxCtas.astro';
+const stones = [
+  { name: 'Mramor', tag: 'Kresba / kontrast', img: 'vz-mramor.webp' },
+  { name: 'Žula', tag: 'Krystalická / zrnitá', img: 'vz-zula.webp' },
+  { name: 'Pískovec', tag: 'Teplý / vrstevnatý', img: 'vz-piskovec.webp' },
+  { name: 'Břidlice', tag: 'Tmavá / strukturovaná', img: 'vz-bridlice.webp' },
+  { name: 'Vápenec', tag: 'Světlý / klidný', img: 'vz-vapenec.webp' },
+];
+---
+<section class="hx hv" id="hero" aria-label="Úvod">
+  <div class="hv-intro hx-fade">
+    <p class="hv-kick">Kamenictví Smolík · Dub nad Moravou</p>
+    <h1 class="hv-h1">Kámen,<br />který vás<br />přežije.</h1>
+    <p class="hv-p">Každá deska je originál. Vyberte si kresbu, barvu i povrch, zbytek uděláme v dílně.</p>
+    <HxCtas />
+  </div>
+  <ul class="hv-panels" aria-label="Druhy kamene">
+    {stones.map((s, i) => (
+      <li class:list={['hv-panel', { 'is-on': i === 0 }]} style={`--i:${i}`}>
+        <a href="#materialy">
+          <HxPic wide={s.img} id={i === 0 ? 'heroImg' : undefined} priority={i < 2} class="hv-pic"
+            sizes="(orientation: portrait) 100vw, 40vw" widths={[480, 800, 1200]} />
+          <span class="hv-num" aria-hidden="true">0{i + 1}</span>
+          <span class="hv-label"><b>{s.name}</b><em>{s.tag}</em></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,10 @@
+---
+/** DOČASNÉ (varianty hero): tlačítka. Na telefonu volá plovoucí „Zavolat“ dole, tady zůstane jen „Vybrat kámen“. */
+import { PHONE, TEL } from '../../lib/site';
+interface Props { tone?: 'light' | 'dark'; class?: string }
+const { tone = 'light', class: cls } = Astro.props;
+---
+<div class:list={['hx-ctas', `hx-ctas--${tone}`, cls]}>
+  <a class="hx-btn hx-btn--call" href={TEL}>Zavolat <em>{PHONE}</em></a>
+  <a class="hx-btn hx-btn--ghost" href="#materialy">Vybrat kámen<span aria-hidden="true">→</span></a>
+</div>

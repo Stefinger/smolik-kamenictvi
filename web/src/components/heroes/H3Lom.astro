@@ -1,0 +1,23 @@
+---
+/** Varianta 3 „Lom“: letecký pohled do lomu jako grafika, kamera se scrollem „sestupuje“. */
+import HxPic from './HxPic.astro';
+import HxCtas from './HxCtas.astro';
+---
+<section class="hx hl" id="hero" aria-label="Úvod">
+  <div class="hx-stage">
+    <div class="hl-photo"><div class="hl-zoom">
+      <HxPic wide="lom-d.webp" tall="lom-m.webp" id="heroImg" priority alt="Lom na světlý vápenec shora, terasy a vylámané bloky kamene" />
+    </div></div>
+    <div class="hl-veil" aria-hidden="true"></div>
+    <div class="hl-cross" aria-hidden="true"><i></i><i></i></div>
+    <h1 class="hl-h1" aria-label="Z lomu až k vám">
+      <span class="hl-a" aria-hidden="true"><span>Z lomu</span></span>
+      <span class="hl-b" aria-hidden="true"><span>až k vám</span></span>
+    </h1>
+    <div class="hl-meta hx-fade" aria-hidden="true"><span>49°29′ N</span><span>17°17′ E</span></div>
+    <div class="hl-foot hx-fade">
+      <p>Kamenictví Smolík, Dub nad Moravou. Přírodní kámen od výběru bloku po osazení u vás doma.</p>
+      <HxCtas />
+    </div>
+  </div>
+</section>

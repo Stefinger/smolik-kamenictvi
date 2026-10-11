@@ -23,8 +23,12 @@ interface Props {
   variant?: HeroVariant;
   /** varianta pro porovnání: neindexovat, kanonická adresa je hlavní stránka */
   alternate?: boolean;
+  /** false = hero fotku nepřednačítat (stránka si vlastní přednačte ve slotu „head“) */
+  preloadHero?: boolean;
+  /** 'always' = plovoucí „Zavolat“ na telefonu vidět hned od začátku stránky */
+  callbar?: 'always';
 }
-const { variant = 'light', alternate = false } = Astro.props;
+const { variant = 'light', alternate = false, preloadHero = true, callbar } = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(alternate ? asset('') : Astro.url.pathname, site).href;
 const hero = await heroSources(variant);
@@ -70,8 +74,9 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <link rel="preload" href={fontDisplayLatin} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontDisplayExt} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontSansLatin} as="font" type="font/woff2" crossorigin />
-  <link rel="preload" as="image" type="image/avif" imagesrcset={hero.wide.avif} imagesizes="100vw" media={hero.tall ? LANDSCAPE_MEDIA : undefined} fetchpriority="high" />
-  {hero.tall && <link rel="preload" as="image" type="image/avif" imagesrcset={hero.tall.avif} imagesizes="100vw" media={PORTRAIT_MEDIA} fetchpriority="high" />}
+  {preloadHero && <link rel="preload" as="image" type="image/avif" imagesrcset={hero.wide.avif} imagesizes="100vw" media={hero.tall ? LANDSCAPE_MEDIA : undefined} fetchpriority="high" />}
+  {preloadHero && hero.tall && <link rel="preload" as="image" type="image/avif" imagesrcset={hero.tall.avif} imagesizes="100vw" media={PORTRAIT_MEDIA} fetchpriority="high" />}
+  <slot name="head" />
 
   <script type="application/ld+json" set:html={jsonLd} />
   <!-- .js = běží JavaScript; .intro-on = úvodní animace (jen první návštěva v relaci a ne při omezeném pohybu).
@@ -100,7 +105,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
     })();
   </script>
 </head>
-<body>
+<body data-callbar={callbar}>
   <Intro />
   <slot />
 </body>

@@ -8,7 +8,7 @@ export function initNav() {
   const callbar = document.getElementById('callbar');
   const hero = document.getElementById('hero');
   const kontakt = document.getElementById('kontakt');
-  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark, .hx--dark')];
+  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark, .hx--dark, .hx-dyn')];
   const body = document.body;
   let last = 0;
 
@@ -26,7 +26,11 @@ export function initNav() {
 
     let dark = false;
     const hb = top.offsetHeight; // včetně výřezu iPhonu
-    darkSecs.forEach((s) => { const r = s.getBoundingClientRect(); if (r.top <= hb && r.bottom > hb) dark = true; });
+    darkSecs.forEach((s) => {
+      // .hx-dyn = sekce, která tmavne až během scrollu (pozná se podle .is-dark)
+      if (s.classList.contains('hx-dyn') && !s.classList.contains('is-dark')) return;
+      const r = s.getBoundingClientRect(); if (r.top <= hb && r.bottom > hb) dark = true;
+    });
     top.classList.toggle('is-dark', dark);
 
     // u patičky tmavé pozadí stránky – Safari na iOS 26 jím vyplní i místo pod spodní lištou
@@ -37,7 +41,9 @@ export function initNav() {
       let hide = false;
       // v Příběhu tlačítko zůstává (texty mají místo), schová se jen u kontaktu – tam je číslo velké
       [kontakt].forEach((s) => { if (!s) return; const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) hide = true; });
-      callbar.classList.toggle('show', y > innerHeight * 0.7 && !hide && !body.classList.contains('menu-open'));
+      // data-callbar="always" (varianty hero): tlačítko je vidět hned od začátku
+      const early = body.dataset.callbar === 'always';
+      callbar.classList.toggle('show', (early || y > innerHeight * 0.7) && !hide && !body.classList.contains('menu-open'));
     }
   }
   addEventListener('scroll', onScroll, { passive: true });

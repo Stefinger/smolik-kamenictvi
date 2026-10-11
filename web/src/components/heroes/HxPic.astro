@@ -1,0 +1,19 @@
+---
+/** DOČASNÉ (varianty hero): <picture> s AVIF/WebP, volitelně portrét pro telefon. */
+import { hxSources, PORTRAIT_MEDIA } from '../../lib/hx';
+
+interface Props {
+  wide: string; tall?: string; alt?: string; id?: string; class?: string; priority?: boolean;
+  sizes?: string; tallSizes?: string; widths?: number[]; tallWidths?: number[];
+}
+const { wide, tall, alt = '', id, class: cls, priority = false, sizes = '100vw', tallSizes, widths, tallWidths } = Astro.props;
+const s = await hxSources(wide, tall, widths, tallWidths);
+---
+<picture class={cls}>
+  {s.tall && <source media={PORTRAIT_MEDIA} type="image/avif" srcset={s.tall.avif} sizes={tallSizes ?? sizes} />}
+  {s.tall && <source media={PORTRAIT_MEDIA} type="image/webp" srcset={s.tall.webp} sizes={tallSizes ?? sizes} />}
+  <source type="image/avif" srcset={s.wide.avif} sizes={sizes} />
+  <img id={id} src={s.wide.src} srcset={s.wide.webp} sizes={sizes} width={s.wide.width} height={s.wide.height} alt={alt}
+    aria-hidden={alt ? undefined : 'true'} fetchpriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'}
+    decoding={priority ? undefined : 'async'} />
+</picture>
