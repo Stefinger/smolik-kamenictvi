@@ -65,7 +65,6 @@
 .menu-links a i{font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.1em;vertical-align:top;color:var(--muted-l)}
 .menu-links a b{font-weight:400}
 .menu-links a em{font-style:normal;font-size:1.2rem;transition:transform .4s var(--ease-q)}
-.menu-links a:hover em{transform:translate(3px,-3px)}
 .menu-links a .line>span{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:12px;padding:22px 0}
 /* odkazy a kontakt: při otevření postupně vyplují (průhlednost + malý posun), při zavření zmizí najednou a rychle */
 .menu-links a,.menu-contact>*{opacity:0;transform:translateY(14px);transition:opacity .15s ease,transform .15s ease}
@@ -77,6 +76,7 @@
 .menu.is-open .menu-contact>*{transition-delay:.36s}
 /* řádky odkazů se v menu neodkrývají maskou (.line z reveal), animuje se celý odkaz */
 .menu-links .line>span{transform:none;transition:none}
+.menu-photo{display:none}
 .menu-links{transition:border-color .3s}
 .menu:not(.is-open) .menu-links{border-top-color:transparent}
 .menu-contact{padding-top:40px;font-size:15px}

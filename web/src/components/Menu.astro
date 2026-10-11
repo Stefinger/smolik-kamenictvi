@@ -1,7 +1,13 @@
 ---
+import { getImage } from 'astro:assets';
 import { NAV, PHONE, TEL } from '../lib/site';
+import { img } from '../lib/images';
+
+// fotka v menu (jen varianta 3 – „šuplík s fotkou“); malá, načte se až při otevření
+const photo = await getImage({ src: img('hero7-d.webp'), width: 900, format: 'webp' });
 ---
 <div class="menu" id="menu" hidden>
+  <div class="menu-photo" aria-hidden="true"><img src={photo.src} alt="" width="900" height="506" loading="lazy" decoding="async" /></div>
   <nav class="menu-links" aria-label="Menu">
     {NAV.map((l, i) => (
       <a href={l.href}><span class="line"><span><i>{String(i + 1).padStart(2, '0')}</i><b>{l.label}</b><em aria-hidden="true">↗</em></span></span></a>

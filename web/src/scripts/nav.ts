@@ -86,4 +86,10 @@ export function initNav() {
   burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') setMenu(false); });
+  // klepnutí mimo menu ho zavře (u menu přes celou obrazovku se nestane, u menu jako karty ano)
+  addEventListener('click', (e) => {
+    if (burger.getAttribute('aria-expanded') !== 'true') return;
+    const t = e.target as Node;
+    if (!menu.contains(t) && !burger.contains(t)) setMenu(false);
+  });
 }
