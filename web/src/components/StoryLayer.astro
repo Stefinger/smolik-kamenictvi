@@ -2,7 +2,8 @@
 import { getImage } from 'astro:assets';
 import { img } from '../lib/images';
 
-/** Průhledná vrstva příběhu. Poloha je v procentech plátna 16:9 (čte ji i story.ts). */
+/** Průhledná vrstva příběhu. Poloha je v procentech plátna 16:9 (čte ji i story.ts).
+ *  fetchpriority=low: Příběh je hned pod hero, vrstvy by jinak na pomalé síti zdržely fotku v hero. */
 interface Props { id: string; file: string; left: number; top: number; width: number; height: number; hidden?: boolean }
 const { id, file, left, top, width, height, hidden = false } = Astro.props;
 const src = img(file);
@@ -17,5 +18,5 @@ const style = `left:${left.toFixed(4)}%;top:${top.toFixed(4)}%;width:${width.toF
 ---
 <picture>
   <source type="image/avif" srcset={avif.srcSet.attribute} sizes={sizes} />
-  <img class="ly" id={id} src={webp.src} srcset={webp.srcSet.attribute} sizes={sizes} alt="" style={style} decoding="async" loading="lazy" />
+  <img class="ly" id={id} src={webp.src} srcset={webp.srcSet.attribute} sizes={sizes} alt="" style={style} decoding="async" loading="lazy" fetchpriority="low" />
 </picture>
