@@ -2,16 +2,16 @@
 import { Picture } from 'astro:assets';
 import { img } from '../lib/images';
 
-// skutečné realizace (2200 px; 4K originály má klient mimo repozitář)
+// skutečné realizace v pořadí, jak je chce klient (2200 px; 4K originály má klient mimo repozitář)
 const photos = [
-  { file: 'real-01-fasada.webp', alt: 'Fasáda s obkladem z lámaného přírodního kamene a dřevěnými policemi' },
-  { file: 'real-02-umyvadlo.webp', alt: 'Kuchyňské umyvadlo z travertinu v dubové lince' },
   { file: 'real-03-dum.webp', alt: 'Dům s fasádou z travertinových desek' },
-  { file: 'real-04-garaz.webp', alt: 'Garáž a kryté stání obložené travertinem' },
   { file: 'real-05-roh.webp', alt: 'Nároží domu s travertinovou fasádou' },
+  { file: 'real-04-garaz.webp', alt: 'Garáž a kryté stání obložené travertinem' },
   { file: 'real-07-kavarna.webp', alt: 'Kavárenské stolky z lámaného křemence' },
   { file: 'real-08-ostrov.webp', alt: 'Kuchyňský ostrov ze světlé žuly' },
+  { file: 'real-01-fasada.webp', alt: 'Fasáda s obkladem z lámaného přírodního kamene a dřevěnými policemi' },
   { file: 'real-10-showroom.webp', alt: 'Kuchyňská linka s pracovní deskou a dřezem z křemence', tall: true },
+  { file: 'real-02-umyvadlo.webp', alt: 'Kuchyňské umyvadlo z travertinu v dubové lince' },
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
