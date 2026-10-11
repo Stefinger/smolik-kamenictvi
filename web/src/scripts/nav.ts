@@ -7,7 +7,6 @@ export function initNav() {
   const prog = document.querySelector<HTMLElement>('.progress');
   const callbar = document.getElementById('callbar');
   const hero = document.getElementById('hero');
-  const story = document.getElementById('pribeh');
   const kontakt = document.getElementById('kontakt');
   const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark')];
   const body = document.body;
@@ -36,7 +35,8 @@ export function initNav() {
 
     if (callbar && hero) {
       let hide = false;
-      [story, kontakt].forEach((s) => { if (!s) return; const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) hide = true; });
+      // v Příběhu tlačítko zůstává (texty mají místo), schová se jen u kontaktu – tam je číslo velké
+      [kontakt].forEach((s) => { if (!s) return; const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) hide = true; });
       callbar.classList.toggle('show', y > innerHeight * 0.7 && !hide && !body.classList.contains('menu-open'));
     }
   }

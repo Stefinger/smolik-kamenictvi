@@ -142,6 +142,8 @@
   .materials .lead{font-size:16px}
   .materials .filter-bar{gap:1rem}
   .materials .search{width:100%}
+  /* 16 px: iPhone pak při klepnutí do pole stránku nepřiblíží (a po zavření klávesnice nezůstane oříznutá) */
+  .materials .search input{font-size:16px}
   .materials .decor-grid{grid-template-columns:repeat(2,1fr);gap:22px 14px}
   .materials .result-line{flex-direction:column;gap:6px}
   .materials .fmt-wrap{overflow:visible}
