@@ -9,7 +9,6 @@ import '../styles/story.css';
 import '../styles/works.css';
 import '../styles/materials.css';
 import '../styles/footer.css';
-import '../styles/variants.css'; // DOČASNÉ – výběr animací
 import Intro from '../components/Intro.astro';
 import { heroSources, PORTRAIT_MEDIA, LANDSCAPE_MEDIA, type HeroVariant } from '../lib/hero';
 import { DESCRIPTION, SHARE_TITLE, SITE_NAME, TITLE, structuredData } from '../lib/seo';
@@ -81,13 +80,6 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
     (function () {
       var h = document.documentElement;
       h.className += ' js';
-      // DOČASNÉ – výběr konceptu menu + fotek: ?varianta=1|2|3 (drží se v relaci, ?varianta=0 = současná podoba)
-      try {
-        var v = new URLSearchParams(location.search).get('varianta');
-        if (v !== null) sessionStorage.setItem('varianta', v);
-        v = sessionStorage.getItem('varianta');
-        if (v && /^[123]$/.test(v)) h.setAttribute('data-v', v);
-      } catch (e) {}
       try {
         if (!sessionStorage.getItem('intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
           h.classList.add('intro-on');

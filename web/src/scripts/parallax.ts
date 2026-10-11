@@ -1,8 +1,8 @@
 import { RM, clamp, onScrollFrame } from './util';
 
-/** Varianta 1: fotky v Realizacích se při scrollu v rámečku jemně posouvají (paralaxa). */
+/** Fotky v Realizacích se při scrollu v rámečku jemně posouvají (paralaxa). */
 export function initParallax() {
-  if (document.documentElement.dataset.v !== '1' || RM) return;
+  if (RM) return;
   const visible = new Set<HTMLElement>();
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     const el = e.target as HTMLElement;
