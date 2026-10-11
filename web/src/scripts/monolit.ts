@@ -21,7 +21,9 @@ export function initMonolit() {
     if (cur !== target) raf = requestAnimationFrame(tick);
   };
   const kick = () => {
-    const range = hero.offsetHeight - innerHeight;
+    // bez přišpendlení (na výšku) běží pohyb během odjíždění hero: 0 → 1 za 70 % výšky obrazovky
+    let range = hero.offsetHeight - innerHeight;
+    if (range < 50) range = innerHeight * 0.7;
     target = range > 0 ? clamp(-hero.getBoundingClientRect().top / range, 0, 1) : 0;
     if (!raf) raf = requestAnimationFrame(tick);
   };

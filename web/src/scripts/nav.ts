@@ -37,9 +37,9 @@ export function initNav() {
       let hide = false;
       // v Příběhu tlačítko zůstává (texty mají místo), schová se jen u kontaktu – tam je číslo velké
       [kontakt].forEach((s) => { if (!s) return; const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) hide = true; });
-      // data-callbar="always": tlačítko je vidět hned od začátku (hero „Monolit“ volání na telefonu nemá)
-      const early = body.dataset.callbar === 'always';
-      callbar.classList.toggle('show', (early || y > innerHeight * 0.7) && !hide && !body.classList.contains('menu-open'));
+      // až mimo hero (zbývá z něj méně než třetina obrazovky)
+      const past = hero.getBoundingClientRect().bottom < innerHeight * 0.3;
+      callbar.classList.toggle('show', past && !hide && !body.classList.contains('menu-open'));
     }
   }
   addEventListener('scroll', onScroll, { passive: true });

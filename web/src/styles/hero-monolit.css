@@ -1,6 +1,6 @@
 /* ==========================================================================
    Hero „Monolit“ (#hero.hm): kvádr travertinu uprostřed, jméno SMO | LÍK kolem něj, nadpis vlevo dole.
-   Scéna je sticky (150lvh sekce = půl obrazovky scrollu s pohybem). Proměnné z monolit.ts:
+   Na šířku je scéna sticky (150lvh sekce = půl obrazovky scrollu s pohybem), na výšku bez přišpendlení. Proměnné z monolit.ts:
    --p = postup scrollu 0–1, --mx/--my = poloha myši −1…1. --ar = poměr stran kamene (šířka/výška, z Hero.astro).
    Velikost kamene i jména se odvozuje od plochy .hm-area (container query jednotky), takže sedí na každém poměru stran.
    ========================================================================== */
@@ -34,8 +34,10 @@
 .hm-a{transform:translate3d(calc(var(--p,0) * -16vw + var(--mx,0) * 14px),calc(var(--my,0) * 6px),0);opacity:calc(1 - var(--p,0) * 1.1)}
 .hm-b{transform:translate3d(calc(var(--p,0) * 16vw + var(--mx,0) * 14px),calc(var(--my,0) * 6px),0);opacity:calc(1 - var(--p,0) * 1.1)}
 
-/* nadpis, text a tlačítka (texty a nástup po slovech jako v původním hero) */
-.hm-copy{position:absolute;z-index:3;left:var(--gut);bottom:calc(var(--bars) + 8lvh);width:min(34vw,470px)}
+/* text vlevo (nadpis po slovech jako v původním hero), vpravo jediné tlačítko; obojí na jedné spodní lince s patou kamene */
+.hm-copy{position:absolute;z-index:3;left:var(--gut);right:var(--gut);bottom:calc(var(--bars) + 8lvh);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;pointer-events:none}
+.hm-text{width:min(34vw,470px)}
+.hm-text,.hm-cta{pointer-events:auto}
 .hm h1{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(1.7rem,2.7vw,3.3rem);line-height:.96;letter-spacing:-.02em;color:#282823}
 .hm h1 .l{display:block}
 .hm h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em 0 .1em;margin:-.14em 0 -.1em}
@@ -43,61 +45,58 @@
 .js .hm h1 .w>span{transform:translateY(112%);letter-spacing:.06em;opacity:0}
 .hm.is-in h1 .w>span{transform:none;letter-spacing:-.035em;opacity:1;
   transition:transform 1.5s var(--ease),letter-spacing 2.2s var(--ease),opacity .6s ease;transition-delay:var(--d)}
-.hm-foot{display:grid;gap:1.3rem;padding-top:1.2rem}
-.js .hm-foot{opacity:0;transform:translateY(8px)}
-.hm.is-in .hm-foot{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease)}
-.hm-foot p{font-size:15px;line-height:1.55;max-width:26rem;color:rgba(40,40,35,.74)}
-.hm .ctas{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
-.hm .btn{background:#282823;color:var(--bone)}
-.hm .btn.ghost{background:transparent;color:#282823}
-@media(hover:hover){.hm .btn:hover{background:#111}.hm .btn.ghost:hover{background:rgba(40,40,35,.08)}}
+.hm-p{margin-top:1.2rem;font-size:15px;line-height:1.55;max-width:26rem;color:rgba(40,40,35,.74)}
+.hm .hm-cta{flex:none;background:#282823;color:var(--bone);gap:.9rem}
+.hm .hm-cta span{transition:transform .4s var(--ease-q)}
+@media(hover:hover){.hm .hm-cta:hover{background:#111}.hm .hm-cta:hover span{transform:translateX(4px)}}
+.js .hm-p,.js .hm-cta{opacity:0;transform:translateY(8px)}
+.hm.is-in .hm-p,.hm.is-in .hm-cta{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease),background-color .3s}
 
 /* užší obrazovky na šířku (tablety, malé notebooky): jméno o kus menší, ať nenaráží na text */
 @media(orientation:landscape) and (max-width:1200px){
   .hm-word{font-size:min(10.5vw,21cqh);top:34cqh}
-  .hm-copy{width:min(36vw,420px)}
+  .hm-text{width:min(36vw,420px)}
 }
-
 /* nízké obrazovky na šířku (notebooky 720–800 px): menší nadpis a jméno výš, ať se nepotkají */
 @media(orientation:landscape) and (max-height:820px){
   .hm h1{font-size:clamp(1.5rem,2.3vw,2.6rem)}
-  .hm-foot{gap:1rem;padding-top:.9rem}
-  .hm-foot p{font-size:14px}
+  .hm-p{font-size:14px;margin-top:.9rem}
   .hm-word{top:31cqh}
 }
 
-/* ---------- na výšku (telefony, tablety): jméno nahoře, kámen pod ním, text pod kamenem ---------- */
+/* ---------- na výšku (telefony, tablety): jméno nahoře, kámen pod ním, text a tlačítko pod kamenem ---------- */
+/* bez „přišpendlení“: sekce je vysoká jen na obrazovku, rozestoupení jména běží při odjíždění hero (monolit.ts) */
 @media(orientation:portrait){
-  .hm{height:140lvh}
-  .hm-stage{display:flex;flex-direction:column;padding:calc(var(--safe-top) + 92px) 0 calc(var(--bars) + 84px)}
+  .hm{height:100lvh}
+  .hm-stage{display:flex;flex-direction:column;padding:calc(var(--safe-top) + 92px) 0 calc(var(--bars) + 30px)}
   /* plocha vyplní, co zbude mezi hlavičkou a textem; kámen max. 56 % šířky */
   .hm-area{position:relative;inset:auto;flex:1 1 auto;min-height:0;--sh:min(calc(100cqh - 6cqw),calc(56cqw / var(--ar)))}
   .hm-word{display:flex;justify-content:center;column-gap:0;top:auto;bottom:calc(var(--sh) - .42em);transform:none;font-size:17cqw}
-  .hm-copy{position:relative;left:auto;bottom:auto;width:auto;flex:none;padding:22px var(--gut) 0}
+  .hm-copy{position:relative;left:auto;right:auto;bottom:auto;flex:none;flex-direction:column;align-items:flex-start;gap:1.2rem;padding:22px var(--gut) 0}
+  .hm-text{width:auto}
   .hm h1{font-size:clamp(1.9rem,8.2vw,3.4rem)}
-  .hm-foot{gap:1rem;padding-top:1rem}
-  .hm-foot p{max-width:34rem}
+  .hm-p{margin-top:1rem;max-width:34rem}
 }
-/* na telefonu volá plovoucí „Zavolat“ dole (je vidět hned) – tady by bylo dvakrát */
-@media(max-width:900px){.hm-call{display:none}}
-@media(orientation:portrait) and (min-width:901px){.hm-stage{padding-bottom:calc(var(--bars) + 5lvh)}}
 /* tablety na výšku: velké jméno potřebuje víc místa pod hlavičkou */
-@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 128px)}}
+@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 128px);padding-bottom:calc(var(--bars) + 5lvh)}}
 /* nízké telefony (SE, mini): bez odstavce, ať zbude místo pro kámen */
-@media(orientation:portrait) and (max-height:700px){.hm-foot p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 80px)}}
+@media(orientation:portrait) and (max-height:700px){.hm-p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 80px)}}
 
-/* ---------- telefon na šířku: text vlevo, kámen se jménem vpravo ---------- */
+/* ---------- telefon na šířku: text a tlačítko vlevo, kámen se jménem vpravo ---------- */
 @media(orientation:landscape) and (max-height:520px){
   .hm{height:100lvh}
-  /* dole plovoucí „Zavolat“ (52 px + okraj) */
-  .hm-area{left:48%;top:calc(var(--safe-top) + 64px);bottom:calc(var(--bars) + 74px)}
+  .hm-area{left:48%;top:calc(var(--safe-top) + 64px);bottom:calc(var(--bars) + 20px)}
   .hm-word{font-size:min(6vw,20cqh);top:38cqh}
-  .hm-copy{bottom:calc(var(--bars) + 74px);width:42vw}
+  .hm-copy{right:auto;width:42vw;bottom:calc(var(--bars) + 20px);flex-direction:column;align-items:flex-start;gap:1rem}
+  .hm-text{width:auto}
   .hm h1{font-size:clamp(1.4rem,3.6vw,2rem)}
-  .hm-foot p{display:none}
+  .hm-p{display:none}
 }
+
+/* po hero hned Postup na stejném pozadí: menší horní odsazení, ať pod hero nezůstává prázdná plocha */
+#hero.hm~#postup{padding-top:clamp(56px,9vh,110px)}
 
 @media(prefers-reduced-motion:reduce){
   .hm{height:100lvh}
-  .js .hm-in,.js .hm-word i,.js .hm h1 .w>span,.js .hm-foot{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
+  .js .hm-in,.js .hm-word i,.js .hm h1 .w>span,.js .hm-p,.js .hm-cta{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
 }

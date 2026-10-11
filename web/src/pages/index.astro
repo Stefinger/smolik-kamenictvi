@@ -13,7 +13,7 @@ import { monolitSources, MONOLIT_SIZES } from '../lib/hero';
 
 const stone = await monolitSources();
 ---
-<Base preloadHero={false} callbar="always">
+<Base preloadHero={false}>
   <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={stone.avif} imagesizes={MONOLIT_SIZES} fetchpriority="high" />
   <Header />
   <Menu />

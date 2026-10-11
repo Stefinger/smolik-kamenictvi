@@ -1,10 +1,10 @@
 ---
 /**
  * Hero „Monolit“: osamělý kvádr travertinu jako socha v galerii, jméno SMO | LÍK kolem něj.
+ * Text vlevo, vpravo jediné tlačítko „Vybrat materiál“ (telefon je v hlavičce).
  * Nástup: kámen vyjede, písmena se zaostří, nadpis vyjede po slovech (jako dřív). Scroll: kámen povyroste,
  * jméno se rozestoupí (monolit.ts). Rozvržení pro každý poměr stran viz hero-monolit.css.
  */
-import { PHONE, TEL } from '../lib/site';
 import { monolitSources, MONOLIT_SIZES } from '../lib/hero';
 
 const s = await monolitSources();
@@ -27,17 +27,15 @@ const line2 = [['Do', '1.0s'], ['vašeho', '1.1s'], ['prostoru.', '1.2s']];
       </div>
     </div>
     <div class="hm-copy">
-      <h1 aria-label="Z přírody. Do vašeho prostoru.">
-        <span class="l" aria-hidden="true">{line1.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
-        <span class="l" aria-hidden="true">{line2.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
-      </h1>
-      <div class="hm-foot">
-        <p>Stoly, kuchyňské desky, obklady i fasády. Každý kus z přírodního kamene, na míru místu, kde bude stát.</p>
-        <div class="ctas">
-          <a class="btn hm-call" href={TEL}>Zavolat <em>{PHONE}</em></a>
-          <a class="btn ghost" href="#materialy">Vybrat materiál<span aria-hidden="true">→</span></a>
-        </div>
+      <div class="hm-text">
+        <h1 aria-label="Z přírody. Do vašeho prostoru.">
+          <span class="l" aria-hidden="true">{line1.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
+          <span class="l" aria-hidden="true">{line2.map(([w, d], i) => <Fragment>{i > 0 && ' '}<span class="w"><span style={`--d:${d}`}>{w}</span></span></Fragment>)}</span>
+        </h1>
+        <p class="hm-p">Stoly, kuchyňské desky, obklady i fasády. Každý kus z přírodního kamene, na míru místu, kde bude stát.</p>
       </div>
+      <!-- volání je v hlavičce (a na telefonu v plovoucí liště pod hero), tady jen výběr materiálu -->
+      <a class="btn hm-cta" href="#materialy">Vybrat materiál<span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>

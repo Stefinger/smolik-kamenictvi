@@ -26,10 +26,8 @@ interface Props {
   alternate?: boolean;
   /** false = hero fotku nepřednačítat (stránka si vlastní přednačte ve slotu „head“) */
   preloadHero?: boolean;
-  /** 'always' = plovoucí „Zavolat“ na telefonu vidět hned od začátku stránky */
-  callbar?: 'always';
 }
-const { variant = 'light', alternate = false, preloadHero = true, callbar } = Astro.props;
+const { variant = 'light', alternate = false, preloadHero = true } = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(alternate ? asset('') : Astro.url.pathname, site).href;
 const hero = await heroSources(variant);
@@ -106,7 +104,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
     })();
   </script>
 </head>
-<body data-callbar={callbar}>
+<body>
   <Intro />
   <slot />
 </body>
