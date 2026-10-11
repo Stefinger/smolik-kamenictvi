@@ -46,10 +46,11 @@
 .materials summary .tag{font-size:14px;opacity:.65}
 .materials summary img{height:85px;transition:transform .5s}
 .materials summary:hover img{transform:scale(1.06)}
-/* křížek nakreslený dvěma čarami ve čtverci → při otevření se otočí přesně kolem svého středu (znak „+“ v písmu poskakoval) */
-.materials summary .plus{position:relative;display:block;width:16px;height:16px;transition:transform .3s}
-.materials summary .plus::before,.materials summary .plus::after{content:"";position:absolute;left:0;top:50%;width:100%;height:1.5px;margin-top:-.75px;background:currentColor}
-.materials summary .plus::after{transform:rotate(90deg)}
+/* křížek jako SVG: v klidu ostře na celé pixely (crispEdges), otočený do „×“ vyhlazeně; otáčí se přesně kolem středu */
+.materials summary .plus{display:block;width:16px;height:16px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.5;shape-rendering:crispEdges;transition:transform .35s var(--ease-q)}
+.materials details[open] .plus{shape-rendering:geometricPrecision}
+/* obyčejné (ne-retina) monitory: 2 px přesně na celých pixelech (1,5 px by vyšla rozmazaně šedá) */
+@media(max-resolution:1.5dppx){.materials summary .plus{stroke-width:2}}
 .materials details[open] .plus{transform:rotate(45deg)}
 .materials .cat-exp{display:grid;grid-template-columns:1.05fr 1fr;gap:6vw;padding:14px 85px 48px;align-items:start}
 .materials .cat-gal .main{aspect-ratio:1.6;width:100%;height:auto;object-fit:cover}
