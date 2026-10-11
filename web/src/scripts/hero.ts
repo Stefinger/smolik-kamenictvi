@@ -20,9 +20,11 @@ export function initHero() {
   if (INTRO_ACTIVE) runIntro(photo).then(go);
   else withTimeout(photo, 2200).then(go);
 
-  const media = hero.querySelector<HTMLElement>('.hero-media')!;
-  const kb = hero.querySelector<HTMLElement>('.hero-kb')!;
-  const hin = document.getElementById('heroIn')!;
+  // paralaxa jen u klasického hero (varianty v components/heroes mají vlastní pohyb)
+  const media = hero.querySelector<HTMLElement>('.hero-media');
+  const kb = hero.querySelector<HTMLElement>('.hero-kb');
+  const hin = document.getElementById('heroIn');
+  if (!media || !kb || !hin) return;
   const update = () => {
     const y = scrollY, vh = innerHeight;
     if (y >= vh * 1.1 || RM) return;

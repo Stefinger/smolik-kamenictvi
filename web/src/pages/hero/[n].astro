@@ -1,0 +1,56 @@
+---
+/**
+ * DOČASNÉ: 4 varianty hero k výběru (/hero/1/ … /hero/4/). Zbytek stránky je stejný jako hlavní.
+ * Neindexuje se, kanonická adresa je „/“. Po výběru se vybraná varianta přesune na hlavní stránku a tohle se smaže.
+ */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Menu from '../../components/Menu.astro';
+import CallBar from '../../components/CallBar.astro';
+import HeroV1 from '../../components/heroes/HeroV1.astro';
+import HeroV2 from '../../components/heroes/HeroV2.astro';
+import HeroV3 from '../../components/heroes/HeroV3.astro';
+import HeroV4 from '../../components/heroes/HeroV4.astro';
+import Process from '../../components/Process.astro';
+import Story from '../../components/Story.astro';
+import Works from '../../components/Works.astro';
+import Materials from '../../components/Materials.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/hero-variants.css';
+
+export function getStaticPaths() {
+  return ['1', '2', '3', '4'].map((n) => ({ params: { n } }));
+}
+const { n } = Astro.params;
+---
+<Base variant={n === '4' ? 'dark' : 'light'} alternate>
+  <Header />
+  <Menu />
+  <CallBar />
+  <main id="top" data-hx={n}>
+    {n === '1' && <HeroV1 />}
+    {n === '2' && <HeroV2 />}
+    {n === '3' && <HeroV3 />}
+    {n === '4' && <HeroV4 />}
+    <Process />
+    <Story />
+    <Works />
+    <Materials />
+    <Footer />
+  </main>
+  <script>
+    import { initNav } from '../../scripts/nav';
+    import { initReveal } from '../../scripts/reveal';
+    import { initPreload } from '../../scripts/preload';
+    import { initParallax } from '../../scripts/parallax';
+    import { initHero } from '../../scripts/hero';
+    import { initV1, initV2, initV3, initV4 } from '../../scripts/hero-variants';
+    initNav();
+    initReveal();
+    initPreload();
+    initParallax();
+    initHero();
+    const inits: Record<string, () => void> = { '1': initV1, '2': initV2, '3': initV3, '4': initV4 };
+    inits[document.querySelector('main')?.dataset.hx ?? '']?.();
+  </script>
+</Base>

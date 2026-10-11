@@ -8,7 +8,7 @@ export function initNav() {
   const callbar = document.getElementById('callbar');
   const hero = document.getElementById('hero');
   const kontakt = document.getElementById('kontakt');
-  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark')];
+  const darkSecs = [...document.querySelectorAll<HTMLElement>('.foot-b, .hero--dark, .story--dark, .hx--dark')];
   const body = document.body;
   let last = 0;
 

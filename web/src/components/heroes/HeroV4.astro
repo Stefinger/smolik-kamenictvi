@@ -1,0 +1,13 @@
+---
+/** Varianta 4 „Šikmé světlo“: tmavá břidlicová stěna, teplé světlo sleduje kurzor (na mobilu se samo přesouvá). */
+import HeroPicture from '../HeroPicture.astro';
+import HeroCopy from './HeroCopy.astro';
+---
+<section class="hx hx4 hx--dark" id="hero" aria-label="Úvod">
+  <div class="hx4-photo"><HeroPicture id="heroImg" priority variant="dark" /></div>
+  <div class="hx4-light" aria-hidden="true"></div>
+  <div class="hx4-light hx4-light--soft" aria-hidden="true"></div>
+  <div class="hx-shade" aria-hidden="true"></div>
+  <div class="hx4-kick" aria-hidden="true">Kamenictví Smolík · Dub nad Moravou</div>
+  <HeroCopy class="is-auto" />
+</section>
