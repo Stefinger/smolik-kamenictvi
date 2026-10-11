@@ -20,7 +20,7 @@ export function initHero() {
   if (INTRO_ACTIVE) runIntro(photo).then(go);
   else withTimeout(photo, 2200).then(go);
 
-  // paralaxa jen u klasického hero (varianty v components/heroes mají vlastní pohyb)
+  // paralaxa jen u hero s fotkou (HeroPhoto, /black); Monolit má vlastní pohyb (monolit.ts)
   const media = hero.querySelector<HTMLElement>('.hero-media');
   const kb = hero.querySelector<HTMLElement>('.hero-kb');
   const hin = document.getElementById('heroIn');

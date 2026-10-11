@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Hero „Monolit“ (#hero.hm): kvádr travertinu uprostřed, jméno SMO | LÍK kolem něj, nadpis vlevo dole.
+   Scéna je sticky (150lvh sekce = půl obrazovky scrollu s pohybem). Proměnné z monolit.ts:
+   --p = postup scrollu 0–1, --mx/--my = poloha myši −1…1. --ar = poměr stran kamene (šířka/výška, z Hero.astro).
+   Velikost kamene i jména se odvozuje od plochy .hm-area (container query jednotky), takže sedí na každém poměru stran.
+   ========================================================================== */
+.hm{position:relative;height:150lvh;background:var(--bone);color:#282823}
+.hm :focus-visible{outline-color:var(--rez)}
+.hm-stage{position:sticky;top:0;height:100lvh;overflow:hidden}
+
+/* plocha pro kámen a jméno: od hlavičky po spodní okraj (nad lištou prohlížeče) */
+.hm-area{position:absolute;left:0;right:0;top:calc(var(--safe-top) + 120px);bottom:calc(var(--bars) + 8lvh);container-type:size;pointer-events:none;
+  --sh:100cqh}
+.hm-stone{position:absolute;left:50%;bottom:0;z-index:2;height:var(--sh);aspect-ratio:var(--ar);transform-origin:50% 100%;
+  transform:translate3d(calc(-50% + var(--mx,0) * -8px),calc(var(--p,0) * -4lvh + var(--my,0) * -5px),0) scale(calc(1 + var(--p,0) * .1))}
+.hm-in{position:relative;height:100%}
+.js .hm-in{opacity:0;transform:translateY(5%)}
+.hm.is-in .hm-in{opacity:1;transform:none;transition:opacity 1.6s ease,transform 2.2s var(--ease-out)}
+.hm-in img{display:block;width:100%;height:100%;object-fit:contain}
+/* stín: měkká elipsa pod kamenem, padá doprava (světlo na fotce je zleva) */
+.hm-shadow{position:absolute;left:-30%;right:-120%;bottom:-2.2%;height:6%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(70,52,34,.3),rgba(70,52,34,.11) 55%,rgba(70,52,34,0));filter:blur(6px)}
+.hm-shadow::before{content:"";position:absolute;left:24%;width:34%;top:30%;height:40%;border-radius:50%;background:rgba(50,36,22,.38);filter:blur(5px)}
+
+/* jméno: dvě poloviny kolem kamene, vnitřní okraje písmen zalezou za kámen */
+.hm-word{position:absolute;left:0;right:0;top:36cqh;z-index:1;display:grid;grid-template-columns:1fr 1fr;column-gap:calc(var(--sh) * var(--ar) * .8);
+  font-family:var(--serif);font-weight:700;font-size:min(12vw,23cqh);line-height:.8;letter-spacing:.02em;color:#24201b;transform:translateY(-50%)}
+.hm-word>span{display:block;overflow:hidden;padding:.06em 0}
+.hm-a{justify-self:end}.hm-b{justify-self:start}
+.hm-word i{display:block;font-style:normal}
+.js .hm-word i{opacity:0;filter:blur(14px)}
+.js .hm-a i{transform:translateX(30%)}.js .hm-b i{transform:translateX(-30%)}
+.hm.is-in .hm-word i{opacity:1;transform:none;filter:none;transition:opacity 1.4s ease .35s,transform 2s var(--ease-out) .35s,filter 1.4s ease .35s}
+.hm-a{transform:translate3d(calc(var(--p,0) * -16vw + var(--mx,0) * 14px),calc(var(--my,0) * 6px),0);opacity:calc(1 - var(--p,0) * 1.1)}
+.hm-b{transform:translate3d(calc(var(--p,0) * 16vw + var(--mx,0) * 14px),calc(var(--my,0) * 6px),0);opacity:calc(1 - var(--p,0) * 1.1)}
+
+/* nadpis, text a tlačítka (texty a nástup po slovech jako v původním hero) */
+.hm-copy{position:absolute;z-index:3;left:var(--gut);bottom:calc(var(--bars) + 8lvh);width:min(34vw,470px)}
+.hm h1{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(1.7rem,2.7vw,3.3rem);line-height:.96;letter-spacing:-.02em;color:#282823}
+.hm h1 .l{display:block}
+.hm h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em 0 .1em;margin:-.14em 0 -.1em}
+.hm h1 .w>span{display:inline-block}
+.js .hm h1 .w>span{transform:translateY(112%);letter-spacing:.06em;opacity:0}
+.hm.is-in h1 .w>span{transform:none;letter-spacing:-.035em;opacity:1;
+  transition:transform 1.5s var(--ease),letter-spacing 2.2s var(--ease),opacity .6s ease;transition-delay:var(--d)}
+.hm-foot{display:grid;gap:1.3rem;padding-top:1.2rem}
+.js .hm-foot{opacity:0;transform:translateY(8px)}
+.hm.is-in .hm-foot{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease)}
+.hm-foot p{font-size:15px;line-height:1.55;max-width:26rem;color:rgba(40,40,35,.74)}
+.hm .ctas{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.hm .btn{background:#282823;color:var(--bone)}
+.hm .btn.ghost{background:transparent;color:#282823}
+@media(hover:hover){.hm .btn:hover{background:#111}.hm .btn.ghost:hover{background:rgba(40,40,35,.08)}}
+
+/* užší obrazovky na šířku (tablety, malé notebooky): jméno o kus menší, ať nenaráží na text */
+@media(orientation:landscape) and (max-width:1200px){
+  .hm-word{font-size:min(10.5vw,21cqh);top:34cqh}
+  .hm-copy{width:min(36vw,420px)}
+}
+
+/* nízké obrazovky na šířku (notebooky 720–800 px): menší nadpis a jméno výš, ať se nepotkají */
+@media(orientation:landscape) and (max-height:820px){
+  .hm h1{font-size:clamp(1.5rem,2.3vw,2.6rem)}
+  .hm-foot{gap:1rem;padding-top:.9rem}
+  .hm-foot p{font-size:14px}
+  .hm-word{top:31cqh}
+}
+
+/* ---------- na výšku (telefony, tablety): jméno nahoře, kámen pod ním, text pod kamenem ---------- */
+@media(orientation:portrait){
+  .hm{height:140lvh}
+  .hm-stage{display:flex;flex-direction:column;padding:calc(var(--safe-top) + 92px) 0 calc(var(--bars) + 84px)}
+  /* plocha vyplní, co zbude mezi hlavičkou a textem; kámen max. 56 % šířky */
+  .hm-area{position:relative;inset:auto;flex:1 1 auto;min-height:0;--sh:min(calc(100cqh - 6cqw),calc(56cqw / var(--ar)))}
+  .hm-word{display:flex;justify-content:center;column-gap:0;top:auto;bottom:calc(var(--sh) - .42em);transform:none;font-size:17cqw}
+  .hm-copy{position:relative;left:auto;bottom:auto;width:auto;flex:none;padding:22px var(--gut) 0}
+  .hm h1{font-size:clamp(1.9rem,8.2vw,3.4rem)}
+  .hm-foot{gap:1rem;padding-top:1rem}
+  .hm-foot p{max-width:34rem}
+}
+/* na telefonu volá plovoucí „Zavolat“ dole (je vidět hned) – tady by bylo dvakrát */
+@media(max-width:900px){.hm-call{display:none}}
+@media(orientation:portrait) and (min-width:901px){.hm-stage{padding-bottom:calc(var(--bars) + 5lvh)}}
+/* tablety na výšku: velké jméno potřebuje víc místa pod hlavičkou */
+@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 128px)}}
+/* nízké telefony (SE, mini): bez odstavce, ať zbude místo pro kámen */
+@media(orientation:portrait) and (max-height:700px){.hm-foot p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 80px)}}
+
+/* ---------- telefon na šířku: text vlevo, kámen se jménem vpravo ---------- */
+@media(orientation:landscape) and (max-height:520px){
+  .hm{height:100lvh}
+  /* dole plovoucí „Zavolat“ (52 px + okraj) */
+  .hm-area{left:48%;top:calc(var(--safe-top) + 64px);bottom:calc(var(--bars) + 74px)}
+  .hm-word{font-size:min(6vw,20cqh);top:38cqh}
+  .hm-copy{bottom:calc(var(--bars) + 74px);width:42vw}
+  .hm h1{font-size:clamp(1.4rem,3.6vw,2rem)}
+  .hm-foot p{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hm{height:100lvh}
+  .js .hm-in,.js .hm-word i,.js .hm h1 .w>span,.js .hm-foot{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
+}

@@ -105,13 +105,13 @@
 .story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.72) 0%,rgba(27,25,22,.22) 34%,rgba(27,25,22,0) 52%),linear-gradient(0deg,rgba(27,25,22,.55),rgba(27,25,22,0) 36%)}
 .story--dark :focus-visible{outline-color:var(--bone)}
 @media(max-width:760px){
-  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.5) 0%,rgba(27,25,22,0) 15%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
+  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.62) 0%,rgba(27,25,22,0) 22%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
 }
 @media (orientation:landscape) and (max-height:520px){
   .story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.86) 0%,rgba(27,25,22,.55) 34%,rgba(27,25,22,0) 48%)}
 }
 @media (orientation:portrait) and (max-width:1100px){
-  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.5) 0%,rgba(27,25,22,0) 15%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
+  .story--dark .film-shade{background:linear-gradient(180deg,rgba(27,25,22,.62) 0%,rgba(27,25,22,0) 22%),linear-gradient(0deg,rgba(27,25,22,.94) 0%,rgba(27,25,22,.8) 24%,rgba(27,25,22,0) 42%)}
 }
 @media (orientation:landscape) and (max-aspect-ratio:3/2) and (max-width:1400px){
   .story--dark .film-shade{background:linear-gradient(90deg,rgba(27,25,22,.86) 0%,rgba(27,25,22,.55) 32%,rgba(27,25,22,0) 46%)}

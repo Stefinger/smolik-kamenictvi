@@ -54,3 +54,19 @@ export async function heroSources(variant: HeroVariant = 'light') {
     tall,
   };
 }
+
+/**
+ * Hero „Monolit“: vyříznutý kvádr travertinu (průhledné pozadí). Vygenerováno v Higgsfieldu (gpt_image_2_5 + upscale 4K
+ * + odstranění pozadí), oříznuto na kámen. Šířka na obrazovce ≈ 0,37 × výška kamene → `MONOLIT_SIZES`.
+ */
+export const MONOLIT_SIZES = '(orientation: portrait) 56vw, 30vh';
+const MONOLIT_WIDTHS = [240, 360, 480, 720, 960, 1280];
+export async function monolitSources() {
+  const src = img('monolit.webp');
+  const ws = MONOLIT_WIDTHS.filter((w) => w < src.width).concat(src.width);
+  const [avif, webp] = await Promise.all([
+    getImage({ src, widths: ws, format: 'avif' }),
+    getImage({ src, widths: ws, format: 'webp' }),
+  ]);
+  return { avif: avif.srcSet.attribute, webp: webp.srcSet.attribute, src: webp.src, width: src.width, height: src.height };
+}

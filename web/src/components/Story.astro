@@ -3,9 +3,12 @@ import StoryLayer from './StoryLayer.astro';
 import HeroPicture from './HeroPicture.astro';
 import type { HeroVariant } from '../lib/hero';
 
-/** dark = původní tmavý ateliér + match cut do tmavé hero fotky */
-interface Props { variant?: HeroVariant }
-const { variant = 'light' } = Astro.props;
+/**
+ * variant = pozadí ateliéru (dark = původní tmavý ateliér),
+ * finale = fotka hotového stolu v posledním kroku (match cut), výchozí stejná jako pozadí
+ */
+interface Props { variant?: HeroVariant; finale?: HeroVariant }
+const { variant = 'light', finale = variant } = Astro.props;
 
 // pořadí = pořadí vykreslení (spodní vrstva první)
 const layers = [
@@ -39,7 +42,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="lmove" id="lmove"><div class="lstage" id="lstage" aria-hidden="true">
       {layers.map((l) => <StoryLayer {...l} />)}
     </div></div>
-    <HeroPicture id="Lfin" class="finale" hidden variant={variant} />
+    <HeroPicture id="Lfin" class="finale" hidden variant={finale} />
     <div class="film-shade" aria-hidden="true"></div>
     <div class="s-ui">
       <span class="kicker">02 — Od kvádru ke stolu</span>
