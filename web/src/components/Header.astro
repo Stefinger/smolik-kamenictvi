@@ -1,13 +1,18 @@
 ---
 import Mark from './Mark.astro';
 import Wordmark from './Wordmark.astro';
+import Logo from './Logo.astro';
 import { NAV, PHONE, TEL } from '../lib/site';
+
+/** logo = DOČASNĚ varianta loga k výběru (/logo/N/), bez něj původní značka */
+interface Props { logo?: '1' | '2' | '3' | '4' }
+const { logo } = Astro.props;
 ---
 <div class="progress" aria-hidden="true"></div>
 <header class="top" id="topbar">
   <a class="logo" href="#hero" aria-label="Smolík – Kamenictví · Dub nad Moravou, úvod">
-    <Mark />
-    <span class="wm"><Wordmark /><span class="desc" aria-hidden="true">Kamenictví · Dub nad Moravou</span></span>
+    {logo ? <Logo v={logo} /> : <Fragment><Mark />
+    <span class="wm"><Wordmark /><span class="desc" aria-hidden="true">Kamenictví · Dub nad Moravou</span></span></Fragment>}
   </a>
   <nav class="nav" aria-label="Hlavní navigace">
     {NAV.map((l) => <a href={l.href}>{l.label}</a>)}
