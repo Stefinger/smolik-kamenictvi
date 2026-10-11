@@ -147,6 +147,7 @@ export function initStory() {
     tr(L.L3, dyL, oL, bL); tr(L.L4, dyL, oL, bL); tr(L.L3s, dyL, oLs); tr(L.L4s, dyL, oLs);
     LS.style.opacity = oSt.toFixed(3);
     FIN.style.opacity = oF.toFixed(3);
+    story!.style.setProperty('--fin', oF.toFixed(3)); // závoj pod textem posledního kroku (čitelnost na fotce)
     finTr(zoom); moveTr(mv);
     let oC = 1;
     if (MOB && i === 4) oC = Math.max(1 - sm(0, 0.1, u), sm(0.55, 0.75, u));

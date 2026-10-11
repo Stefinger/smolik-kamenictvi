@@ -46,7 +46,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <div class="s-num" aria-hidden="true"><span class="n"><span id="num">{steps.map((_, i) => <Fragment>{i > 0 && <br />}{pad(i + 1)}</Fragment>)}</span></span><span class="of">/ {pad(steps.length)}</span></div>
       <div class="s-copy" aria-live="polite">
         {steps.map((s, i) => (
-          <div class:list={['s-item', { on: i === 0 }]}>
+          <div class:list={['s-item', { on: i === 0, 's-item--final': i === steps.length - 1 }]}>
             <span class="kicker">{s.kicker}</span><h3>{s.title}</h3><p>{s.text}</p>
             {s.link && <a class="line-link" href="#realizace">Další realizace<span aria-hidden="true">↗</span></a>}
           </div>
