@@ -49,10 +49,10 @@ html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
 .top .pill{background:var(--ink);color:var(--bone)}
 .top .pill svg{flex:none}
 .top.is-dark .pill{background:var(--bone);color:var(--ink)}
-/* hover (jen myš): jemné zesvětlení barvy a ikonka telefonu krátce „zazvoní“ */
+/* hover (jen myš): barva se nemění – pilulka se jen nepatrně zvětší a ikonka telefonu krátce „zazvoní“ */
 @media(hover:hover){
-  .top .pill:hover{background:#3a352f;transform:none}
-  .top.is-dark .pill:hover{background:#fff}
+  .top .pill:hover,.top.is-dark .pill:hover{background:var(--ink);color:var(--bone);transform:scale(1.04)}
+  .top.is-dark .pill:hover{background:var(--bone);color:var(--ink)}
   .top .pill:hover svg{animation:pill-ring .8s var(--ease-q)}
 }
 @keyframes pill-ring{0%,100%{transform:rotate(0)}15%{transform:rotate(-16deg)}30%{transform:rotate(14deg)}45%{transform:rotate(-10deg)}60%{transform:rotate(7deg)}75%{transform:rotate(-3deg)}}
