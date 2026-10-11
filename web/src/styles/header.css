@@ -45,17 +45,14 @@ html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
 .top .nav a:hover::after,.top .nav a.is-active::after{transform:scaleX(1);transform-origin:left}
 
 .top-r{display:flex;align-items:center;gap:14px;justify-self:end}
-/* barvy pilulky v hlavičce (hover v ní jen jemně poskočí – viz .pill:hover) */
-.top .pill{background:var(--ink);color:var(--bone);position:relative;overflow:hidden;isolation:isolate}
-/* výplň pro hover: písková vrstva pod textem, vyjíždí zleva */
-.top .pill::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--sand2);transform:scaleX(0);transform-origin:right;transition:transform .55s var(--ease-q)}
-.top.is-dark .pill::before{background:var(--pisek)}
+/* barvy pilulky s telefonem v hlavičce */
+.top .pill{background:var(--ink);color:var(--bone)}
 .top .pill svg{flex:none}
 .top.is-dark .pill{background:var(--bone);color:var(--ink)}
-/* hover (jen myš): pilulka se zleva zaplní pískovcem, text ztmavne a ikonka telefonu krátce „zazvoní“ */
+/* hover (jen myš): jemné zesvětlení barvy a ikonka telefonu krátce „zazvoní“ */
 @media(hover:hover){
-  .top .pill:hover,.top.is-dark .pill:hover{color:var(--ink);transform:none}
-  .top .pill:hover::before{transform:scaleX(1);transform-origin:left}
+  .top .pill:hover{background:#3a352f;transform:none}
+  .top.is-dark .pill:hover{background:#fff}
   .top .pill:hover svg{animation:pill-ring .8s var(--ease-q)}
 }
 @keyframes pill-ring{0%,100%{transform:rotate(0)}15%{transform:rotate(-16deg)}30%{transform:rotate(14deg)}45%{transform:rotate(-10deg)}60%{transform:rotate(7deg)}75%{transform:rotate(-3deg)}}
