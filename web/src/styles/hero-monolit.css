@@ -4,13 +4,14 @@
    --p = postup scrollu 0–1, --mx/--my = poloha myši −1…1. --ar = poměr stran kamene (šířka/výška, z Hero.astro).
    Velikost kamene i jména se odvozuje od plochy .hm-area (container query jednotky), takže sedí na každém poměru stran.
    ========================================================================== */
-.hm{position:relative;height:150lvh;background:var(--bone);color:#282823}
+.hm{position:relative;height:150lvh;background:var(--bone);color:#282823;--tw:min(34vw,470px)}
 .hm :focus-visible{outline-color:var(--rez)}
 .hm-stage{position:sticky;top:0;height:100lvh;overflow:hidden}
 
 /* plocha pro kámen a jméno: od hlavičky po spodní okraj (nad lištou prohlížeče) */
 .hm-area{position:absolute;left:0;right:0;top:calc(var(--safe-top) + 120px);bottom:calc(var(--bars) + 8lvh);container-type:size;pointer-events:none;
-  --sh:100cqh}
+  /* kámen: celá výška plochy, ale nikdy tak široký, aby zasáhl do textu vlevo (a zrcadlově vpravo) */
+  --sh:min(100cqh,calc((100cqw - 2 * (var(--gut) + var(--tw) + 28px)) / var(--ar)))}
 .hm-stone{position:absolute;left:50%;bottom:0;z-index:2;height:var(--sh);aspect-ratio:var(--ar);transform-origin:50% 100%;
   transform:translate3d(calc(-50% + var(--mx,0) * -8px),calc(var(--p,0) * -4lvh + var(--my,0) * -5px),0) scale(calc(1 + var(--p,0) * .1))}
 .hm-in{position:relative;height:100%}
@@ -36,7 +37,7 @@
 
 /* text vlevo (nadpis po slovech jako v původním hero), vpravo jediné tlačítko; obojí na jedné spodní lince s patou kamene */
 .hm-copy{position:absolute;z-index:3;left:var(--gut);right:var(--gut);bottom:calc(var(--bars) + 8lvh);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;pointer-events:none}
-.hm-text{width:min(34vw,470px)}
+.hm-text{width:var(--tw)}
 .hm-text,.hm-cta{pointer-events:auto}
 .hm h1{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(1.7rem,2.7vw,3.3rem);line-height:.96;letter-spacing:-.02em;color:#282823}
 .hm h1 .l{display:block}
@@ -53,8 +54,8 @@
 
 /* užší obrazovky na šířku (tablety, malé notebooky): jméno o kus menší, ať nenaráží na text */
 @media(orientation:landscape) and (max-width:1200px){
+  .hm{--tw:min(36vw,420px)}
   .hm-word{font-size:min(10.5vw,21cqh);top:34cqh}
-  .hm-text{width:min(36vw,420px)}
 }
 /* nízké obrazovky na šířku (notebooky 720–800 px): menší nadpis a jméno výš, ať se nepotkají */
 @media(orientation:landscape) and (max-height:820px){
@@ -63,9 +64,9 @@
   .hm-word{top:31cqh}
 }
 
-/* ---------- na výšku (telefony, tablety): jméno nahoře, kámen pod ním, text a tlačítko pod kamenem ---------- */
+/* ---------- na výšku (telefony, tablety) a skoro čtvercová okna: jméno nahoře, kámen pod ním, text a tlačítko pod kamenem ---------- */
 /* bez „přišpendlení“: sekce je vysoká jen na obrazovku, rozestoupení jména běží při odjíždění hero (monolit.ts) */
-@media(orientation:portrait){
+@media(orientation:portrait),(max-aspect-ratio:5/4){
   /* výška = viditelná část (svh, s lištami Safari): obsah sedí nad spodní lištou a po jejich schování
      pod hero nezůstane prázdný pruh (u 100lvh + odsazení o lišty tam zůstal) */
   .hm{height:100svh}
@@ -75,20 +76,22 @@
   .hm-word{display:flex;justify-content:center;column-gap:0;top:auto;bottom:calc(var(--sh) - .42em);transform:none;font-size:16cqw}
   .hm-copy{position:relative;left:auto;right:auto;bottom:auto;flex:none;flex-direction:column;align-items:flex-start;gap:1.2rem;padding:32px var(--gut) 0}
   .hm-text{width:auto}
-  .hm h1{font-size:clamp(1.9rem,8.2vw,3.4rem)}
+  /* nadpis i podle výšky, ať v nízkém okně nezabere místo kameni */
+  .hm h1{font-size:clamp(1.7rem,min(8.2vw,6.2svh),3.4rem)}
   .hm-p{margin-top:1rem;max-width:34rem}
 }
-/* tablety na výšku: velké jméno potřebuje víc místa pod hlavičkou */
-@media(orientation:portrait) and (min-width:600px){.hm-stage{padding-top:calc(var(--safe-top) + 180px);padding-bottom:5svh}}
+/* vysoké tablety na výšku: velké jméno potřebuje víc místa pod hlavičkou */
+@media(orientation:portrait) and (min-width:600px) and (min-height:900px){.hm-stage{padding-top:calc(var(--safe-top) + 180px);padding-bottom:5svh}}
 /* telefony v Safari s lištami (viditelná výška do 700 px): bez odstavce, ať zbude místo pro kámen */
-@media(orientation:portrait) and (max-height:700px){.hm-p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 150px)}}
+@media(orientation:portrait) and (max-height:700px),(max-aspect-ratio:5/4) and (max-height:700px){.hm-p{display:none}.hm-stage{padding-top:calc(var(--safe-top) + 150px)}}
 /* malé telefony (SE): méně místa nahoře */
-@media(orientation:portrait) and (max-height:600px){.hm-stage{padding-top:calc(var(--safe-top) + 120px)}}
+@media(orientation:portrait) and (max-height:600px),(max-aspect-ratio:5/4) and (max-height:600px){.hm-stage{padding-top:calc(var(--safe-top) + 120px)}}
 
 /* ---------- telefon na šířku: text a tlačítko vlevo, kámen se jménem vpravo ---------- */
 @media(orientation:landscape) and (max-height:520px){
   .hm{height:100lvh}
-  .hm-area{left:48%;top:calc(var(--safe-top) + 64px);bottom:calc(var(--bars) + 20px)}
+  /* text a kámen jsou vedle sebe v oddělených plochách → kámen jen podle výšky */
+  .hm-area{left:48%;top:calc(var(--safe-top) + 64px);bottom:calc(var(--bars) + 20px);--sh:100cqh}
   .hm-word{font-size:min(6vw,20cqh);top:38cqh}
   .hm-copy{right:auto;width:42vw;bottom:calc(var(--bars) + 20px);flex-direction:column;align-items:flex-start;gap:1rem}
   .hm-text{width:auto}
