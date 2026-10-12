@@ -1,6 +1,5 @@
 ---
 import Mark from './Mark.astro';
-import Wordmark from './Wordmark.astro';
 import Logo from './Logo.astro';
 import { NAV, PHONE, TEL } from '../lib/site';
 
@@ -11,8 +10,7 @@ const { logo } = Astro.props;
 <div class="progress" aria-hidden="true"></div>
 <header class="top" id="topbar">
   <a class="logo" href="#hero" aria-label="Smolík – Kamenictví · Dub nad Moravou, úvod">
-    {logo ? <Logo v={logo} /> : <Fragment><Mark />
-    <span class="wm"><Wordmark /><span class="desc" aria-hidden="true">Kamenictví · Dub nad Moravou</span></span></Fragment>}
+    {logo ? <Logo v={logo} /> : <Fragment><Mark /><span class="wmt" aria-hidden="true">SMOLÍK</span></Fragment>}
   </a>
   <nav class="nav" aria-label="Hlavní navigace">
     {NAV.map((l) => <a href={l.href}>{l.label}</a>)}

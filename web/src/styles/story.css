@@ -35,7 +35,8 @@
 /* poslední krok leží na hero fotce: pod textem měkký závoj, aby byl čitelný (sílu řídí story.ts přes --fin) */
 .s-item--final::before{content:"";position:absolute;z-index:-1;pointer-events:none;top:-110px;bottom:-70px;left:calc(-1 * var(--gut));right:-45%;
   opacity:var(--fin,0);background:radial-gradient(closest-side,rgba(236,233,225,.92) 0%,rgba(236,233,225,.8) 55%,rgba(236,233,225,0) 100%)}
-.story--dark .s-item--final::before{background:radial-gradient(closest-side,rgba(27,25,22,.9) 0%,rgba(27,25,22,.75) 55%,rgba(27,25,22,0) 100%)}
+/* na tmavém pozadí závoj není potřeba (tmavý přechod .film-shade stačí) */
+.story--dark .s-item--final::before{display:none}
 .s-item h3{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3.4vw,3.4rem);letter-spacing:-.02em;line-height:1;margin:.7rem 0 .9rem;color:var(--ink)}
 .s-item p{color:var(--muted-l);font-size:16px;max-width:23rem}
 .s-item .line-link{margin-top:1.2rem;color:var(--ink);border-color:rgba(27,25,22,.35)}

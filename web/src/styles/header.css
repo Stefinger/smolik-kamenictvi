@@ -26,7 +26,7 @@ html.page-dark .top.menu-open{color:var(--bone)}
 html.page-dark .top.menu-open .pill{background:var(--bone);color:var(--ink)}
 html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
 
-/* logo: značka + nápis + popisek */
+/* logo: značka + nápis SMOLÍK písmem z hero (Smolik Display), bez popisku */
 .top .logo{display:flex;align-items:center;gap:14px;line-height:1}
 .top .logo .mark{height:30px;width:auto;flex:none}
 .top .logo .mark .ink{fill:currentColor}
@@ -36,6 +36,7 @@ html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
 .top .logo .wm{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
 /* nápis SMOLÍK: plná barva + jemný obtah (o chlup silnější tah písma) */
 .top .logo .wmk{display:block;height:13px;width:auto;margin:0;fill:currentColor;stroke:currentColor;stroke-width:6;stroke-linejoin:round}
+.top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:1;white-space:nowrap}
 .top .logo .desc{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;line-height:1;opacity:.75}
 
 /* navigace: linka pod textem zleva doprava */
@@ -103,6 +104,7 @@ body.menu-open{overflow:hidden}
   .top{height:calc(60px + var(--safe-top));grid-template-columns:1fr auto}
   .top .nav{display:none}
   .top .logo .mark{height:26px}
+  .top .logo .wmt{font-size:15px}
   .top .logo .desc{display:none}
   .top .pill{width:44px;height:44px;padding:0;justify-content:center}
   /* číslo jen skrýt vizuálně, ne display:none – Safari na iOS jinak bere odkaz na hovor bez čísla jako „automatický hovor“ */
