@@ -1,16 +1,26 @@
 ---
 import Mark from './Mark.astro';
-import Logo from './Logo.astro';
+import { getImage } from 'astro:assets';
+import { img } from '../lib/images';
 import { NAV, PHONE, TEL } from '../lib/site';
 
-/** logo = DOČASNĚ varianta loga k výběru (/logo/N/), bez něj původní značka */
-interface Props { logo?: '1' | '2' | '3' | '4' }
-const { logo } = Astro.props;
+/**
+ * logo: 'mark' = původní značka + SMOLÍK písmem z hero (hlavní stránka),
+ *       'monolit' = malý kvádr travertinu z hero + SMOLÍK + popisek (/black)
+ */
+interface Props { logo?: 'mark' | 'monolit' }
+const { logo = 'mark' } = Astro.props;
+const mini = logo === 'monolit' ? await getImage({ src: img('monolit-mini.webp'), height: 96, densities: [1, 2], format: 'webp' }) : null;
 ---
 <div class="progress" aria-hidden="true"></div>
 <header class="top" id="topbar">
   <a class="logo" href="#hero" aria-label="Smolík – Kamenictví · Dub nad Moravou, úvod">
-    {logo ? <Logo v={logo} /> : <Fragment><Mark /><span class="wmt" aria-hidden="true">SMOLÍK</span></Fragment>}
+    {mini ? (
+      <Fragment>
+        <img class="mini" src={mini.src} srcset={mini.srcSet.attribute} width={mini.attributes.width} height={mini.attributes.height} alt="" aria-hidden="true" />
+        <span class="wm"><span class="wmt" aria-hidden="true">SMOLÍK</span><span class="desc" aria-hidden="true">Kamenictví · Dub nad Moravou</span></span>
+      </Fragment>
+    ) : <Fragment><Mark /><span class="wmt" aria-hidden="true">SMOLÍK</span></Fragment>}
   </a>
   <nav class="nav" aria-label="Hlavní navigace">
     {NAV.map((l) => <a href={l.href}>{l.label}</a>)}

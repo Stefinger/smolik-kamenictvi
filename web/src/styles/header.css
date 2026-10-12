@@ -37,6 +37,8 @@ html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
 /* nápis SMOLÍK: plná barva + jemný obtah (o chlup silnější tah písma) */
 .top .logo .wmk{display:block;height:13px;width:auto;margin:0;fill:currentColor;stroke:currentColor;stroke-width:6;stroke-linejoin:round}
 .top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:1;white-space:nowrap}
+/* /black: malý kvádr travertinu z hero místo značky */
+.top .logo .mini{display:block;width:auto;height:34px;flex:none;margin-right:-3px}
 .top .logo .desc{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;line-height:1;opacity:.75}
 
 /* navigace: linka pod textem zleva doprava */
@@ -104,6 +106,7 @@ body.menu-open{overflow:hidden}
   .top{height:calc(60px + var(--safe-top));grid-template-columns:1fr auto}
   .top .nav{display:none}
   .top .logo .mark{height:26px}
+  .top .logo .mini{height:30px}
   .top .logo .wmt{font-size:15px}
   .top .logo .desc{display:none}
   .top .pill{width:44px;height:44px;padding:0;justify-content:center}
