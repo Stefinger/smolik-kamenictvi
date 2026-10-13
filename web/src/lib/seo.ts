@@ -40,8 +40,8 @@ export function structuredData(site: URL, ogImage: string) {
         image: ogImage,
         logo: new URL(asset('icon-512.png'), site).href,
         hasMap: MAPS,
-        // sklad Sokolská 317 (podle odkazu na Google Mapy od klienta)
-        geo: { '@type': 'GeoCoordinates', latitude: 49.4857117, longitude: 17.2777962 },
+        // sklad – špendlík z odkazu na Google Mapy od klienta
+        geo: { '@type': 'GeoCoordinates', latitude: 49.4844837, longitude: 17.2846226 },
         address: {
           '@type': 'PostalAddress',
           streetAddress: ADDRESS.street,

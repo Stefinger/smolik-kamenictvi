@@ -18,8 +18,8 @@ Kamenictví z Dubu nad Moravou (okres Olomouc). Z přírodního kamene vyrábí 
 - [Postup](${url}#postup): výběr materiálu, opracování v dílně, osazení na místě
 - [Realizace](${url}#realizace): kuchyně, koupelny, terasy, schodiště, krby, fasády
 - [Materiály](${url}#materialy): přírodní kámen, umělý kámen, obklady a dlažby
-- [Kontakt](${url}#kontakt): telefon, adresa dílny, e-mail
-- [Navigace do dílny](${MAPS}): Google Maps
+- [Kontakt](${url}#kontakt): telefon, adresa skladu, e-mail
+- [Navigace do skladu](${MAPS}): Google Maps
 
 ## Kontakt
 - Telefon: +420 ${PHONE} (nejrychlejší cesta)
