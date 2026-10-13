@@ -251,7 +251,7 @@ export function initStory() {
   /*
    * Scroll určuje cílový postup; scéna k němu plynule dojíždí (časová konstanta TAU),
    * takže pohyb nepůsobí mechanicky ani při trhaném kolečku myši.
-   * Omezený pohyb: bez dojezdu, jen klidové stavy jednotlivých kroků (SPEC § 5).
+   * Omezený pohyb: bez dojezdu, jen klidové stavy jednotlivých kroků.
    */
   const TAU = 0.12;
   let target = 0, shown = -1, before = true, raf = 0, lastT = 0;

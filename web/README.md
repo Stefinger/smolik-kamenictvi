@@ -1,7 +1,7 @@
 # Kamenictví Smolík – produkční web (Astro)
 
-Přepis schváleného prototypu `../site/index.html` do Astra. Vzhled a chování odpovídají prototypu 1:1
-(ověřeno měřením poloh, rozměrů a computed styles na 1440×900, iPhone 13, iPad Mini na výšku i na šířku).
+Jednostránkový web kamenictví v Astru: statický výstup, vanilla TS + CSS, bez UI frameworku a knihoven na animace.
+Původně přepsán z HTML prototypu (ten už v repozitáři není, je v historii gitu).
 
 ## Příkazy
 
@@ -12,23 +12,20 @@ npm run build      # statický výstup do dist/
 npm run check      # typová kontrola
 ```
 
-Vizuální porovnání s prototypem (prototyp na :4320, např. `python3 -m http.server 4320 --directory ../site`):
-
-```bash
-node tools/screenshots.mjs   # → screenshots/index.html (prototyp × nová verze vedle sebe)
-```
+Náhled pro sdílení odkazu (`src/assets/og.jpg`) se generuje příkazem `node tools/og.mjs`.
 
 ## Struktura
 
 - `src/pages/index.astro` – jediná stránka, pořadí sekcí Hero → Postup → Příběh → Realizace → Materiály → Kontakt
-- `src/components/` – `Header`, `Menu`, `CallBar`, `Hero` (+ `HeroPicture`), `Process`, `Story` (+ `StoryLayer`),
-  `Works` (+ `WorksRail`), `Materials` (+ `MaterialDialog`), `Footer`, `Mark`, `Wordmark`
-- `src/styles/` – CSS po sekcích; hodnoty jsou výsledek kaskády prototypu (bez mrtvého kódu a starých variant)
-- `src/scripts/` – `nav.ts`, `hero.ts`, `reveal.ts`, `story.ts`, `rail.ts`, `materials.ts` (vanilla TS, bez knihoven)
-- `src/data/materialy.json` – obsah sekce Materiály (ověřeno, že sedí s prototypem)
+- `src/components/` – `Header`, `Menu`, `CallBar`, `Hero` („Monolit“: kvádr travertinu + SMO | LÍK), `Process`,
+  `Story` (+ `StoryLayer`, `HeroPicture` = fotka hotového stolu ve finále), `Works` (+ `WorksRail`),
+  `Materials` (+ `MaterialDialog`), `Footer`, `Mark`, `Wordmark`
+- `src/styles/` – CSS po sekcích (`hero-monolit.css` = hero)
+- `src/scripts/` – `nav.ts`, `hero.ts` + `monolit.ts`, `reveal.ts`, `story.ts`, `rail.ts`, `materials.ts` (vanilla TS, bez knihoven)
+- `src/data/materialy.json` – obsah sekce Materiály
 - `src/lib/site.ts` – telefon, e-mail, navigace
 - `src/assets/img/` – zdrojové obrázky; Astro generuje AVIF + WebP se `srcset`
-- `public/fonts/` – self-hosted fonty, latin + latin-ext (česká diakritika)
+- `src/assets/fonts/` – self-hosted fonty, latin + latin-ext (česká diakritika)
 
 ## Načítání a úvod
 
@@ -45,17 +42,17 @@ node tools/screenshots.mjs   # → screenshots/index.html (prototyp × nová ver
 ## SEO
 
 - `lib/seo.ts` – titulek, popis, strukturovaná data (schema.org `HomeAndConstructionBusiness`, `WebSite`, `WebPage`).
-  Doplnit od klienta: otevírací dobu, souřadnice, odkazy na Google profil a Firmy.cz (`sameAs`).
+  Doplnit od klienta: otevírací dobu, odkazy na Google profil a Firmy.cz (`sameAs`).
 - `pages/robots.txt.ts` (vše povoleno, AI crawlery výslovně), `pages/llms.txt.ts` (shrnutí z dat webu),
   sitemap přes `@astrojs/sitemap`, OG obrázek 1200×630 z hero, canonical, ikony a manifest v `public/`.
 
 ## Poznámky
 
-- Přepínač pozadí v Příběhu je odstraněn, v produkci je jen světlé studio.
-- Záměrné odchylky od prototypu (po testu na iPhonu): Příběh 400vh místo 600vh + jemný dojezd pohybu; hlavička se schovává
-  animovaně; `color-scheme: light` a světlé pozadí stránky (Safari na iOS 26 z nich barví oblast pod hodinami);
-  bez `padding` na `html` podle safe-area; mobilní „Zavolat“ jako plovoucí tlačítko; neprůhledná hlavička po odscrollování.
-- Náhled pro sdílení odkazu: `src/assets/og.jpg`, generuje `node tools/og.mjs`.
+- Příběh běží v tmavém ateliéru (`Story variant="dark"`), v posledním kroku je světlá fotka hotového stolu.
+  Na telefonu/tabletu na výšku je finále široký záběr (`.fin-wide`), jehož stůl leží přesně na stole z kroku 5;
+  prázdnou plochu scény pod textem po dojetí překryje sekce Realizace (`--tail`).
+- iPhone (Safari iOS 26): `color-scheme: light` a světlé pozadí stránky (barví oblast pod hodinami), u patičky tmavé
+  (`html.at-foot`); mobilní „Zavolat“ jako plovoucí tlačítko (ukáže se až pod hero); odkazy na sekce bez `#` v adrese.
 - `prefers-reduced-motion`: vypnuté přechody, paralaxa i ticker; Příběh ukazuje jen klidové stavy kroků.
 - Pozor na `overflow: hidden` u předků Příběhu – rozbije `position: sticky` (použít `overflow: clip`, nikdy na `html`).
 - `site` v `astro.config.mjs` je zatím odhad (`https://www.prirodni-kameny.eu`) – doplnit finální doménu.

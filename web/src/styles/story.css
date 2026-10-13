@@ -1,6 +1,6 @@
 /* ==========================================================================
    Příběh (#pribeh) – od kvádru ke stolu, scroll-driven sekvence průhledných vrstev
-   Produkční varianta = světlé studio (v prototypu .bg-light.lt), přepínač pozadí odstraněn.
+   Výchozí styl = světlé studio, na webu se používá tmavý ateliér (.story--dark níže).
    Výška 400vh = asi půl obrazovky scrollu na krok (prototyp 600vh působil těžkopádně).
    Pozn.: žádný předek nesmí dostat overflow:hidden (rozbije sticky) – případně overflow:clip.
    ========================================================================== */
