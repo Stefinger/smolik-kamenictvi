@@ -137,22 +137,34 @@ export function initStory() {
   function flayout() {
     if (!FW) return;
     if (!MOBP) { FW.style.cssText = ''; return; }
-    const sr = STAGE.getBoundingClientRect(), kr = KICK.getBoundingClientRect(), vw = sr.width;
-    const last = items[N - 1];
-    const lb = last.getBoundingClientRect();
-    const top = kr.bottom - sr.top + 6;
-    const textTop = lb.top - sr.top - 6;
-    const reg = Math.max(160, textTop - top);
-    // výška = prostor nad textem (+ spodní rozplynutí zasahuje kousek pod nadpis), šířka aspoň přes celou obrazovku
-    let w = (reg + 50) * 2560 / 1440;
-    w = clamp(w, vw, vw * 2.1);
-    const h = w * 1440 / 2560;
-    const l = clamp(vw / 2 - (WT[0] + WT[2]) / 2 * w, vw - w, 0);
-    const t = top + Math.min(0, (reg + 50 - h) / 2);
+    const sr = STAGE.getBoundingClientRect(), kr = KICK.getBoundingClientRect(), lr = LS.getBoundingClientRect(), vw = sr.width;
+    // stůl z ateliéru v kroku 5 (stejný výpočet jako v mcalc)
+    const sx = lr.left - sr.left + (ST[0] + ST[2]) / 2 * lr.width;
+    const sy = lr.top - sr.top + (ST[1] + ST[3]) / 2 * lr.height;
+    const sw = (ST[2] - ST[0]) * lr.width;
+    // jako na desktopu: stůl na fotce (při přiblížení ZF) = stůl z ateliéru, pak se fotka oddálí na 1
+    const textTop = items[N - 1].getBoundingClientRect().top - sr.top;
+    let w = sw / ZF / (WT[2] - WT[0]);
+    let h = w * 1440 / 2560;
+    // pod podnoží stolu musí zbýt vzduch nad textem: případně fotku o kus zmenšit (stůl pak lehce dojede, jako na desktopu)
+    const tTop = sy - (WT[3] - WT[1]) / 2 * h, tBot = sy + (WT[3] - WT[1]) / 2 * h, lim = textTop - 48;
+    if (tBot > lim) w *= clamp((lim - tTop) / (tBot - tTop), 0.6, 1);
+    w = Math.max(w, vw);
+    h = w * 1440 / 2560;
+    const l = clamp(sx - (WT[0] + WT[2]) / 2 * w, vw - w, 0);
+    const t = tTop - WT[1] * h;
     Object.assign(FWR, { l, t, w, h });
     FW.style.left = `${l.toFixed(1)}px`; FW.style.top = `${t.toFixed(1)}px`;
     FW.style.width = `${w.toFixed(1)}px`; FW.style.height = `${h.toFixed(1)}px`;
+    // rozplynutí: nahoře pod řádkem s nadpisem sekce, dole mezi podnoží stolu a textem posledního kroku
+    const m0 = Math.max(0, kr.top - sr.top - t), m1 = Math.max(m0 + 1, kr.bottom - sr.top - t + 36);
+    const base = WT[3] * h + 6;
+    // rozplynutí musí skončit uvnitř fotky (jinak by zůstala ostrá spodní hrana)
+    const m3 = Math.min(h, Math.max(base + 24, textTop - t - 4)), m2 = Math.min(base, m3 - Math.min(60, (m3 - m1) / 3));
+    FW.style.setProperty('--m0', `${m0.toFixed(0)}px`); FW.style.setProperty('--m1', `${m1.toFixed(0)}px`);
+    FW.style.setProperty('--m2', `${m2.toFixed(0)}px`); FW.style.setProperty('--m3', `${m3.toFixed(0)}px`);
   }
+
   function storyRender(p: number) {
     const x = clamp(p, 0, 1) * 5;
     let i = Math.min(4, Math.floor(x));
