@@ -64,6 +64,7 @@
 .ticker{overflow:clip;background:var(--bone);color:var(--fg);border-top:1px solid var(--line-l);border-bottom:1px solid var(--line-l);padding:18px 0}
 .ticker-track{display:flex;width:max-content;animation:tick 55s linear infinite;font-family:var(--serif);font-size:clamp(26px,4vw,54px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;white-space:nowrap}
 .ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track i{font-style:normal;margin:0 .42em}
 @keyframes tick{to{transform:translateX(-50%)}}
 
 @media(max-width:900px){

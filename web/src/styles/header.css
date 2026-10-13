@@ -37,9 +37,8 @@ html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusba
 /* nápis SMOLÍK: plná barva + jemný obtah (o chlup silnější tah písma) */
 .top .logo .wmk{display:block;height:13px;width:auto;margin:0;fill:currentColor;stroke:currentColor;stroke-width:6;stroke-linejoin:round}
 .top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:1;white-space:nowrap}
-/* hlavní logo: spodek písmen SMOLÍK na úrovni spodní hrany značky (line-height = výška verzálek) */
-.top .logo--mark{align-items:flex-end}
-.top .logo--mark .wmt{line-height:.72}
+/* hlavní logo: nápis SMOLÍK mírně pod středem značky (mezi středem a spodní hranou; line-height = výška verzálek) */
+.top .logo--mark .wmt{line-height:.72;transform:translateY(.25em)}
 /* /black: malý kvádr travertinu z hero místo značky */
 .top .logo .mini{display:block;width:auto;height:34px;flex:none;margin-right:-3px}
 .top .logo .desc{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;line-height:1;opacity:.75}

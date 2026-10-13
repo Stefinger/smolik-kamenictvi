@@ -6,7 +6,8 @@
 export const PHONE = '606 923 347';
 export const TEL = 'tel:+420606923347';
 export const EMAIL = 'smolik.jarda@volny.cz';
-export const MAPS = 'https://maps.app.goo.gl/ECbFLydDgApimRQWA';
+// místo se špendlíkem na adrese skladu (souřadnice z odkazu klienta https://maps.app.goo.gl/ECbFLydDgApimRQWA)
+export const MAPS = 'https://www.google.com/maps/place/Sokolsk%C3%A1+317,+783+75+Dub+nad+Moravou/@49.4857117,17.2777962,17z';
 
 export const NAV = [
   { href: '#postup', label: 'Postup' },

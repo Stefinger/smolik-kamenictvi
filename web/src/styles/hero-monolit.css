@@ -41,11 +41,9 @@
 .hm-text,.hm-cta{pointer-events:auto}
 .hm h1{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(1.7rem,2.7vw,3.3rem);line-height:.96;letter-spacing:-.02em;color:#282823}
 .hm h1 .l{display:block}
-.hm h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em 0 .1em;margin:-.14em 0 -.1em}
-.hm h1 .w>span{display:inline-block}
-.js .hm h1 .w>span{transform:translateY(112%);letter-spacing:.06em;opacity:0}
-.hm.is-in h1 .w>span{transform:none;letter-spacing:-.035em;opacity:1;
-  transition:transform 1.5s var(--ease),letter-spacing 2.2s var(--ease),opacity .6s ease;transition-delay:var(--d)}
+.hm h1 .w>span{letter-spacing:-.035em}
+.js .hm h1{opacity:0;transform:translateY(14px);filter:blur(6px)}
+.hm.is-in h1{opacity:1;transform:none;filter:none;transition:opacity 1.3s ease 1.4s,transform 1.6s var(--ease) 1.4s,filter 1.3s ease 1.4s}
 .hm-p{margin-top:1.2rem;font-size:15px;line-height:1.55;max-width:26rem;color:rgba(40,40,35,.74)}
 .hm .hm-cta{flex:none;background:transparent;color:#282823}
 @media(hover:hover){.hm .hm-cta:hover{background:rgba(40,40,35,.08)}}
@@ -113,5 +111,5 @@
 
 @media(prefers-reduced-motion:reduce){
   .hm{height:100lvh}
-  .js .hm-in,.js .hm-word i,.js .hm h1 .w>span,.js .hm-p,.js .hm-cta{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
+  .js .hm-in,.js .hm-word i,.js .hm h1,.js .hm-p,.js .hm-cta{opacity:1!important;transform:none!important;filter:none!important;letter-spacing:-.035em}
 }
