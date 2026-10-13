@@ -66,6 +66,26 @@ export function initNav() {
   addEventListener('resize', setActive);
   setActive();
 
+  /* odkazy na sekce (#kontakt …): posunout na sekci, ale adresu nechat bez # – obnovení stránky pak neskočí zpět */
+  addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = (e.target as Element).closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+    const id = a?.getAttribute('href')!.slice(1);
+    if (!a || !id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    if (id === 'hero') scrollTo(0, 0);
+    else el.scrollIntoView({ block: 'start' });
+  });
+  // přišel-li někdo s # v adrese (sdílený odkaz): # z adresy uklidit a na sekci posunout sami (po načtení stránky)
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    history.replaceState(null, '', location.pathname + location.search);
+    const go = () => target?.scrollIntoView({ block: 'start' });
+    if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true });
+  }
+
   /* overlay menu */
   const burger = document.querySelector<HTMLButtonElement>('.burger')!;
   const menu = document.getElementById('menu')!;
