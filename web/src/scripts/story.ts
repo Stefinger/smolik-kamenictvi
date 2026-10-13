@@ -148,7 +148,7 @@ export function initStory() {
     let h = w * 1440 / 2560;
     // pod podnoží stolu musí zbýt vzduch nad textem: případně fotku o kus zmenšit (stůl pak lehce dojede, jako na desktopu)
     const tTop = sy - (WT[3] - WT[1]) / 2 * h, tBot = sy + (WT[3] - WT[1]) / 2 * h, lim = textTop - 48;
-    if (tBot > lim) w *= clamp((lim - tTop) / (tBot - tTop), 0.6, 1);
+    w *= clamp((lim - tTop) / (tBot - tTop), 0.6, 1.2); // případně i o kus větší, ať fotka vyplní místo nad textem
     w = Math.max(w, vw);
     h = w * 1440 / 2560;
     const l = clamp(sx - (WT[0] + WT[2]) / 2 * w, vw - w, 0);
@@ -211,6 +211,7 @@ export function initStory() {
     const wasP = MOBP;
     MOBP = matchMedia('(orientation:portrait) and (max-width:1100px)').matches;
     if (wasP !== MOBP && FW) { FW.style.cssText = ''; FIN.style.transform = ''; }
+    if (!MOBP) { UI.style.paddingBottom = ''; story!.style.removeProperty('--tail'); }
     if (!MOB) {
       (['left', 'top', 'width', 'height', 'transform'] as const).forEach((k) => { LS.style[k] = ''; });
       lsize(); mcalc();
@@ -223,7 +224,15 @@ export function initStory() {
     let x0: number, x1: number, topY: number, botY: number;
     if (LAND) { x0 = 0.42 * vw; x1 = 0.97 * vw; topY = kr.bottom - sr.top + 10; botY = sr.height - 16; }
     else {
+      // telefon na výšku: text kroků těsně nad plovoucím „Zavolat“ (ne s rezervou na celé lišty Safari)
+      const cb = document.getElementById('callbar');
+      if (cb && getComputedStyle(cb).display !== 'none') {
+        const cbTop = innerHeight - (parseFloat(getComputedStyle(cb).bottom) || 12) - (cb.offsetHeight || 52);
+        UI.style.paddingBottom = `${Math.max(24, sr.height - (cbTop - 28)).toFixed(0)}px`;
+      } else UI.style.paddingBottom = '';
       const padB = parseFloat(getComputedStyle(UI).paddingBottom) || 32;
+      // prázdné místo pod textem po dojetí Příběhu překryje další sekce (story.css, --tail)
+      story!.style.setProperty('--tail', `${Math.max(0, padB - 36).toFixed(0)}px`);
       const itemB = parseFloat(getComputedStyle(items[0]).bottom) || 40;
       x0 = 0.05 * vw; x1 = 0.95 * vw; topY = kr.bottom - sr.top + 16; botY = sr.height - padB - itemB - copyH - 10;
     }
