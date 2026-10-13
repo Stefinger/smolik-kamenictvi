@@ -5,7 +5,7 @@
  */
 export const PHONE = '606 923 347';
 export const TEL = 'tel:+420606923347';
-export const EMAIL = 'info@prirodni-kameny.eu';
+export const EMAIL = 'smolik.jarda@volny.cz';
 export const MAPS = 'https://maps.google.com/?q=Sokolsk%C3%A1+317,+Dub+nad+Moravou';
 
 export const NAV = [
