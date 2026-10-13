@@ -43,6 +43,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
       {layers.map((l) => <StoryLayer {...l} />)}
     </div></div>
     <HeroPicture id="Lfin" class="finale" hidden variant={finale} />
+    <!-- telefon na výšku: po usazení stolu se kamera oddálí do širokého záběru (story.ts, pullback) -->
+    <div class="fin-wide" id="LfinW" aria-hidden="true"><HeroPicture class="fin-wide-img" hidden variant={finale} wideOnly /></div>
     <div class="film-shade" aria-hidden="true"></div>
     <div class="s-ui">
       <span class="kicker">02 — Od kvádru ke stolu</span>

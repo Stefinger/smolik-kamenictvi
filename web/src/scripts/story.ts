@@ -25,6 +25,7 @@ export function initStory() {
 
   const LS = document.getElementById('lstage')!;
   const FIN = document.getElementById('Lfin') as HTMLImageElement;
+  const FW = document.getElementById('LfinW') as HTMLElement | null; // oddálený široký záběr (telefon na výšku)
   const ids = ['SHB', 'SHT', 'L1', 'L1sh', 'L2t', 'L2x', 'L2r', 'L2f', 'L3', 'L4', 'L3s', 'L4s'] as const;
   const L = Object.fromEntries(ids.map((id) => [id, document.getElementById(id) as HTMLElement])) as Record<(typeof ids)[number], HTMLElement>;
   let SC = 1;
@@ -81,7 +82,7 @@ export function initStory() {
   /* match cut: stůl z ateliéru se usadí na místo stolu na hero fotce, kamera jemně odjede */
   const STAGE = story.querySelector<HTMLElement>('.stage')!;
   const LM = document.getElementById('lmove')!;
-  const MC = { s: 1, tx: 0, ty: 0, hx: 0, hy: 0 };
+  const MC = { s: 1, tx: 0, ty: 0, hx: 0, hy: 0, hw: 0 };
   const ZF = 1.08;
   /* rozměry fotky a poloha stolu v ní: data-table-wide / data-table-tall = "šířka,výška,x0,y0,x1,y1" (HeroPicture) */
   const geoAttr = (name: string) => (FIN.dataset[name] || '').split(',').map(Number);
@@ -98,7 +99,8 @@ export function initStory() {
     const ox = (sr.width - IW * c) * px / 100, oy = (sr.height - IH * c) / 2;
     MC.hx = ox + (HT[0] + HT[2]) / 2 * c;
     MC.hy = oy + (HT[1] + HT[3]) / 2 * c;
-    const hw = (HT[2] - HT[0]) * c * ZF;
+    MC.hw = (HT[2] - HT[0]) * c;
+    const hw = MC.hw * ZF;
     const sx = lr.left - sr.left + (ST[0] + ST[2]) / 2 * lr.width;
     const sy = lr.top - sr.top + (ST[1] + ST[3]) / 2 * lr.height;
     const sw = (ST[2] - ST[0]) * lr.width;
@@ -117,7 +119,49 @@ export function initStory() {
   const KICK = story.querySelector<HTMLElement>('.s-ui > .kicker')!;
   const COPY = story.querySelector<HTMLElement>('.s-copy')!;
 
-  function storyRender(p: number) {
+  /*
+   * Telefon na výšku: krok 6 pokračuje „oddálením“ – z detailu stolu (portrétní fotka) do širokého záběru
+   * (.fin-wide). Ten začne přesně v měřítku a poloze stolu na portrétní fotce, prolne se a dojede do své
+   * konečné polohy nahoře; text posledního kroku se objeví až pod ním. PB = podíl scrollu pro oddálení.
+   */
+  let MOBP = false;
+  const PB = 1 / 6; // .story 480vh místo 400vh (story.css)
+  const WT = [1140 / 2560, 580 / 1440, 2260 / 2560, 1260 / 1440]; // stůl v širokém snímku (podíl šířky/výšky)
+  const FWR = { l: 0, t: 0, w: 0, h: 0 };
+  function flayout() {
+    if (!FW) return;
+    if (!MOBP) { FW.style.cssText = ''; return; }
+    const sr = STAGE.getBoundingClientRect(), kr = KICK.getBoundingClientRect(), vw = sr.width;
+    const last = items[N - 1];
+    const lb = last.getBoundingClientRect();
+    const top = kr.bottom - sr.top + 6;
+    const textTop = lb.top - sr.top - 6;
+    const reg = Math.max(160, textTop - top);
+    // výška = prostor nad textem (+ spodní rozplynutí zasahuje kousek pod nadpis), šířka aspoň přes celou obrazovku
+    let w = (reg + 50) * 2560 / 1440;
+    w = clamp(w, vw, vw * 2.1);
+    const h = w * 1440 / 2560;
+    const l = clamp(vw / 2 - (WT[0] + WT[2]) / 2 * w, vw - w, 0);
+    const t = top + Math.min(0, (reg + 50 - h) / 2);
+    Object.assign(FWR, { l, t, w, h });
+    FW.style.left = `${l.toFixed(1)}px`; FW.style.top = `${t.toFixed(1)}px`;
+    FW.style.width = `${w.toFixed(1)}px`; FW.style.height = `${h.toFixed(1)}px`;
+  }
+  function pullback(pb: number, oF: number) {
+    if (!FW || !MOBP) return;
+    const e = eio(pb);
+    // start: stůl v širokém záběru má stejnou velikost a střed jako stůl na portrétní fotce
+    const tw = (WT[2] - WT[0]) * FWR.w;
+    const fx = (WT[0] + WT[2]) / 2 * FWR.w, fy = (WT[1] + WT[3]) / 2 * FWR.h;
+    const s0 = MC.hw > 0 ? MC.hw / tw : 1;
+    const tx0 = MC.hx - FWR.l - s0 * fx, ty0 = MC.hy - FWR.t - s0 * fy;
+    const sc = s0 + (1 - s0) * e;
+    FW.style.transform = `translate3d(${(tx0 * (1 - e)).toFixed(1)}px,${(ty0 * (1 - e)).toFixed(1)}px,0) scale(${sc.toFixed(4)})`;
+    FW.style.opacity = (oF * sm(0, 0.3, pb)).toFixed(3);
+    FIN.style.opacity = (oF * (1 - sm(0.12, 0.5, pb))).toFixed(3);
+  }
+
+  function storyRender(p: number, pb = 0) {
     const x = clamp(p, 0, 1) * 5;
     let i = Math.min(4, Math.floor(x));
     // u = postup uvnitř kroku; na okrajích krátká klidová místa (8 %), kde scéna chvíli stojí
@@ -149,8 +193,9 @@ export function initStory() {
     FIN.style.opacity = oF.toFixed(3);
     story!.style.setProperty('--fin', oF.toFixed(3)); // závoj pod textem posledního kroku (čitelnost na fotce)
     finTr(zoom); moveTr(mv);
+    pullback(pb, oF);
     let oC = 1;
-    if (MOB && i === 4) oC = Math.max(1 - sm(0, 0.1, u), sm(0.55, 0.75, u));
+    if (MOB && i === 4) oC = Math.max(1 - sm(0, 0.1, u), MOBP ? sm(0.5, 0.9, pb) : sm(0.55, 0.75, u));
     COPY.style.opacity = oC.toFixed(3);
   }
 
@@ -159,6 +204,9 @@ export function initStory() {
     const LAND = matchMedia('(orientation:landscape) and (max-height:520px)').matches || matchMedia('(orientation:landscape) and (max-aspect-ratio:3/2) and (max-width:1400px)').matches;
     const PORT = matchMedia('(orientation:portrait) and (max-width:1100px)').matches || (matchMedia('(max-width:760px)').matches && !LAND);
     MOB = PORT || LAND;
+    const wasP = MOBP;
+    MOBP = matchMedia('(orientation:portrait) and (max-width:1100px)').matches;
+    if (wasP !== MOBP && FW) { FW.style.cssText = ''; if (!MOBP) FIN.style.opacity = '0'; }
     if (!MOB) {
       (['left', 'top', 'width', 'height', 'transform'] as const).forEach((k) => { LS.style[k] = ''; });
       lsize(); mcalc();
@@ -184,6 +232,7 @@ export function initStory() {
     LS.style.transform = 'scaleX(-1)';
     SC = hh / 2160;
     mcalc();
+    flayout();
   }
 
   /*
@@ -196,9 +245,12 @@ export function initStory() {
 
   function paint(p: number) {
     if (before && p < 0.0005) { activate(-1); storyRender(0); return; }
-    const k = clamp(Math.round(p * (N - 1)), 0, N - 1);
+    // telefon na výšku: posledních PB scrollu patří oddálení, kroky se odehrají v první části
+    const q = MOBP ? clamp(p / (1 - PB), 0, 1) : p;
+    const pb = MOBP ? clamp((p - (1 - PB)) / PB, 0, 1) : 0;
+    const k = clamp(Math.round(q * (N - 1)), 0, N - 1);
     activate(k);
-    storyRender(RM ? k / (N - 1) : p);
+    storyRender(RM ? k / (N - 1) : q, RM ? (pb > 0.5 ? 1 : 0) : pb);
   }
   function tick(now: number) {
     const dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 1 / 60;
