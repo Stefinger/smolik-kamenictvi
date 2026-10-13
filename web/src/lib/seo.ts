@@ -17,11 +17,11 @@ export const ADDRESS = {
 };
 
 /** Materiály, se kterými firma pracuje (z obsahu webu). */
-const MATERIALS = ['Pískovec', 'Vápenec', 'Břidlice', 'Žula', 'Mramor', 'Andezit', 'Opuka', 'Porfyr', 'Travertin', 'Umělý kámen', 'Kamenné obklady', 'Kamenné dlažby'];
+const MATERIALS = ['Pískovec', 'Vápenec', 'Břidlice', 'Žula', 'Mramor', 'Andezit', 'Porfyr', 'Travertin', 'Umělý kámen', 'Kamenné obklady', 'Kamenné dlažby'];
 
 /**
  * Strukturovaná data schema.org (JSON-LD) pro vyhledávače a AI asistenty.
- * TODO po doplnění od klienta: openingHoursSpecification, geo (souřadnice), sameAs (Google profil, Firmy.cz), priceRange.
+ * TODO po doplnění od klienta: openingHoursSpecification, sameAs (Google profil, Firmy.cz), priceRange.
  */
 export function structuredData(site: URL, ogImage: string) {
   const url = new URL(asset(''), site).href;
@@ -40,6 +40,8 @@ export function structuredData(site: URL, ogImage: string) {
         image: ogImage,
         logo: new URL(asset('icon-512.png'), site).href,
         hasMap: MAPS,
+        // sklad Sokolská 317 (podle odkazu na Google Mapy od klienta)
+        geo: { '@type': 'GeoCoordinates', latitude: 49.4857117, longitude: 17.2777962 },
         address: {
           '@type': 'PostalAddress',
           streetAddress: ADDRESS.street,

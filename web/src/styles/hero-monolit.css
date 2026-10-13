@@ -50,7 +50,7 @@
 .hm .hm-cta{flex:none;background:transparent;color:#282823}
 @media(hover:hover){.hm .hm-cta:hover{background:rgba(40,40,35,.08)}}
 .js .hm-p,.js .hm-cta{opacity:0;transform:translateY(8px)}
-.hm.is-in .hm-p,.hm.is-in .hm-cta{opacity:1;transform:none;transition:opacity 1.2s 1.9s,transform 1.2s 1.9s var(--ease),background-color .3s}
+.hm.is-in .hm-p,.hm.is-in .hm-cta{opacity:1;transform:none;transition:opacity 1.2s 1.4s,transform 1.2s 1.4s var(--ease),background-color .3s}
 
 /* užší obrazovky na šířku (tablety, malé notebooky): jméno o kus menší, ať nenaráží na text */
 @media(orientation:landscape) and (max-width:1200px){

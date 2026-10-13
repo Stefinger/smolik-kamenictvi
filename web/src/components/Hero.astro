@@ -8,8 +8,9 @@
 import { monolitSources, MONOLIT_SIZES } from '../lib/hero';
 
 const s = await monolitSources();
-const line1 = [['Z', '.75s'], ['přírody.', '.85s']];
-const line2 = [['Do', '1.0s'], ['vašeho', '1.1s'], ['prostoru.', '1.2s']];
+// nadpis vyjede celý najednou spolu s hlavičkou, textem a tlačítkem – až po kameni a jménu SMOLÍK
+const line1 = [['Z', '1.4s'], ['přírody.', '1.4s']];
+const line2 = [['Do', '1.4s'], ['vašeho', '1.4s'], ['prostoru.', '1.4s']];
 ---
 <section class="hm" id="hero" aria-label="Úvod" style={`--ar:${(s.width / s.height).toFixed(4)}`}>
   <div class="hm-stage">

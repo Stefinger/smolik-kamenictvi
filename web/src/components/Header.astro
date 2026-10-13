@@ -14,7 +14,7 @@ const mini = logo === 'monolit' ? await getImage({ src: img('monolit-mini.webp')
 ---
 <div class="progress" aria-hidden="true"></div>
 <header class="top" id="topbar">
-  <a class="logo" href="#hero" aria-label="Smolík – Kamenictví · Dub nad Moravou, úvod">
+  <a class:list={["logo", { "logo--mark": !mini }]} href="#hero" aria-label="Smolík – Kamenictví · Dub nad Moravou, úvod">
     {mini ? (
       <Fragment>
         <img class="mini" src={mini.src} srcset={mini.srcSet.attribute} width={mini.attributes.width} height={mini.attributes.height} alt="" aria-hidden="true" />

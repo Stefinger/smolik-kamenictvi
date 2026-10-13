@@ -4,7 +4,7 @@
 .top{position:fixed;inset:0 0 auto 0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem;height:calc(72px + var(--safe-top));
   padding:var(--safe-top) var(--gut) 0;color:var(--ink);background:transparent;border-bottom:1px solid transparent}
 /* schování / ukázání jemně vyjede (v prototypu bylo skokem), barvy se prolnou */
-.js .top{opacity:0;transition:opacity 1.2s 1.6s,transform .5s var(--ease-out),background-color .35s,color .35s,border-color .35s}
+.js .top{opacity:0;transition:opacity 1.2s 1.4s,transform .5s var(--ease-out),background-color .35s,color .35s,border-color .35s}
 .js body.ready .top{opacity:1}
 /* neprůhledná, aby z ní Safari na iOS 26 obarvil i oblast pod hodinami */
 .top.is-solid{background:var(--bone);border-color:rgba(27,25,22,.12)}
@@ -37,6 +37,9 @@ html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusba
 /* nápis SMOLÍK: plná barva + jemný obtah (o chlup silnější tah písma) */
 .top .logo .wmk{display:block;height:13px;width:auto;margin:0;fill:currentColor;stroke:currentColor;stroke-width:6;stroke-linejoin:round}
 .top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:1;white-space:nowrap}
+/* hlavní logo: spodek písmen SMOLÍK na úrovni spodní hrany značky (line-height = výška verzálek) */
+.top .logo--mark{align-items:flex-end}
+.top .logo--mark .wmt{line-height:.72}
 /* /black: malý kvádr travertinu z hero místo značky */
 .top .logo .mini{display:block;width:auto;height:34px;flex:none;margin-right:-3px}
 .top .logo .desc{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;line-height:1;opacity:.75}

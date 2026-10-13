@@ -115,21 +115,21 @@
    "accusative": "andezit"
   },
   {
-   "name": "Opuka",
-   "tag": "Jemná / sochařská",
-   "image": "sw-opuka.webp",
-   "description": "Usazený prachovitý slínovec s mikroskopickými jehlicemi mořských hub, které určují jeho pevnost. Snadno se opracovává, proto slouží i v kamenosochařství.",
+   "name": "Travertin",
+   "tag": "Teplý / pórovitý",
+   "image": "sw-travertin.webp",
+   "description": "Vápenec usazený z minerálních pramenů. Typické drobné dutinky a vrstevnatá kresba mu dávají teplý, klasický vzhled. Povrch může zůstat přirozeně pórovitý, nebo se póry vytmelí a kámen vybrousí do hladka.",
    "facts": [
     [
      "Použití",
-     "Zdivo, obklady, kamenosochařství"
+     "Podlahy, obklady, schody, koupelny, stoly"
     ],
     [
      "Prostředí",
      "Interiér i exteriér"
     ]
    ],
-   "accusative": "opuku"
+   "accusative": "travertin"
   },
   {
    "name": "Porfyr",
