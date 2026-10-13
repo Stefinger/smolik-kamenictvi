@@ -22,9 +22,9 @@
 .top.menu-open+.statusbar{background:var(--bone)}
 /* při otevřeném menu je hlavička průhledná nad rozmazaným pozadím (bez pruhu) */
 .top.menu-open,.top.menu-open.is-solid{color:var(--ink);background:transparent;border-color:transparent}
-html.page-dark .top.menu-open{color:var(--bone)}
-html.page-dark .top.menu-open .pill{background:var(--bone);color:var(--ink)}
-html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
+html.page-dark .top.menu-open,html.menu-dark .top.menu-open{color:var(--bone)}
+html.page-dark .top.menu-open .pill,html.menu-dark .top.menu-open .pill{background:var(--bone);color:var(--ink)}
+html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusbar{background:var(--ink)}
 
 /* logo: značka + nápis SMOLÍK písmem z hero (Smolik Display), bez popisku */
 .top .logo{display:flex;align-items:center;gap:14px;line-height:1}
@@ -74,7 +74,7 @@ html.page-dark .top.menu-open+.statusbar{background:var(--ink)}
   background:rgba(236,233,225,.55);-webkit-backdrop-filter:blur(28px) saturate(1.1);backdrop-filter:blur(28px) saturate(1.1);
   transition:opacity .25s ease}
 body.menu-open .menu-backdrop{opacity:1;pointer-events:auto;transition:opacity .35s ease}
-html.page-dark .menu-backdrop{background:rgba(27,25,22,.5)}
+html.page-dark .menu-backdrop,html.menu-dark .menu-backdrop{background:rgba(27,25,22,.5)}
 
 .menu{position:fixed;left:50%;top:50%;z-index:45;width:min(420px,calc(100% - 24px));max-height:calc(100svh - var(--safe-top) - 140px);overflow:auto;
   display:grid;grid-template-rows:auto auto;padding:4px 22px 22px;border-radius:24px;background:var(--bone);color:var(--ink);

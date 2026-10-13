@@ -76,13 +76,16 @@ export function initNav() {
       menu.hidden = false;
       requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));
       body.classList.add('menu-open');
-      top.classList.remove('is-hidden', 'is-dark');
+      // menu nad tmavou částí (patička, tmavý Příběh) je tmavé – hlavička si barvu drží, nic nepřeblikne
+      document.documentElement.classList.toggle('menu-dark', top.classList.contains('is-dark'));
+      top.classList.remove('is-hidden');
       top.classList.add('menu-open');
     } else {
       menu.classList.remove('is-open');
       body.classList.remove('menu-open');
       top.classList.remove('menu-open');
-      setTimeout(() => { menu.hidden = true; onScroll(); }, 300); // = délka zavření karty v header.css
+      onScroll(); // barvu hlavičky hned podle obsahu pod ní (ne až po animaci)
+      setTimeout(() => { menu.hidden = true; document.documentElement.classList.remove('menu-dark'); }, 300); // = délka zavření karty v header.css
     }
   }
   burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
