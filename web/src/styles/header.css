@@ -22,9 +22,9 @@
 .top.menu-open+.statusbar{background:var(--bone)}
 /* při otevřeném menu je hlavička průhledná nad rozmazaným pozadím (bez pruhu) */
 .top.menu-open,.top.menu-open.is-solid{color:var(--ink);background:transparent;border-color:transparent}
-html.page-dark .top.menu-open,html.menu-dark .top.menu-open{color:var(--bone)}
-html.page-dark .top.menu-open .pill,html.menu-dark .top.menu-open .pill{background:var(--bone);color:var(--ink)}
-html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusbar{background:var(--ink)}
+html.menu-dark .top.menu-open{color:var(--bone)}
+html.menu-dark .top.menu-open .pill{background:var(--bone);color:var(--ink)}
+html.menu-dark .top.menu-open+.statusbar{background:var(--ink)}
 
 /* logo: značka + nápis SMOLÍK písmem z hero (Smolik Display), bez popisku */
 .top .logo{display:flex;align-items:center;gap:14px;line-height:1}
@@ -33,15 +33,9 @@ html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusba
 .top .logo .mark .edge{fill:currentColor;opacity:.35}
 .top .logo .mark .sand{fill:var(--sand2)}
 .top.is-dark .logo .mark .sand,.top.menu-open .logo .mark .sand{fill:#d3b48a}
-.top .logo .wm{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
-/* nápis SMOLÍK: plná barva + jemný obtah (o chlup silnější tah písma) */
-.top .logo .wmk{display:block;height:13px;width:auto;margin:0;fill:currentColor;stroke:currentColor;stroke-width:6;stroke-linejoin:round}
-.top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:1;white-space:nowrap}
-/* hlavní logo: nápis SMOLÍK mírně pod středem značky (mezi středem a spodní hranou; line-height = výška verzálek) */
-.top .logo--mark .wmt{line-height:.72;transform:translateY(.25em)}
-/* /black: malý kvádr travertinu z hero místo značky */
-.top .logo .mini{display:block;width:auto;height:34px;flex:none;margin-right:-3px}
-.top .logo .desc{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;line-height:1;opacity:.75}
+.top .logo .wmt{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;white-space:nowrap}
+/* nápis SMOLÍK mírně pod středem značky (mezi středem a spodní hranou; line-height = výška verzálek) */
+.top .logo .wmt{line-height:.72;transform:translateY(.25em)}
 
 /* navigace: linka pod textem zleva doprava */
 .top .nav{display:flex;gap:2.4rem;align-items:center;justify-self:center;font-size:14px;font-weight:500;letter-spacing:.01em}
@@ -76,7 +70,7 @@ html.page-dark .top.menu-open+.statusbar,html.menu-dark .top.menu-open+.statusba
   background:rgba(236,233,225,.55);-webkit-backdrop-filter:blur(28px) saturate(1.1);backdrop-filter:blur(28px) saturate(1.1);
   transition:opacity .25s ease}
 body.menu-open .menu-backdrop{opacity:1;pointer-events:auto;transition:opacity .35s ease}
-html.page-dark .menu-backdrop,html.menu-dark .menu-backdrop{background:rgba(27,25,22,.5)}
+html.menu-dark .menu-backdrop{background:rgba(27,25,22,.5)}
 
 .menu{position:fixed;left:50%;top:50%;z-index:45;width:min(420px,calc(100% - 24px));max-height:calc(100svh - var(--safe-top) - 140px);overflow:auto;
   display:grid;grid-template-rows:auto auto;padding:4px 22px 22px;border-radius:24px;background:var(--bone);color:var(--ink);
@@ -108,9 +102,7 @@ body.menu-open{overflow:hidden}
   .top{height:calc(60px + var(--safe-top));grid-template-columns:1fr auto}
   .top .nav{display:none}
   .top .logo .mark{height:26px}
-  .top .logo .mini{height:30px}
   .top .logo .wmt{font-size:15px}
-  .top .logo .desc{display:none}
   .top .pill{width:44px;height:44px;padding:0;justify-content:center}
   /* číslo jen skrýt vizuálně, ne display:none – Safari na iOS jinak bere odkaz na hovor bez čísla jako „automatický hovor“ */
   .top .pill span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

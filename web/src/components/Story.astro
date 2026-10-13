@@ -1,14 +1,10 @@
 ---
 import StoryLayer from './StoryLayer.astro';
 import HeroPicture from './HeroPicture.astro';
-import type { HeroVariant } from '../lib/hero';
 
-/**
- * variant = pozadí ateliéru (dark = původní tmavý ateliér),
- * finale = fotka hotového stolu v posledním kroku (match cut), výchozí stejná jako pozadí
- */
-interface Props { variant?: HeroVariant; finale?: HeroVariant }
-const { variant = 'light', finale = variant } = Astro.props;
+/** variant = pozadí ateliéru (dark = původní tmavý ateliér, na webu); v posledním kroku vždy světlá fotka hotového stolu */
+interface Props { variant?: 'light' | 'dark' }
+const { variant = 'light' } = Astro.props;
 
 // pořadí = pořadí vykreslení (spodní vrstva první)
 const layers = [
@@ -42,9 +38,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="lmove" id="lmove"><div class="lstage" id="lstage" aria-hidden="true">
       {layers.map((l) => <StoryLayer {...l} />)}
     </div></div>
-    <HeroPicture id="Lfin" class="finale" hidden variant={finale} />
+    <HeroPicture id="Lfin" class="finale" hidden />
     <!-- telefon na výšku: po usazení stolu se kamera oddálí do širokého záběru (story.ts, pullback) -->
-    <div class="fin-wide" id="LfinW" aria-hidden="true"><HeroPicture class="fin-wide-img" hidden variant={finale} wideOnly /></div>
+    <div class="fin-wide" id="LfinW" aria-hidden="true"><HeroPicture class="fin-wide-img" hidden wideOnly /></div>
     <div class="film-shade" aria-hidden="true"></div>
     <div class="s-ui">
       <span class="kicker">02 — Od kvádru ke stolu</span>

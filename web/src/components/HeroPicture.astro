@@ -1,10 +1,10 @@
 ---
-import { heroSources, PORTRAIT_MEDIA, type HeroVariant } from '../lib/hero';
+import { heroSources, PORTRAIT_MEDIA } from '../lib/hero';
 
 /** wideOnly = jen široký snímek (bez portrétu pro telefon) – oddálený záběr na konci Příběhu */
-interface Props { id?: string; class?: string; alt?: string; priority?: boolean; hidden?: boolean; variant?: HeroVariant; wideOnly?: boolean }
-const { id, class: cls, alt, priority = false, hidden = false, variant = 'light', wideOnly = false } = Astro.props;
-const src = await heroSources(variant);
+interface Props { id?: string; class?: string; alt?: string; priority?: boolean; hidden?: boolean; wideOnly?: boolean }
+const { id, class: cls, alt, priority = false, hidden = false, wideOnly = false } = Astro.props;
+const src = await heroSources();
 const s = wideOnly ? { ...src, tall: null } : src;
 // rozměry a poloha stolu pro match cut v Příběhu (story.ts)
 const geo = {

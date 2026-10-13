@@ -107,7 +107,7 @@
 }
 
 /* ==========================================================================
-   Tmavá varianta (/black): původní tmavý ateliér (v prototypu „Pozadí: Původní“).
+   Tmavá varianta (na webu): původní tmavý ateliér (v prototypu „Pozadí: Původní“).
    ========================================================================== */
 .story--dark{background:#1b1815;color:var(--bone)}
 .story--dark .stage{background:#1b1815}

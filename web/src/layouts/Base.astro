@@ -10,7 +10,6 @@ import '../styles/works.css';
 import '../styles/materials.css';
 import '../styles/footer.css';
 import Intro from '../components/Intro.astro';
-import { heroSources, PORTRAIT_MEDIA, LANDSCAPE_MEDIA, type HeroVariant } from '../lib/hero';
 import { DESCRIPTION, SHARE_TITLE, SITE_NAME, TITLE, structuredData } from '../lib/seo';
 import ogSource from '../assets/og.jpg';
 import { NOINDEX, asset } from '../lib/paths';
@@ -19,18 +18,10 @@ import fontDisplayExt from '../assets/fonts/smolik-display-ext.woff2?url';
 import fontSansLatin from '../assets/fonts/instrument-sans-latin.woff2?url';
 
 interface Props {
-  /** dark = tmavá varianta stránky (/black): tmavé hero, tmavý Příběh, tmavé pozadí stránky */
-  variant?: HeroVariant;
-  /** varianta pro porovnání: neindexovat, kanonická adresa je hlavní stránka */
-  alternate?: boolean;
-  /** false = hero fotku nepřednačítat (stránka si vlastní přednačte ve slotu „head“) */
-  preloadHero?: boolean;
 }
-const { variant = 'light', alternate = false, preloadHero = true } = Astro.props;
 const site = Astro.site!;
-const canonical = new URL(alternate ? asset('') : Astro.url.pathname, site).href;
-const hero = await heroSources(variant);
-const noindex = NOINDEX || alternate;
+const canonical = new URL(Astro.url.pathname, site).href;
+const noindex = NOINDEX;
 // náhled pro sdílení (Facebook, WhatsApp, LinkedIn…) a obrázek firmy pro vyhledávače
 // (generuje tools/og.mjs: fotka stolu + logo + nadpis + telefon)
 const og = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg', quality: 86 });
@@ -38,7 +29,7 @@ const ogUrl = new URL(og.src, site).href;
 const jsonLd = JSON.stringify(structuredData(site, ogUrl));
 ---
 <!doctype html>
-<html lang="cs" class:list={[{ 'page-dark': variant === 'dark' }]}>
+<html lang="cs">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -46,7 +37,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <meta name="description" content={DESCRIPTION} />
   <link rel="canonical" href={canonical} />
   <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
-  <meta name="theme-color" content={variant === 'dark' ? '#1b1916' : '#ece9e1'} />
+  <meta name="theme-color" content="#ece9e1" />
 
   <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
   <link rel="icon" href={asset('favicon-32.png')} type="image/png" sizes="32x32" />
@@ -72,8 +63,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <link rel="preload" href={fontDisplayLatin} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontDisplayExt} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontSansLatin} as="font" type="font/woff2" crossorigin />
-  {preloadHero && <link rel="preload" as="image" type="image/avif" imagesrcset={hero.wide.avif} imagesizes="100vw" media={hero.tall ? LANDSCAPE_MEDIA : undefined} fetchpriority="high" />}
-  {preloadHero && hero.tall && <link rel="preload" as="image" type="image/avif" imagesrcset={hero.tall.avif} imagesizes="100vw" media={PORTRAIT_MEDIA} fetchpriority="high" />}
+  <!-- hlavní obrázek hero přednačítá stránka (index.astro) -->
   <slot name="head" />
 
   <script type="application/ld+json" set:html={jsonLd} />
