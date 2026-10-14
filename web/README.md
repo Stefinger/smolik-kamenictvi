@@ -57,3 +57,29 @@ Náhled pro sdílení odkazu (`src/assets/og.jpg`) se generuje příkazem `node 
 - Pozor na `overflow: hidden` u předků Příběhu – rozbije `position: sticky` (použít `overflow: clip`, nikdy na `html`).
 - `site` v `astro.config.mjs` je zatím odhad (`https://www.prirodni-kameny.eu`) – doplnit finální doménu.
 - 4K originály realizací patří mimo repozitář.
+
+## TODO před spuštěním
+
+Od klienta:
+- [ ] **Povinné údaje podnikatele** (§ 435 občanského zákoníku) do patičky: jméno / název firmy, sídlo, IČO a údaj o zápisu
+  (OSVČ: „zapsán v živnostenském rejstříku“; s.r.o.: obchodní rejstřík vč. oddílu a vložky); DIČ, je-li plátce DPH.
+- [ ] **Mimosoudní řešení sporů** (§ 14 zákona o ochraně spotřebitele – kdo poskytuje služby spotřebitelům a má web, uvede ho na webu):
+  do patičky „Česká obchodní inspekce, www.coi.cz“.
+- [ ] **Gmail klienta** – Firemní profil na Googlu, Google Search Console.
+- [ ] **Travertin** – klient zkontroluje popis, případně doplní původ (`src/data/materialy.json`).
+- [ ] **Adresa skladu** – špendlík (49.4844837, 17.2846226) je ~500 m od Sokolská 317; potvrdit, co platí.
+- [ ] Fotky skutečných zakázek místo ilustračních v mřížce Realizace.
+
+Dohodnuto:
+- **Telefon: po–pá 8–20 h.** Jen pro volání – sklad v tuto dobu otevřený není (návštěva po domluvě).
+  Doplnit na web ke „Zavolat“/kontaktu, do `lib/seo.ts` (contactPoint `hoursAvailable`, ne `openingHours` skladu)
+  a do profilů na Googlu a Firmy.cz.
+
+Po výběru domény (návrh kamenictvi-smolik.cz, hosting Cloudflare Pages):
+- [ ] Přepnout `site` v `astro.config.mjs`, deploy, DNS, HTTPS; stará prirodni-kameny.eu přesměrovat.
+- [ ] Firemní profil na Googlu + Firmy.cz (ověření dělá klient), odkazy do `sameAs` v `lib/seo.ts`; Google Search Console.
+
+Právní stav (ověřeno 10/2026, nejsem právník): web nepoužívá cookies ani analytiku – cookie lišta není potřeba
+(`sessionStorage` jen pro jednorázovou úvodní animaci, žádné osobní údaje). Zásady ochrany osobních údajů nejsou nutné,
+dokud web nic nesbírá (žádný formulář); doporučené jako krátká stránka. Při přidání analytiky / formuláře znovu posoudit.
+
