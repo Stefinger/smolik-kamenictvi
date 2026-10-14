@@ -1,0 +1,53 @@
+---
+/** Stránka pro neexistující adresu: v designu webu, odkaz zpět na úvod a telefon. Neindexuje se. */
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+import { PHONE, TEL } from '../lib/site';
+import { asset } from '../lib/paths';
+import { monolitSources } from '../lib/hero';
+
+const stone = await monolitSources();
+const home = asset('');
+---
+<Base full={false} title="Stránka nenalezena | Kamenictví Smolík">
+  <main class="nf">
+    <a class="nf-logo" href={home} aria-label="Kamenictví Smolík – úvod"><Mark /><span>SMOLÍK</span></a>
+    <div class="nf-word" aria-hidden="true"><span>4</span><span>4</span></div>
+    <picture class="nf-stone">
+      <source type="image/avif" srcset={stone.avif} sizes="(orientation: portrait) 30vw, 16vh" />
+      <img src={stone.src} srcset={stone.webp} sizes="(orientation: portrait) 30vw, 16vh" width={stone.width} height={stone.height} alt="" />
+    </picture>
+    <div class="nf-copy">
+      <h1>Tahle stránka<br />neexistuje.</h1>
+      <p>Možná byla přesunutá, nebo je v adrese překlep.</p>
+      <div class="nf-ctas">
+        <a class="btn" href={home}>Zpět na úvod<span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href={TEL}>Zavolat <em>{PHONE}</em></a>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  /* kámen jako „0“ mezi dvěma čtyřkami – stejná řeč jako hero (SMO | LÍK) */
+  .nf{position:relative;min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;gap:24px;padding:calc(var(--safe-top) + 28px) var(--gut) calc(40px + env(safe-area-inset-bottom,0px));
+    background:var(--bone);color:#282823;overflow:hidden}
+  .nf-logo{display:flex;align-items:center;gap:14px;justify-self:start}
+  .nf-logo :global(.mark){height:30px;width:auto}
+  .nf-logo :global(.mark .ink),.nf-logo :global(.mark .edge){fill:currentColor}
+  .nf-logo :global(.mark .edge){opacity:.35}
+  .nf-logo :global(.mark .sand){fill:var(--sand2)}
+  .nf-logo span{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.08em;line-height:.72;transform:translateY(.25em)}
+  .nf-word{grid-row:2;grid-column:1;align-self:center;display:grid;grid-template-columns:1fr 1fr;column-gap:min(22vw,30vh);
+    font-family:var(--serif);font-weight:700;font-size:min(30vw,40vh);line-height:.8;color:#24201b}
+  .nf-word span:first-child{justify-self:end}
+  .nf-stone{grid-row:2;grid-column:1;align-self:center;justify-self:center;position:relative;z-index:1;height:min(62vw,52vh)}
+  .nf-stone img{height:100%;width:auto}
+  .nf-copy{grid-row:3}
+  h1{font-family:var(--serif);font-weight:400;text-transform:uppercase;font-size:clamp(1.7rem,3vw,2.8rem);line-height:.96;letter-spacing:-.035em}
+  p{margin-top:.9rem;font-size:15px;color:rgba(40,40,35,.74)}
+  .nf-ctas{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.3rem}
+  .btn{background:#282823;color:var(--bone);gap:.9rem}
+  .btn.ghost{background:transparent;color:#282823}
+  @media(hover:hover){.btn:hover{background:#111}.btn.ghost:hover{background:rgba(40,40,35,.08)}}
+</style>

@@ -18,12 +18,17 @@ import fontDisplayExt from '../assets/fonts/smolik-display-ext.woff2?url';
 import fontSansLatin from '../assets/fonts/instrument-sans-latin.woff2?url';
 
 interface Props {
+  /** false = bez úvodní animace a strukturovaných dat (stránka 404) */
+  full?: boolean;
+  /** vlastní titulek stránky (výchozí = titulek webu) */
+  title?: string;
 }
+const { full = true, title = TITLE } = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;
-const noindex = NOINDEX;
+const noindex = NOINDEX || !full;
 // náhled pro sdílení (Facebook, WhatsApp, LinkedIn…) a obrázek firmy pro vyhledávače
-// (generuje tools/og.mjs: fotka stolu + logo + nadpis + telefon)
+// (generuje tools/og.mjs: kámen z hero + SMO | LÍK + logo + nadpis + telefon)
 const og = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg', quality: 86 });
 const ogUrl = new URL(og.src, site).href;
 const jsonLd = JSON.stringify(structuredData(site, ogUrl));
@@ -33,7 +38,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>{TITLE}</title>
+  <title>{title}</title>
   <meta name="description" content={DESCRIPTION} />
   <link rel="canonical" href={canonical} />
   <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
@@ -55,7 +60,7 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <meta property="og:image" content={ogUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Kamenictví Smolík – jídelní stůl z pískovce. Z přírody. Do vašeho prostoru." />
+  <meta property="og:image:alt" content="Kamenictví Smolík – kvádr přírodního travertinu a nápis Smolík. Z přírody. Do vašeho prostoru." />
   <meta property="og:image:type" content="image/jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
@@ -66,9 +71,10 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
   <!-- hlavní obrázek hero přednačítá stránka (index.astro) -->
   <slot name="head" />
 
-  <script type="application/ld+json" set:html={jsonLd} />
+  {full && <script type="application/ld+json" set:html={jsonLd} />}
   <!-- .js = běží JavaScript; .intro-on = úvodní animace (jen první návštěva v relaci a ne při omezeném pohybu).
        Pojistka: kdyby skript úvodu selhal, opona zmizí nejpozději za 6 s. -->
+  {full && (
   <script is:inline>
     (function () {
       var h = document.documentElement;
@@ -92,9 +98,10 @@ const jsonLd = JSON.stringify(structuredData(site, ogUrl));
       } catch (e) {}
     })();
   </script>
+  )}
 </head>
 <body>
-  <Intro />
+  {full && <Intro />}
   <slot />
 </body>
 </html>

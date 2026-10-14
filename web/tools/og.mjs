@@ -13,10 +13,10 @@ const root = new URL('..', import.meta.url);
 const font = async (name) => 'data:font/woff2;base64,' + (await readFile(new URL(`src/assets/fonts/${name}`, root))).toString('base64');
 
 const markSvg = (await readFile(new URL('src/components/Mark.astro', root), 'utf8')).replace(/^---[\s\S]*?---\s*/, '');
-const wmSvg = (await readFile(new URL('src/components/Wordmark.astro', root), 'utf8')).replace(/^---[\s\S]*?---\s*/, '').replace('class={cls}', 'class="wmk"');
-// fotka jako data URI
-const photo = 'data:image/jpeg;base64,' + (await sharp(new URL('src/assets/img/hero7-d.webp', root).pathname).resize(1600).jpeg({ quality: 90 }).toBuffer()).toString('base64');
+// kvádr travertinu z hero (průhledné pozadí) jako data URI
+const stone = 'data:image/png;base64,' + (await sharp(new URL('src/assets/img/monolit.webp', root).pathname).resize({ height: 1100 }).png().toBuffer()).toString('base64');
 
+// stejná kompozice jako hero „Monolit“: kámen uprostřed, SMO | LÍK kolem něj, nadpis vlevo dole, telefon vpravo dole
 const html = `<!doctype html><html lang="cs"><head><meta charset="utf-8"><style>
 @font-face{font-family:"Smolik Display";font-weight:100 900;font-stretch:125%;src:url(${await font('smolik-display-latin.woff2')}) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
 @font-face{font-family:"Smolik Display";font-weight:100 900;font-stretch:125%;src:url(${await font('smolik-display-ext.woff2')}) format("woff2");unicode-range:U+0100-02FF}
@@ -24,29 +24,34 @@ const html = `<!doctype html><html lang="cs"><head><meta charset="utf-8"><style>
 @font-face{font-family:"Instrument Sans";font-weight:400 700;src:url(${await font('instrument-sans-ext.woff2')}) format("woff2");unicode-range:U+0100-02FF}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden}
-body{position:relative;background:#d9d4cb url(${photo}) 72% 55%/cover no-repeat;color:#282823;font-family:"Instrument Sans",sans-serif}
-.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(236,233,225,.97) 0%,rgba(236,233,225,.94) 34%,rgba(236,233,225,.62) 48%,rgba(236,233,225,0) 64%)}
-.in{position:absolute;left:72px;top:64px;bottom:60px;width:560px;display:flex;flex-direction:column}
-.logo{display:flex;align-items:center;gap:18px}
-.mark{height:52px;width:auto}.mark .ink{fill:#1b1916}.mark .edge{fill:#1b1916;opacity:.35}.mark .sand{fill:#b8956a}
-.wm{display:flex;flex-direction:column;gap:9px}.wmk{height:17px;width:auto;fill:#1b1916}
-.desc{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#5e5850}
-h1{margin-top:auto;font-family:"Smolik Display";font-weight:400;text-transform:uppercase;font-size:56px;line-height:1;letter-spacing:-.02em}
-.rule{width:64px;height:2px;background:#b8956a;margin:30px 0 22px}
-.foot{display:flex;align-items:center;gap:22px;font-size:22px;color:#3a3833}
-.pill{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;background:#1b1916;color:#ece9e1;font-size:19px;font-weight:500;font-variant-numeric:tabular-nums}
-</style></head><body><div class="shade"></div><div class="in">
-<div class="logo">${markSvg}<span class="wm">${wmSvg}<span class="desc">Kamenictví · Dub nad Moravou</span></span></div>
+body{position:relative;background:#ece9e1;color:#282823;font-family:"Instrument Sans",sans-serif}
+.logo{position:absolute;left:56px;top:44px;display:flex;align-items:center;gap:14px}
+.mark{height:34px;width:auto}.mark .ink{fill:#1b1916}.mark .edge{fill:#1b1916;opacity:.35}.mark .sand{fill:#b8956a}
+.wmt{font-family:"Smolik Display";font-weight:700;font-size:19px;letter-spacing:.08em;line-height:.72;transform:translateY(.25em)}
+.word{position:absolute;left:0;right:0;top:150px;display:grid;grid-template-columns:1fr 1fr;column-gap:150px;
+  font-family:"Smolik Display";font-weight:700;font-size:150px;line-height:.8;letter-spacing:.02em;color:#24201b}
+.word span:first-child{justify-self:end}.word span:last-child{justify-self:start}
+.stone{position:absolute;left:50%;bottom:44px;height:540px;transform:translateX(-50%)}
+.shadow{position:absolute;left:540px;width:420px;bottom:30px;height:30px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(70,52,34,.32),rgba(70,52,34,.1) 60%,rgba(70,52,34,0));filter:blur(4px)}
+h1{position:absolute;left:56px;bottom:52px;font-family:"Smolik Display";font-weight:400;text-transform:uppercase;font-size:34px;line-height:.98;letter-spacing:-.035em}
+.pill{position:absolute;right:56px;bottom:52px;display:inline-flex;align-items:center;height:52px;padding:0 26px;border-radius:999px;
+  background:#1b1916;color:#ece9e1;font-family:"Smolik Display";font-size:20px;font-weight:500;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+</style></head><body>
+<div class="logo">${markSvg}<span class="wmt">SMOLÍK</span></div>
+<div class="word"><span>SMO</span><span>LÍK</span></div>
+<div class="shadow"></div>
+<img class="stone" src="${stone}" alt="">
 <h1>Z přírody.<br>Do vašeho<br>prostoru.</h1>
-<div class="rule"></div>
-<div class="foot"><span>Přírodní kámen na míru</span><span class="pill">606 923 347</span></div>
-</div></body></html>`;
+<span class="pill">606 923 347</span>
+</body></html>`;
 
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true });
 const page = await browser.newPage();
 await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
 await page.setContent(html, { waitUntil: 'load' });
 await page.evaluate(() => document.fonts.ready);
+await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
 const png = await page.screenshot({ type: 'png' });
 await browser.close();
 await sharp(png).jpeg({ quality: 88, mozjpeg: true }).toFile(new URL('src/assets/og.jpg', root).pathname);
