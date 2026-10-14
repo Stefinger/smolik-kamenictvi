@@ -49,7 +49,7 @@ export async function heroSources() {
  * Hero „Monolit“: vyříznutý kvádr travertinu (průhledné pozadí). Vygenerováno v Higgsfieldu (gpt_image_2_5 + upscale 4K
  * + odstranění pozadí), oříznuto na kámen. Šířka na obrazovce ≈ 0,37 × výška kamene → `MONOLIT_SIZES`.
  */
-export const MONOLIT_SIZES = '(orientation: portrait) 56vw, 30vh';
+export const MONOLIT_SIZES = '(orientation: portrait) 42vw, 28vh';
 const MONOLIT_WIDTHS = [240, 360, 480, 720, 960, 1280];
 export async function monolitSources() {
   const src = img('monolit.webp');
